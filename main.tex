@@ -1,0 +1,368 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\usepackage[margin=2cm]{geometry}
+ 
+\SetKwInput{KwInput}{Input}
+\SetKwInput{KwOutput}{Output}
+\SetKwComment{Comment}{$\triangleright$\ }{}
+ 
+\title{Regime Detection using Sliced Wasserstein k-means clustering with Monte Carlo}
+\author{Oscar Peyron \\ \small \textit{ADIA Lab - University College London}}
+\date{February 2026}
+
+\begin{document}
+\maketitle
+\section{Abstract}  
+This thesis investigates the topic of Regime Detection using an interpretable Machine Learning algorithm. 
+In particular, the focus of this thesis is to produce a tractable algorithm for detecting regimes in financial markets based on multi-dimensional time series.
+This thesis, provides an enhanced algorithm to cluster the multi-dimensional returns distributions. Depending, on the the characteristics of the distributions, the algorithm
+can infer which regime the market is in without pre-specified assumptions on the returns distribution.
+Specifically, it uses the Wasserstein distance as a metric to compare different regimes. 
+In higher-dimensional settings, one can extend this concept using the Sliced Wasserstein distance and use an algorithm based on this metric to cluster different market regimes (Sliced Wasserstein k-means clustering algorithm).
+The following thesis is structured as follows believed to be the most explanatory and logical way to present the research.
+
+
+
+\subsection{Experiment 1: Theoretical Framework for Wasserstein Distance/Sliced Wasserstein (SW) Distance}
+This chapter will focus on the theoretical framework to understand the Wasserstein distance and its extension to the Sliced Wasserstein distance.
+Moreover, this section will provide insights on the practical implementation of the above-mentionned algorithms and limitations to the 
+current SW clustering implementations in the literature. Notably, the low generalizable nature of using pre-defined projection vectors ${\theta^l}$  for the Sliced Wasserstein can be solved 
+by generating them using the UnifOrtho method \cite{PetrovicBardenetDesolneux2025}. 
+It provides the following advantages compared to standard Monte Carlo methods. 
+
+\begin{itemize}
+    \item \textbf{Variance reduction via Negative Negative Dependance}
+    \item \textbf{Superior performance in high dimensions} : The UnifOrtho is therefore perfectly adapted to working with multi-dimensional time series for the SW k-means clustering algorithm.
+    \item \textbf{Clustering Stability}
+\end{itemize}
+
+
+
+Some useful theoretical results on variance reduction and computational cost on the UnifOrtho method will therefore be provided to support the choice of this method for the future sections.
+
+
+
+
+\subsection{Experiment 2: Design methodology for Monte Carlo for SW - Synthetic Data Testing}
+The focus of this chapter will be on testing the algorithm on syntethic data to understand the behaviour of the algorithm and its performance in different settings.
+The algorithm will be tested on 3 dimensional data followed by 4, 5 dimensional.  Performance between original and UniOrtho method will be compared and tests will span from data with multiple correlation factors 
+and with diffrent target number of clusters. Finally, in terms of time-horizon, the study will focus on the equivalent of  20 years synthetic data with 7 observations a day (252 trading days a year) to be as close as possible to real world data.
+
+
+Different performance metrics will be used for the regime detection : 
+\begin{itemize}
+    \item Total Accuracy (TA)
+    \item Mean centroid-centroid distance (MCCD)
+    \item Point-to-centroid distance (PCD) 
+\end{itemize}
+
+The synthetic data will be generated similarly to previous papers \cite{HorvathEtAl2024} and \cite{LuanHamp2025}
+using Geometric Brownian Motion (GBM) paths $S_t/S_{t-1} = \exp(r^S_t)$ with $S_t = (S_t^1, \dots, S_t^d)$ and $r^S_t = (r^{S^{(1)}}_{t}, \dots, r^{S^{(d)}}_{t})$ 
+where : 
+\begin{equation}
+    r^{S^{(i)}}_{t} \sim \mathcal{N}\left((\mu-\sigma^2/2)\bm{1}dt, \bm{\Sigma} dt \right)
+\end{equation}.
+with 
+\begin{equation}
+\Theta = (\mu, \sigma^2)
+\end{equation}
+
+And the covariance matrix $\bm{\Sigma}$ is defined as follows :
+\begin{equation}
+\Sigma_{ij} = \sigma^2 \left( \delta_{ij} + (1- \delta_{ij})\rho \right)
+\end{equation}
+The $\delta_{ij}$ is the Kronecker delta, $\sigma^2$ is the variance of the returns and $\rho$ is the correlation between the different assets.
+
+Assuming, we want to cluster two different regimes (K=2), we define, as in previous papers \cite{LuanHamp2025}, Bull and Bear regimes with the following parametrization : 
+\begin{itemize}
+    \item $\Theta_{\text{bull}} = (0.02, 0.2)$
+    \item $\Theta_{\text{bear}} = (-0.02, 0.3)$
+\end{itemize}
+For K = 3, similarly to \cite{LuanHamp2025} we will consider the \textit{moon-shape structure} generated using \texttt{datasets.make\_moons} function from the \texttt{sklearn} library.
+
+This is a summary similary to the one provided in \cite{LuanHamp2025} for the different market settings on which we are going to test the sWk-means clustering algorithm with UnifOrtho projections :
+
+\begin{table}[h]
+    \centering
+    \caption{Summary of synthetic dataset parameters with $d\in \left\{3,4,5\right\}$}
+    \label{tab:dataset_parameters}
+    \begin{tabular}{lccc}
+        \toprule
+        Type & Regime Bull & Regime Bear & Regime III (Bear/Moon)  \\ 
+        \midrule
+        Type A (K=2) & $\Theta_{\text{bull}}; \rho = +1/2$ & $\Theta_{\text{bear}}; \rho = +1/2$ & N/A \\
+        Type B (K=2) & $\Theta_{\text{bull}}; \rho = +1/2$ & $\Theta_{\text{bull}}; \rho = -1/2$ & N/A \\
+        Type C (K=3) & $\Theta_{\text{bull}}; \rho = +1/2$ & $\Theta_{\text{bear}}; \rho = +1/2$ & $\Theta_{\text{bear}}; \rho = -1/2$ \\
+        Type D (K=3) & $\Theta_{\text{bull}}; \rho = +1/2$ & $\Theta_{\text{bear}}; \rho = +1/2$ & $\Theta_{\text{moon}}; \rho = +1/2$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Experiment 3: Application of Monte Carlo SW for Real Data and Analysis}
+
+Finally, the chapter will focus on the application of the novel algorithm on real world data sets for different types of financial markets. 
+As above, the time span, wil focus on 15 to 20 years of data. The target data sets include the following : 
+
+\begin{itemize}
+    \item FX Spot Series Data (4D)  
+        \subitem EURUSD, AUDUSD, USDJPY, USDCHF, USDCAD (Major Currency Cluster) (15 min data)
+    \item Equity Series Data (3D)
+        \subitem S\&P 500, NASDAQ, Dow Jones (US Equity Cluster) (daily data)
+        \subitem CAC 40, DAX40, FTSE 100 (European Equity Cluster) (daily data)
+        \subitem Nikkei 225, Hang Seng, Kospi 200 (Asian Equity Cluster) (daily data)
+    \item  Commodity Series Data (4D and 5D)
+        \subitem WTI Crude Oil, Brent Crude Oil, Natural Gas, Heating Oil. 
+        \subitem Copper Aluminum, Zinc, Nickel, Lead. 
+\end{itemize}
+
+\subsection{Experiment 4: Performance analysis of regime detection using trading strategies}
+\begin{itemize}
+\item Long/Short strategy based on majority regime detection signals
+\item Long/Short strategy based on Implied probability signals (using the distance to the centroids as a proxy for the confidence of the regime detection)
+\end{itemize}
+
+\subsubsection{Standard SW k-means trading strategy}
+Pseudo code for this strategy is provided here : 
+
+
+\begin{algorithm}[H]
+\caption{\textsc{Long\_Strat\_Unifortho} --- Binary Regime Strategy}\label{alg:unifortho}
+ 
+\KwInput{Initial capital $C_0$,\; number of simulations $N_S$,\; price matrix $S\in\mathbb{R}^{T\times d}$,\; trimming parameters $h_1, h_2$,\; window size $w$,\; number of clusters $K$,\; risk metric $m$,\; majority look-back $\ell$}
+\KwOutput{Portfolio value path $V$}
+ 
+\BlankLine
+ 
+$R \leftarrow \text{PctReturns}(S)$ \Comment*[r]{$R_t = S_t / S_{t-1} - 1$}
+$\theta \leftarrow \mathbf{1}_d / d$ \Comment*[r]{equal-weight vector}
+$r^{(\text{pf})} \leftarrow R\,\theta$ \Comment*[r]{portfolio return series}
+$V \leftarrow [C_0]$\;
+$n \leftarrow \lfloor T / w \rfloor$\;
+ 
+\BlankLine
+\For{$i = 0$ \KwTo $n - 2$}{
+    $s \leftarrow i \cdot w$, \quad $e \leftarrow (i+1)\cdot w$\;
+    $W \leftarrow S[s : e]$ \Comment*[r]{current analysis window}
+ 
+    \BlankLine
+    \Comment{Step 1 --- Wasserstein-based regime detection}
+    $\hat{F},\; \boldsymbol{\mu},\; \boldsymbol{\lambda} \leftarrow \textsc{MaxMCCD\_UnifOrtho}(N_S,\, W,\, K,\, L,\, \varepsilon,\, h_1,\, h_2,\, m)$\;
+ 
+    \BlankLine
+    \Comment{Step 2 --- Majority-vote regime classification}
+    \eIf{$\ell > |\boldsymbol{\lambda}|$}{
+        $\hat{k} \leftarrow \arg\max_k \;\text{count}(\boldsymbol{\lambda} = k)$\;
+    }{
+        $\hat{k} \leftarrow \arg\max_k \;\text{count}(\boldsymbol{\lambda}_{[-\ell:]} = k)$\;
+    }
+ 
+    \BlankLine
+    \Comment{Step 3 --- Generate binary signal}
+    \eIf{$\hat{k} = 1$}{
+        $\sigma \leftarrow +1$ \Comment*[r]{Bullish $\Rightarrow$ Long}
+    }{
+        $\sigma \leftarrow -1$ \Comment*[r]{Bearish $\Rightarrow$ Short}
+    }
+ 
+    \BlankLine
+    \Comment{Step 4 --- Compound portfolio over next window}
+    \For{each $r_t \in r^{(\mathrm{pf})}[e : e + w]$}{
+        $V.\text{append}\!\Big(V[-1]\;\times\;\big(1 + \sigma\, r_t\big)\Big)$\;
+    }
+}
+ 
+\Return{$V$}
+\end{algorithm}
+ 
+\vspace{1.5cm}
+
+\subsubsection{Implied Probability SW k-means trading strategy}
+
+\begin{paragraph}{Theoretical Background}
+We use implied probability measure to compute wether on thinks the market is going to become bear or bull. 
+\paragraph{Likelihood Function}
+It uses SW-distance to every centroid to every centroid and then convert the likelihood via a softmax over the negative distances. 
+We introduce a temperature parameter $\tau$ 
+$$
+\mathcal{L}(\text{regime } k \mid x_m) = \frac{e^{-d(x_m, c_k) / \tau}}{\sum_{j} e^{-d(x_m, c_j) / \tau}}
+$$
+
+\paragraph{Empirical Transition Matrix Markov Prior}
+A market in regime i is highly likely to stay in regime i tomorrow. We model this as a first-order Markov Chain using the historical labels. 
+Probability of switching from i to j is: 
+$$
+\pi_{i,j} = P(Z_m = j \mid Z_{m-1} = i) = \frac{\text{Count}(i \to j)}{\sum_{x=1}^{K} \text{Count}(i \to x)}
+$$
+If the market was $z_{current}$ our prior belief that state M is going to be at regime $k$ is : 
+$$
+\mathbb{P}_{prior}(k) = \pi_{z_{current},k}
+$$
+
+Then we simply use Bayes rule to derive the following :
+$$
+\mathbb{P}_{Bayes}(k) = \frac{\mathbb{P}_{prior}(k) \cdot \mathcal{L}(k \mid X_m)}{\sum_{j=1}^{K} \mathbb{P}_{prior}(j) \cdot \mathcal{L}(j \mid X_m)}
+$$
+
+\paragraph{Switch Probability}
+Finally the switch probability does the following : 
+$$
+\mathbb{P}_{switch} = 1- \mathbb{P}_{Bayes}(z_{current})
+$$
+
+\paragraph{Use Gradient} 
+One may also want to take into account the fact that one is moving away or getting closer to a certain regime. 
+
+We consider a lookback window of size $\omega$, and one computes the linear trend slope of the Wasserstein distance to each centroid $k$. 
+Let $t \in \{1,2, \dots, \omega \}$
+We get using  OLS, $\beta_{k}$:
+
+$$
+\beta_k = \frac{\text{Covariance}(t, \, \mathcal{W}_2(X_{M-w+t}, \, C_k))}{\text{Variance}(t)}
+$$
+
+\begin{itemize}
+    \item if $\beta_{k} < 0$ the distance to regime k is shrinking (we are getting close to regime k)
+    \item if $\beta_{k} > 0$ the distance to regime k is growing  (we are drifting away from regime k)
+\end{itemize}
+
+We apply softmax to get a probability: 
+$$
+P_{Grad}(k) = \frac{\exp\left(-\frac{\beta_k}{\tau}\right)}{\sum_{j=1}^{K} \exp\left(-\frac{\beta_j}{\tau}\right)}
+$$
+
+The final switch probability using gradient is therefore: 
+
+$$
+\mathbb{P}_{switch} = 1- \left[(1-\alpha)\mathbb{P}_{Bayes}(z_{current}) + \alpha \mathbb{P}_{Grad}(z_{current}) \right]
+$$
+
+with $\alpha \in [0:1]$ a weight. 
+
+\end{paragraph}
+
+
+
+
+
+\begin{algorithm}[H]
+\caption{\textsc{Long\_Strat\_Implied} --- Implied-Probability Regime Strategy}\label{alg:implied}
+ 
+\KwInput{Initial capital $C_0$,\; simulations $N_S$,\; price matrix $S\in\mathbb{R}^{T\times d}$,\; trimming $h_1, h_2$,\; window $w$,\; clusters $K$,\; metric $m$,\; signal type $\tau \in \{\texttt{continuous},\, \texttt{hysteresis},\, \texttt{conviction}\}$,\; entry threshold $\alpha_e$,\; hold threshold $\alpha_h$,\; look-back $\ell$,\; gradient flag and weight $(\texttt{g},\, \omega_g)$}
+\KwOutput{Portfolio value path $V$,\; signal history $\Sigma$}
+ 
+\BlankLine
+ 
+$R \leftarrow \text{PctReturns}(S)$, \quad $\theta \leftarrow \mathbf{1}_d/d$, \quad $r^{(\text{pf})} \leftarrow R\,\theta$\;
+$V \leftarrow [C_0]$, \quad $\Sigma \leftarrow [\,]$, \quad $n \leftarrow \lfloor T/w \rfloor$\;
+ 
+\BlankLine
+\For{$i = 0$ \KwTo $n - 2$}{
+    $s \leftarrow i\cdot w$, \quad $e \leftarrow (i+1)\cdot w$, \quad $W \leftarrow S[s:e]$\;
+ 
+    \BlankLine
+    \Comment{Step 1 --- Regime detection (same as Algorithm~\ref{alg:unifortho})}
+    $\hat{F},\;\boldsymbol{\mu},\;\boldsymbol{\lambda} \leftarrow \textsc{MaxMCCD\_UnifOrtho}(N_S,\,W,\,K,\,L,\,\varepsilon,\,h_1,\,h_2,\,m)$\;
+ 
+    \BlankLine
+    \Comment{Step 2 --- Implied transition probabilities}
+    $\mathbf{P},\; p_{\text{switch}},\; \mathbf{T},\; \boldsymbol{\pi} \leftarrow \textsc{ComputeImpliedProba}(\hat{F},\;\boldsymbol{\mu},\;\boldsymbol{\lambda},\;\ell,\;\texttt{g},\;\omega_g)$\;
+    $\hat{k} \leftarrow \arg\max_k\;\text{count}(\boldsymbol{\lambda}_{[-h_2:]} = k)$\;
+ 
+    \BlankLine
+    \Comment{Step 3 --- Signal generation (depends on $\tau$)}
+    \uIf{$\tau = \texttt{continuous}$}{
+        $\sigma \leftarrow \pi_{\text{bull}} - \pi_{\text{bear}}$\;
+        \If{$|\sigma| < \delta$}{$\sigma \leftarrow 0$} \Comment*[r]{dead zone}
+    }
+    \uElseIf{$\tau = \texttt{hysteresis}$}{
+        $\sigma_{\text{prev}} \leftarrow \Sigma[-1]$ \textbf{or} $0$\;
+        \uIf{$\hat{k} = \text{Bull}$}{
+            \lIf{$p_{\text{switch}} \geq \alpha_e$ \textbf{and} $\sigma_{\text{prev}} \geq 0$}{$\sigma \leftarrow -1$}
+            \lElseIf{$p_{\text{switch}} < \alpha_h$ \textbf{and} $\sigma_{\text{prev}} < 0$}{$\sigma \leftarrow +1$}
+            \lElse{$\sigma \leftarrow 0$}
+        }
+        \Else(\Comment*[f]{$\hat{k} = \text{Bear}$}){
+            \lIf{$p_{\text{switch}} \geq \alpha_e$ \textbf{and} $\sigma_{\text{prev}} \leq 0$}{$\sigma \leftarrow +1$}
+            \lElseIf{$p_{\text{switch}} < \alpha_h$ \textbf{and} $\sigma_{\text{prev}} > 0$}{$\sigma \leftarrow -1$}
+            \lElse{$\sigma \leftarrow 0$}
+        }
+    }
+    \ElseIf{$\tau = \texttt{conviction}$}{
+        $d_k \leftarrow \begin{cases} +1 & \hat{k} = \text{Bull} \\ -1 & \hat{k} = \text{Bear}\end{cases}$\;
+        $c \leftarrow 1 - 1.5\, p_{\text{switch}}$ \Comment*[r]{conviction decays with switch risk}
+        $\sigma \leftarrow d_k \cdot c$\;
+    }
+    $\Sigma.\text{append}(\sigma)$\;
+ 
+    \BlankLine
+    \Comment{Step 4 --- Compound portfolio over next window}
+    \For{each $r_t \in r^{(\mathrm{pf})}[e : e+w]$}{
+        $V.\text{append}\!\Big(V[-1]\;\times\;\big(1 + \sigma\, r_t\big)\Big)$\;
+    }
+}
+\Return{$V,\;\Sigma$}
+\end{algorithm}
+
+
+
+\newpage
+\section {Appendix}
+
+The following pseudocode is based on the work by \cite{PetrovicBardenetDesolneux2025} on Repulsive Monte Carlo Methods and \cite{LuanHamp2025} on Sliced Wasserstein k-means clustering for regime detection. 
+
+\begin{algorithm}[H]
+\caption{sWk-means clustering with UnifOrtho Projections}\label{alg:swkmeans}
+
+\KwInput{Data stream $S \in \mathcal{S}(\mathbb{R}^d)$,\; number of clusters $K$,\; number of projections $L$,\; tolerance $\epsilon$ for convergence}
+\KwOutput{$K$ cluster assignments and corresponding 1d barycenters}
+
+\BlankLine
+
+\Comment{Preprocessing}
+Calculate $l(r^S)$ given $S \in \mathcal{S}(\mathbb{R}^d)$ and define family of empirical distributions $\mathcal{K} = \{\mu_j\}_{1 \le j \le M}$\;
+
+\BlankLine
+\Comment{Step 1: UnifOrtho Projection Generation}
+$k \leftarrow \lceil L/d \rceil$ \Comment*[r]{number of orthogonal bases needed}
+$\Theta \leftarrow \emptyset$\;
+
+\For{$i = 1$ \KwTo $k$}{
+    Sample a random matrix $Z_i \in \mathbb{R}^{d \times d}$ with i.i.d.\ $\mathcal{N}(0,1)$ entries\;
+    Compute the QR decomposition: $Z_i = Q_i R_i$\;
+    Let $\Lambda_i$ be a diagonal matrix where $\Lambda_{i, jj} = \text{sgn}(R_{i, jj})$\;
+    $U_i \leftarrow Q_i \Lambda_i$ \Comment*[r]{$U_i$ is Haar-distributed on $O(d)$}
+    Add the $d$ column vectors of $U_i$ to $\Theta$\;
+}
+$\{\theta^1, \dots, \theta^L\} \leftarrow \Theta[1:L]$ \Comment*[r]{select exactly $L$ directions}
+
+\BlankLine
+\Comment{Step 2: Projection \& K-Means Iteration}
+Calculate projected distributions $\{\mu_j'(\theta^l)\}_{1 \le j \le M}$ for all $l=1 \dots L$\;
+Initialize cluster assignments $C_1, \dots, C_K$\;
+
+\While{convergence criterion $> \epsilon$}{
+    \For{$k = 1$ \KwTo $K$}{
+        Compute the 1d Wasserstein barycenter $\bar{\mu}_k(\theta^l)$ for each projection $l$ using empirical distributions assigned to $C_k$\;
+    }
+    \For{$j = 1$ \KwTo $M$}{
+        Assign $\mu_j$ to the cluster $C_{k^*}$ where $k^* = \arg\min_{k} \sum_{l=1}^L W_p^p\!\left(\mu_j'(\theta^l),\, \bar{\mu}_k(\theta^l)\right)$\;
+    }
+}
+
+\Return{$C_1, \dots, C_K$ and barycenters $\{\bar{\mu}_k(\theta^l)\}$}
+\end{algorithm}
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{main}
+
+\end{document}

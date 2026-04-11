@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{HorvathEtAl2024}
+B.~Horvath, A.~Muguruza, and M.~Tomas.
+\newblock Wasserstein k-means for clustering distributions.
+\newblock {\em Journal of Machine Learning Research}, 2024.
+
+\bibitem{LuanHamp2025}
+Qinmeng Luan and James Hamp.
+\newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
+\newblock {\em Data Science in Finance and Economics}, 5(3):387--418, 2025.
+
+\bibitem{PetrovicBardenetDesolneux2025}
+R{\'e}mi~Bardenet Vladimir~Petrovic and Agn{\`e}s Desolneux.
+\newblock Repulsive monte carlo on the sphere for the sliced wasserstein distance.
+\newblock {\em arXiv preprint arXiv:2509.10166}, 2025.
+
+\end{thebibliography}
