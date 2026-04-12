@@ -6,7 +6,7 @@ import src.metrics as mt
 import matplotlib.pyplot as plt
 
 
-def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7):
+def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
     """
     Implements a rolling regime-based trading strategy.
     Input: 
@@ -19,10 +19,18 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
     epsilon = 1e-6  
 
     # === FIX: Use percentage returns, equal-weighted ===
-    pct_returns = S.pct_change().dropna()
-    theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
-    portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
 
+    if weighting == "equal":
+        pct_returns = S.pct_change().dropna()
+        theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
+
+    if weighting == "inverse_vol":
+        pct_returns = S.pct_change().dropna()
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + epsilon)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
 
     # Arrays to store results
     portfolio_value = [initial_capital]
@@ -74,35 +82,55 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
         print("---" * 10)
     return np.array(portfolio_value), trade_signals, cum_pnl
 
-def long_only(S, initial_capital):
+def long_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     pct_returns = S.pct_change().dropna()
-    theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
-    portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
+    if weighting == "equal":
+        theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
+    elif weighting == "inverse_vol":
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + 1e-6)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
     cumulative = (1 + portfolio_returns).cumprod()
     portfolio_value = initial_capital * cumulative
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
-def short_only(S, initial_capital):
+def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     #TODO output P&L after holding for the entire time the security S 
     pct_returns = S.pct_change().dropna()
-    theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
-    portfolio_returns = -pct_returns.dot(theta.T).sum(axis=1)  # Short position: negative returns
+    if weighting == "equal":
+        theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
+        portfolio_returns = -pct_returns.dot(theta.T).sum(axis=1)  # Short position: negative returns
+    elif weighting == "inverse_vol":
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + 1e-6)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        portfolio_returns = -(pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Short position: negative returns with inverse volatility weighting
     cumulative = (1 + portfolio_returns).cumprod()
     portfolio_value = initial_capital * cumulative
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
 
-def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, live_plot=False):
+def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False):
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
 
     if start_date is not None and end_date is not None:
         S = S.loc[start_date:end_date]
-    pct_returns = S.pct_change().dropna()
-    #portfolio_returns = pct_returns.mean(axis=1)  # equal-weight average
-    theta = np.ones((1, S.shape[1])) / S.shape[1] # Equal weights for each asset in the portfolio
-    portfolio_returns = pct_returns.dot(theta.T).sum(axis=1) # Portfolio returns as a weighted sum
+
+    if weighting == "equal":
+        pct_returns = S.pct_change().dropna()
+        #portfolio_returns = pct_returns.mean(axis=1)  # equal-weight average
+        theta = np.ones((1, S.shape[1])) / S.shape[1] # Equal weights for each asset in the portfolio
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1) # Portfolio returns as a weighted sum
+    elif weighting == "inverse_vol":
+        pct_returns = S.pct_change().dropna()
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + epsilon)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
 
     # Arrays to store results
     portfolio_value = [initial_capital]
@@ -300,3 +328,35 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         plt.ioff()
         plt.show()
     return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
+
+# --- Helper: variance-adjust a portfolio value array ---
+def vol_adjust(pv_array, dates):
+    pv = pd.Series(pv_array, index=dates)
+    returns = pv.pct_change()
+    rolling_vol = returns.rolling(window=vol_window).std() * np.sqrt(4 * 24 * 252)  # annualise
+    rolling_vol[rolling_vol < 1e-8] = 1e-8
+    return pv / rolling_vol
+
+def rolling_sharpe(pv_array, dates, days_lookback=20, rf=0, obs_per_day=1):
+    # 1. Setup Series and Frequency
+    pv = pd.Series(pv_array, index=dates)
+    
+    # Observations per day (4 per hour * 24 hours)
+    window_size = days_lookback * obs_per_day
+    
+    # 2. Calculate Returns (15-minute intervals)
+    returns = pv.pct_change()
+    
+    # 3. Calculate Rolling Mean and Std Dev
+    # We annualize the mean return and the standard deviation
+    ann_factor_mean = obs_per_day * 252
+    ann_factor_std = np.sqrt(obs_per_day * 252)
+    
+    rolling_mean = returns.rolling(window=window_size).mean() * ann_factor_mean
+    rolling_std = returns.rolling(window=window_size).std() * ann_factor_std
+    
+    # 4. Compute Sharpe Ratio
+    # We use .clip to prevent division by zero or near-zero volatility
+    sharpe = (rolling_mean - rf) / rolling_std.clip(lower=1e-8)
+    
+    return sharpe
