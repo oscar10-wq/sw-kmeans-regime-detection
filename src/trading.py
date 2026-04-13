@@ -360,3 +360,53 @@ def rolling_sharpe(pv_array, dates, days_lookback=20, rf=0, obs_per_day=1):
     sharpe = (rolling_mean - rf) / rolling_std.clip(lower=1e-8)
     
     return sharpe
+
+def sharpe_ratio(pv_array, obs_per_year=252, rf=0.0):
+    """
+    Full-sample annualised Sharpe ratio from a portfolio value series.
+    
+    Parameters
+    ----------
+    pv_array    : array-like of portfolio values
+    obs_per_year: number of return observations per year
+                  (252 for daily, 252*24*4 for 15-min, etc.)
+    rf          : annualised risk-free rate (e.g. 0.04 for 4%)
+    """
+    pv = np.asarray(pv_array, dtype=float)
+    returns = np.diff(pv) / pv[:-1]
+
+    mu = np.mean(returns)
+    sigma = np.std(returns, ddof=1)
+
+    # Annualise both, then take the ratio
+    annual_excess = mu * obs_per_year - rf
+    annual_vol = sigma * np.sqrt(obs_per_year)
+
+    return annual_excess / annual_vol
+
+
+def expanding_sharpe(pv_array, dates, rf=0, obs_per_day=1, min_periods=20):
+    """
+    Expanding-window annualised Sharpe ratio.
+    At each time t, uses all returns from inception up to t.
+
+    Parameters
+    ----------
+    pv_array    : portfolio value series
+    dates       : datetime index
+    rf          : annualised risk-free rate
+    obs_per_day : observations per trading day (1 for daily, 96 for 15-min, etc.)
+    min_periods : minimum number of observations before outputting a value
+    """
+    pv = pd.Series(pv_array, index=dates)
+    returns = pv.pct_change()
+
+    ann_factor_mean = obs_per_day * 252
+    ann_factor_std = np.sqrt(obs_per_day * 252)
+
+    expanding_mean = returns.expanding(min_periods=min_periods).mean() * ann_factor_mean
+    expanding_std = returns.expanding(min_periods=min_periods).std() * ann_factor_std
+
+    sharpe = (expanding_mean - rf) / expanding_std.clip(lower=1e-8)
+
+    return sharpe

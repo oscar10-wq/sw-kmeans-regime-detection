@@ -1,60 +1,54 @@
 """
-macro_data.py
-=============
-Downloads weekly macro and commodity data from Refinitiv (LSEG) Workspace.
+Macro Data Pipeline — FRED + Refinitiv
+=======================================
+Downloads weekly macro data from FRED (VIX, yields, fed funds, PMI)
+and merges with Refinitiv data (DXY, Gold, Brent) into a single
+aligned weekly DataFrame.
 
-Instruments covered:
-    - VIX (futures front-month)
-    - DXY (US Dollar Index)
-    - Gold (spot)
-    - Brent Crude Oil (futures front-month)
-    - US Treasuries (2Y, 5Y, 10Y, 30Y yields)
-
-Fed Funds Rate and PMI are NOT available on this Refinitiv licence.
-Use FRED (fredapi) as a fallback — see bottom of this script.
-
-Requirements:
-    pip install refinitiv-data pandas
-    Refinitiv Workspace must be running in the background.
-
-Usage:
-    python macro_data.py
+Output: data/macro/combined_macro_weekly.csv
 """
 
-import refinitiv.data as rd
-import pandas as pd
 import os
-import time
-from datetime import datetime
+import pandas as pd
+import numpy as np
+from fredapi import Fred
+import importlib
 
-# ──────────────────────────────────────────────
+# Optional: import your Refinitiv macro module
+# import src.macro as macro
+import refinitiv.data as rd
+
+# =============================================================================
 # Configuration
-# ──────────────────────────────────────────────
+# =============================================================================
+
+START_DATE = "2006-01-01"
+END_DATE   = "2020-12-31"
+FRED_API_KEY = "0d472975ba8d0e5ee549648673b1e3de"
 
 OUTPUT_DIR = "data/macro"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Each instrument has its own fields because Refinitiv uses
-# different field names depending on instrument type.
-#
-# Format: RIC -> (friendly_name, [fields], rename_map)
-# rename_map standardises column names to OPEN, HIGH, LOW, CLOSE
+# FRED series: code -> (friendly_name, frequency)
+# "D" = daily (needs resampling), "M" = monthly (needs resampling)
+FRED_SERIES = {
+    "VIXCLS":   ("VIX",            "D"),
+    "DGS5":     ("US_Treasury_5Y", "D"),
+    "DGS10":    ("US_Treasury_10Y","D"),
+    "DGS30":    ("US_Treasury_30Y","D"),
+    "FEDFUNDS": ("Fed_Funds_Rate", "M"),
+    "NAPM":   ("ISM PMI Composite Index", "M"),  # proxy for ISM PMI
+    # 3-month Eurodollar deposit rate (≈ LIBOR)
+    #"USD3MTD156N": ("USD_3M_LIBOR", "D"),
+}
 
-INSTRUMENTS = {
-    # ── Volatility ──
-    "VIXc1": (
-        "VIX",
-        ["OPEN_PRC", "HIGH_1", "LOW_1", "TRDPRC_1"],
-        {"OPEN_PRC": "OPEN", "HIGH_1": "HIGH", "LOW_1": "LOW", "TRDPRC_1": "CLOSE"},
-    ),
-
-    # ── Currency ──
+# Refinitiv instruments (uncomment the ones you have access to)
+REFINITIV_INSTRUMENTS = {
     ".DXY": (
         "DXY_Dollar_Index",
         ["OPEN_PRC", "HIGH_1", "LOW_1", "TRDPRC_1"],
         {"OPEN_PRC": "OPEN", "HIGH_1": "HIGH", "LOW_1": "LOW", "TRDPRC_1": "CLOSE"},
     ),
-
-    # ── Commodities ──
     "XAU=": (
         "Gold_Spot",
         ["MID_OPEN", "MID_HIGH", "MID_LOW", "MID_PRICE"],
@@ -65,33 +59,125 @@ INSTRUMENTS = {
         ["OPEN_PRC", "HIGH_1", "LOW_1", "TRDPRC_1"],
         {"OPEN_PRC": "OPEN", "HIGH_1": "HIGH", "LOW_1": "LOW", "TRDPRC_1": "CLOSE"},
     ),
-
-    # ── US Treasuries (yields) ──
-    "US2YT=RR": (
-        "US_Treasury_2Y",
-        ["OPEN_YLD", "HIGH_YLD", "LOW_YLD", "MID_YLD_1"],
-        {"OPEN_YLD": "OPEN", "HIGH_YLD": "HIGH", "LOW_YLD": "LOW", "MID_YLD_1": "CLOSE"},
-    ),
-    "US5YT=RR": (
-        "US_Treasury_5Y",
-        ["OPEN_YLD", "HIGH_YLD", "LOW_YLD", "MID_YLD_1"],
-        {"OPEN_YLD": "OPEN", "HIGH_YLD": "HIGH", "LOW_YLD": "LOW", "MID_YLD_1": "CLOSE"},
-    ),
-    "US10YT=RR": (
-        "US_Treasury_10Y",
-        ["OPEN_YLD", "HIGH_YLD", "LOW_YLD", "MID_YLD_1"],
-        {"OPEN_YLD": "OPEN", "HIGH_YLD": "HIGH", "LOW_YLD": "LOW", "MID_YLD_1": "CLOSE"},
-    ),
-    "US30YT=RR": (
-        "US_Treasury_30Y",
-        ["OPEN_YLD", "HIGH_YLD", "LOW_YLD", "MID_YLD_1"],
-        {"OPEN_YLD": "OPEN", "HIGH_YLD": "HIGH", "LOW_YLD": "LOW", "MID_YLD_1": "CLOSE"},
-    ),
 }
 
-# Date range
-START_DATE = "2006-01-01"
-END_DATE = "2020-12-31"
+
+# =============================================================================
+# 1. Download & resample FRED data
+# =============================================================================
+
+def download_fred_data(api_key, series_dict, start, end):
+    """
+    Download all FRED series and resample to weekly (Friday).
+    Returns a dict of {friendly_name: pd.Series (weekly)}.
+    """
+    fred = Fred(api_key=api_key)
+    weekly_series = {}
+
+    for code, (name, freq) in series_dict.items():
+        print(f"  Downloading FRED: {code} ({name})...")
+        raw = fred.get_series(code, observation_start=start, observation_end=end)
+
+        # Convert to numeric, coerce '.' to NaN
+        raw = pd.to_numeric(raw, errors="coerce")
+
+        # Resample to weekly Friday — use last available observation
+        weekly = raw.resample("W-FRI").last()
+
+        # For monthly series, forward-fill within the month so weekly
+        # rows between monthly releases carry the last known value
+        if freq == "M":
+            weekly = weekly.ffill()
+
+        weekly.name = name
+        weekly_series[name] = weekly
+
+        # Save individual CSV
+        weekly.to_csv(os.path.join(OUTPUT_DIR, f"{name}_weekly.csv"), header=True)
+        print(f"    -> {len(weekly)} weekly observations saved.")
+
+    return weekly_series
+
+
+# =============================================================================
+# 2. Download Refinitiv data  (skip if you don't have access)
+# =============================================================================
+
+def download_refinitiv_data(instruments, start, end, output_dir):
+    """
+    Download Refinitiv instruments via your macro module.
+    Returns a dict of {friendly_name: pd.DataFrame} with OHLC columns.
+    """
+    try:
+        import refinitiv.data as rd
+        #import src.macro as macro
+    except ImportError:
+        print("  Refinitiv/macro module not available — skipping.")
+        return {}
+
+    rd.open_session()
+    ensure_dir(output_dir)
+    all_data = {}
+
+    for ric, (name, fields, rename_map) in instruments.items():
+        print(f"  Downloading Refinitiv: {ric} ({name})...")
+        df = download_instrument(ric, name, fields, rename_map, start, end, output_dir)
+        all_data[name] = df
+
+    rd.close_session()
+    return all_data
+
+
+def resample_refinitiv_to_weekly(refinitiv_data):
+    """
+    Resample Refinitiv OHLC DataFrames to weekly.
+    Returns dict of {name: pd.Series} using the CLOSE column.
+    """
+    weekly = {}
+    for name, df in refinitiv_data.items():
+        if df is None or df.empty:
+            continue
+        # Use CLOSE column, resample to weekly Friday
+        close = df["CLOSE"] if "CLOSE" in df.columns else df.iloc[:, -1]
+        close = pd.to_numeric(close, errors="coerce")
+        w = close.resample("W-FRI").last()
+        w.name = name
+        weekly[name] = w
+    return weekly
+
+
+# =============================================================================
+# 3. Merge everything into a single clean weekly DataFrame
+# =============================================================================
+
+def build_combined_weekly(fred_weekly, refinitiv_weekly=None):
+    """
+    Merge all weekly series into one DataFrame.
+    Forward-fills small gaps (up to 2 weeks), then drops remaining NaN rows.
+    """
+    all_series = list(fred_weekly.values())
+    if refinitiv_weekly:
+        all_series.extend(refinitiv_weekly.values())
+
+    df = pd.concat(all_series, axis=1)
+    df.index.name = "Date"
+
+    # Forward-fill gaps of up to 2 weeks (holidays, missing data)
+    df = df.ffill(limit=2)
+
+    # Report missing data before dropping
+    missing = df.isna().sum()
+    if missing.any():
+        print("\n  Remaining NaNs after forward-fill (limit=2):")
+        print(missing[missing > 0].to_string())
+
+    # Drop rows where any column is still NaN
+    n_before = len(df)
+    df = df.dropna()
+    n_after = len(df)
+    print(f"\n  Rows: {n_before} -> {n_after} after dropna ({n_before - n_after} removed)")
+
+    return df
 
 
 # ──────────────────────────────────────────────
@@ -242,5 +328,35 @@ Use FRED as a free fallback:
 """)
 
 
+# =============================================================================
+# Main
+# =============================================================================
+
 if __name__ == "__main__":
-    main()
+    print("=" * 60)
+    print("  Step 1: Downloading FRED data")
+    print("=" * 60)
+    fred_weekly = download_fred_data(FRED_API_KEY, FRED_SERIES, START_DATE, END_DATE)
+
+    print("\n" + "=" * 60)
+    print("  Step 2: Downloading Refinitiv data")
+    print("=" * 60)
+    refinitiv_raw = download_refinitiv_data(REFINITIV_INSTRUMENTS, START_DATE, END_DATE, OUTPUT_DIR)
+    refinitiv_weekly = resample_refinitiv_to_weekly(refinitiv_raw)
+
+    print("\n" + "=" * 60)
+    print("  Step 3: Building combined weekly dataset")
+    print("=" * 60)
+    combined = build_combined_weekly(fred_weekly, refinitiv_weekly)
+
+    # Save
+    out_path = os.path.join(OUTPUT_DIR, "combined_macro_weekly.csv")
+    combined.to_csv(out_path)
+    print(f"\n  Saved to: {out_path}")
+    print(f"  Shape: {combined.shape}")
+    print(f"  Date range: {combined.index[0].date()} to {combined.index[-1].date()}")
+    print(f"\n  Columns: {list(combined.columns)}")
+    print("\n  Head:")
+    print(combined.head().to_string())
+    print("\n  Tail:")
+    print(combined.tail().to_string())
