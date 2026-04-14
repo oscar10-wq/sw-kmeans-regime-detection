@@ -27,6 +27,17 @@ def convert_prediction(N, labels, h1, h2):
         regime_pred[start_idx:end_idx+1, 0] = labels[m-1] # Assign the predicted regime to the corresponding time points
     return regime_pred
 
+def convert_prediction_proba(N, proba_matrix, h1, h2):
+
+    M = math.floor((N-(h1-h2))/h2)
+    regime_pred_proba = np.zeros((N, proba_matrix.shape[1])) # Create an array to hold the original data and the predicted regimes
+    for m in range(1, M+1):
+        start_idx = h2 * (m-1)
+        end_idx = start_idx + h1-1
+        regime_pred_proba[start_idx:end_idx+1, :] = proba_matrix[m-1, :] # Assign the predicted regime to the corresponding time points
+    return regime_pred_proba
+
+    
 def visualize_clustering_results(t, S, labels, h1, h2, K, returns = True): # K 2 or 3
     '''
     Visualize the clustering results by plotting the time series colored with prediction 
