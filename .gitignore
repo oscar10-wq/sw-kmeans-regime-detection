@@ -9,5 +9,4 @@ __pycache__/
 *.fls
 *.log
 *.synctex.gz
-*.csv
 *.xlsx
