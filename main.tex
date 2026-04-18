@@ -32,7 +32,7 @@ The following thesis is structured as follows believed to be the most explanator
 
 
 
-\subsection{Experiment 1: Theoretical Framework for Wasserstein Distance/Sliced Wasserstein (SW) Distance}
+\section{Experiment 1: Theoretical Framework for Wasserstein Distance/Sliced Wasserstein (SW) Distance}
 This chapter will focus on the theoretical framework to understand the Wasserstein distance and its extension to the Sliced Wasserstein distance.
 Moreover, this section will provide insights on the practical implementation of the above-mentionned algorithms and limitations to the 
 current SW clustering implementations in the literature. Notably, the low generalizable nature of using pre-defined projection vectors ${\theta^l}$  for the Sliced Wasserstein can be solved 
@@ -50,9 +50,52 @@ It provides the following advantages compared to standard Monte Carlo methods.
 Some useful theoretical results on variance reduction and computational cost on the UnifOrtho method will therefore be provided to support the choice of this method for the future sections.
 
 
+The following pseudocode is based on the work by \cite{PetrovicBardenetDesolneux2025} on Repulsive Monte Carlo Methods and \cite{LuanHamp2025} on Sliced Wasserstein k-means clustering for regime detection. 
+
+\begin{algorithm}[H]
+\caption{sWk-means clustering with UnifOrtho Projections}\label{alg:swkmeans}
+
+\KwInput{Data stream $S \in \mathcal{S}(\mathbb{R}^d)$,\; number of clusters $K$,\; number of projections $L$,\; tolerance $\epsilon$ for convergence}
+\KwOutput{$K$ cluster assignments and corresponding 1d barycenters}
+
+\BlankLine
+
+\Comment{Preprocessing}
+Calculate $l(r^S)$ given $S \in \mathcal{S}(\mathbb{R}^d)$ and define family of empirical distributions $\mathcal{K} = \{\mu_j\}_{1 \le j \le M}$\;
+
+\BlankLine
+\Comment{Step 1: UnifOrtho Projection Generation}
+$k \leftarrow \lceil L/d \rceil$ \Comment*[r]{number of orthogonal bases needed}
+$\Theta \leftarrow \emptyset$\;
+
+\For{$i = 1$ \KwTo $k$}{
+    Sample a random matrix $Z_i \in \mathbb{R}^{d \times d}$ with i.i.d.\ $\mathcal{N}(0,1)$ entries\;
+    Compute the QR decomposition: $Z_i = Q_i R_i$\;
+    Let $\Lambda_i$ be a diagonal matrix where $\Lambda_{i, jj} = \text{sgn}(R_{i, jj})$\;
+    $U_i \leftarrow Q_i \Lambda_i$ \Comment*[r]{$U_i$ is Haar-distributed on $O(d)$}
+    Add the $d$ column vectors of $U_i$ to $\Theta$\;
+}
+$\{\theta^1, \dots, \theta^L\} \leftarrow \Theta[1:L]$ \Comment*[r]{select exactly $L$ directions}
+
+\BlankLine
+\Comment{Step 2: Projection \& K-Means Iteration}
+Calculate projected distributions $\{\mu_j'(\theta^l)\}_{1 \le j \le M}$ for all $l=1 \dots L$\;
+Initialize cluster assignments $C_1, \dots, C_K$\;
+
+\While{convergence criterion $> \epsilon$}{
+    \For{$k = 1$ \KwTo $K$}{
+        Compute the 1d Wasserstein barycenter $\bar{\mu}_k(\theta^l)$ for each projection $l$ using empirical distributions assigned to $C_k$\;
+    }
+    \For{$j = 1$ \KwTo $M$}{
+        Assign $\mu_j$ to the cluster $C_{k^*}$ where $k^* = \arg\min_{k} \sum_{l=1}^L W_p^p\!\left(\mu_j'(\theta^l),\, \bar{\mu}_k(\theta^l)\right)$\;
+    }
+}
+
+\Return{$C_1, \dots, C_K$ and barycenters $\{\bar{\mu}_k(\theta^l)\}$}
+\end{algorithm}
 
 
-\subsection{Experiment 2: Design methodology for Monte Carlo for SW - Synthetic Data Testing}
+\section{Experiment 2: Design methodology for Monte Carlo for SW - Synthetic Data Testing}
 The focus of this chapter will be on testing the algorithm on syntethic data to understand the behaviour of the algorithm and its performance in different settings.
 The algorithm will be tested on 3 dimensional data followed by 4, 5 dimensional.  Performance between original and UniOrtho method will be compared and tests will span from data with multiple correlation factors 
 and with diffrent target number of clusters. Finally, in terms of time-horizon, the study will focus on the equivalent of  20 years synthetic data with 7 observations a day (252 trading days a year) to be as close as possible to real world data.
@@ -107,7 +150,7 @@ This is a summary similary to the one provided in \cite{LuanHamp2025} for the di
     \end{tabular}
 \end{table}
 
-\subsection{Experiment 3: Application of Monte Carlo SW for Real Data and Analysis}
+\section{Experiment 3: Application of Monte Carlo SW for Real Data and Analysis}
 
 Finally, the chapter will focus on the application of the novel algorithm on real world data sets for different types of financial markets. 
 As above, the time span, wil focus on 15 to 20 years of data. The target data sets include the following : 
@@ -124,7 +167,7 @@ As above, the time span, wil focus on 15 to 20 years of data. The target data se
         \subitem Copper Aluminum, Zinc, Nickel, Lead. 
 \end{itemize}
 
-\subsection{Experiment 4: Performance analysis of regime detection using trading strategies}
+\section{Experiment 4: Performance analysis of regime detection using trading strategies}
 \begin{itemize}
 \item Long/Short strategy based on majority regime detection signals
 \item Long/Short strategy based on Implied probability signals (using the distance to the centroids as a proxy for the confidence of the regime detection)
@@ -313,53 +356,41 @@ $V \leftarrow [C_0]$, \quad $\Sigma \leftarrow [\,]$, \quad $n \leftarrow \lfloo
 \end{algorithm}
 
 
+\subsection{Performance Analysis for Trading Strategies: Ledoit-Wolf test on sharpe ratios}
+
+
+\section{Experiment 5: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}
+
+We label the regimes using weekly equity data (S\&P 500, NASDAQ, Dow Jones) on the period 2006 to 2020. 
+We further consider the following macro feature set:
+\begin{itemize}
+    \item VIX Index
+    \item 10-year Treasury Yield
+    \item 5-year Treasury Yield
+    \item 30-year Treasury Yield
+    \item Fed Funds Rate
+    \item Manufacturing PMI
+    \item Manufacturing Employment
+    \item DXY Dollar Index
+    \item Gold Spot Price
+    \item Brent Crude Oil Spot Price
+\end{itemize}
+
+After having regrouped the data from the following macro-indicators from the appropriate time period, we fit thefeature set to the regime labels using the following models: 
+\begin{itemize}
+    \item OLS Linear Regression (probabilistic target (Probability of being in bear regime))
+    \item Logistic Regression (binary target (Bull/Bear))
+    \item Random Forest Classifier (binary target (Bull/Bear))
+\end{itemize}
+In particular, we are analysing the feature importance of the different macro-indicators during the bear regimes using the SHAP analysis toolbox. 
+We observe that in particular during predicted bear regimes by the sliced-Wasserstein k-means clustering algorithm, the VIX index is a particularly important feature in the regime classification for all three models. 
+
+
 
 \newpage
 \section {Appendix}
 
-The following pseudocode is based on the work by \cite{PetrovicBardenetDesolneux2025} on Repulsive Monte Carlo Methods and \cite{LuanHamp2025} on Sliced Wasserstein k-means clustering for regime detection. 
 
-\begin{algorithm}[H]
-\caption{sWk-means clustering with UnifOrtho Projections}\label{alg:swkmeans}
-
-\KwInput{Data stream $S \in \mathcal{S}(\mathbb{R}^d)$,\; number of clusters $K$,\; number of projections $L$,\; tolerance $\epsilon$ for convergence}
-\KwOutput{$K$ cluster assignments and corresponding 1d barycenters}
-
-\BlankLine
-
-\Comment{Preprocessing}
-Calculate $l(r^S)$ given $S \in \mathcal{S}(\mathbb{R}^d)$ and define family of empirical distributions $\mathcal{K} = \{\mu_j\}_{1 \le j \le M}$\;
-
-\BlankLine
-\Comment{Step 1: UnifOrtho Projection Generation}
-$k \leftarrow \lceil L/d \rceil$ \Comment*[r]{number of orthogonal bases needed}
-$\Theta \leftarrow \emptyset$\;
-
-\For{$i = 1$ \KwTo $k$}{
-    Sample a random matrix $Z_i \in \mathbb{R}^{d \times d}$ with i.i.d.\ $\mathcal{N}(0,1)$ entries\;
-    Compute the QR decomposition: $Z_i = Q_i R_i$\;
-    Let $\Lambda_i$ be a diagonal matrix where $\Lambda_{i, jj} = \text{sgn}(R_{i, jj})$\;
-    $U_i \leftarrow Q_i \Lambda_i$ \Comment*[r]{$U_i$ is Haar-distributed on $O(d)$}
-    Add the $d$ column vectors of $U_i$ to $\Theta$\;
-}
-$\{\theta^1, \dots, \theta^L\} \leftarrow \Theta[1:L]$ \Comment*[r]{select exactly $L$ directions}
-
-\BlankLine
-\Comment{Step 2: Projection \& K-Means Iteration}
-Calculate projected distributions $\{\mu_j'(\theta^l)\}_{1 \le j \le M}$ for all $l=1 \dots L$\;
-Initialize cluster assignments $C_1, \dots, C_K$\;
-
-\While{convergence criterion $> \epsilon$}{
-    \For{$k = 1$ \KwTo $K$}{
-        Compute the 1d Wasserstein barycenter $\bar{\mu}_k(\theta^l)$ for each projection $l$ using empirical distributions assigned to $C_k$\;
-    }
-    \For{$j = 1$ \KwTo $M$}{
-        Assign $\mu_j$ to the cluster $C_{k^*}$ where $k^* = \arg\min_{k} \sum_{l=1}^L W_p^p\!\left(\mu_j'(\theta^l),\, \bar{\mu}_k(\theta^l)\right)$\;
-    }
-}
-
-\Return{$C_1, \dots, C_K$ and barycenters $\{\bar{\mu}_k(\theta^l)\}$}
-\end{algorithm}
 
 \newpage
 \bibliographystyle{plain}

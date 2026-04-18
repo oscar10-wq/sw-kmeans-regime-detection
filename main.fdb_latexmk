@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1775751017.54698 "main.aux" "main.bbl" "main" 1775751075.67433 0
-  "./main.bib" 1772017907.98619 851 6ca5f1fa58f6b6280bc65132c53c22d0 ""
+["bibtex main"] 1776512405.91499 "main.aux" "main.bbl" "main" 1776521778.274 0
+  "./main.bib" 1775899563.51331 851 6ca5f1fa58f6b6280bc65132c53c22d0 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1775751075.17441 2935 a29a978eda8d7fc1516d8cadbb0c67f8 "pdflatex"
+  "main.aux" 1776521777.88194 3262 991420c8cab876c550be1026788e87bf "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1775751074.43774 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1775751075.67454 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1775751074.16954 17433 c3eddd2e920b94941f5e2e8cb09d3cde ""
+["pdflatex"] 1776521777.43184 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1776521778.27419 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1776521777.19878 18886 5ee3be54a1d4a23855972c643f823b5c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -143,9 +143,9 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1747757462 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1747757358 3345732 bf2d039a444dadce9876abadfbef8f88 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "main.aux" 1775751075.17441 2935 a29a978eda8d7fc1516d8cadbb0c67f8 "pdflatex"
-  "main.bbl" 1775751017.72016 729 7572d88be11b5edec5e2c5c1cf83c29d "bibtex main"
-  "main.tex" 1775751074.16954 17433 c3eddd2e920b94941f5e2e8cb09d3cde ""
+  "main.aux" 1776521777.88194 3262 991420c8cab876c550be1026788e87bf "pdflatex"
+  "main.bbl" 1776512406.07323 729 7572d88be11b5edec5e2c5c1cf83c29d "bibtex main"
+  "main.tex" 1776521777.19878 18886 5ee3be54a1d4a23855972c643f823b5c ""
   (generated)
   "main.aux"
   "main.log"
