@@ -496,7 +496,7 @@ def max_mccd_unifortho_sim(N_S, S, K, L, epsilon, h1, h2, metric = "CVaR"):
     best_labels = None
     for sim in range(N_S):
         _, centroids, labels = sliced_wasserstein_clustering_conv_loop_opt(projected_emp_dist, K, M, L, epsilon)
-        print(f"Simulation {sim + 1}/{N_S} completed. Evaluating accuracy...")
+        #print(f"Simulation {sim + 1}/{N_S} completed. Evaluating accuracy...")
         mccd = mt.mean_centroid_centroid_distance(centroids, K, p=2)
         if mccd > best_mccd:
             best_mccd = mccd

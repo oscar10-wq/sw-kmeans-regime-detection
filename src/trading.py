@@ -329,6 +329,188 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         plt.show()
     return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
 
+
+def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size, 
+                      K=2, metric="CVaR", majority_lookback=7, 
+                      weighting="inverse_vol",
+                      ensemble_weights=None,  # None = adaptive
+                      lookback=5, use_gradient=False, gradient_weight=0.3,
+                      entry_threshold=0.15, hold_threshold=0.10,
+                      adaptive_lookback=3,  # how many past windows to evaluate
+                      softmax_temperature=10.0):  # controls how aggressive weighting is
+    
+    epsilon = 1e-6
+
+    # === Portfolio returns ===
+    if weighting == "equal":
+        pct_returns = S.pct_change().dropna()
+        theta = np.ones((1, S.shape[1])) / S.shape[1]
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)
+    elif weighting == "inverse_vol":
+        pct_returns = S.pct_change().dropna()
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + epsilon)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)
+        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)
+
+    # Storage
+    portfolio_value = [initial_capital]
+    cum_pnl = [0.0]
+    trade_signals = []
+    signal_details = []
+    adaptive_weights_history = []
+
+    # Track per-algo hypothetical cumulative returns
+    algo_cum_returns = {
+        'unifortho': [],
+        'hysteresis': [],
+        'continuous': [],
+        'conviction': []
+    }
+
+    num_steps = math.floor(len(S) / window_size)
+    prev_hysteresis_signal = 0
+    use_adaptive = ensemble_weights is None
+
+    for i in range(num_steps - 1):
+        start_idx = i * window_size
+        end_idx = (i + 1) * window_size
+        week_data = S.iloc[start_idx:end_idx, :]
+
+        print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]}')
+
+        if len(week_data) <= h1:
+            print(f"Warning: too small for h1={h1}. STOP.")
+            return np.array(portfolio_value), trade_signals, cum_pnl, signal_details
+
+        # === Core regime detection ===
+        projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(
+            N_S, week_data, K, L, epsilon, h1, h2, metric
+        )
+        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(
+            projected_emp, centroids, labels,
+            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight
+        )
+
+        current_regime = np.bincount(labels[-majority_lookback:]).argmax() \
+            if majority_lookback <= len(labels) else np.bincount(labels).argmax()
+
+        # === ALGO 1: Unifortho ===
+        signal_unifortho = 1.0 if current_regime == 1 else -1.0
+
+        # === ALGO 2: Hysteresis ===
+        if current_regime == 1:
+            if switch_proba >= entry_threshold and prev_hysteresis_signal >= 0:
+                signal_hysteresis = -1.0
+            elif switch_proba < hold_threshold and prev_hysteresis_signal < 0:
+                signal_hysteresis = 1.0
+            else:
+                signal_hysteresis = prev_hysteresis_signal
+        else:
+            if switch_proba >= entry_threshold and prev_hysteresis_signal <= 0:
+                signal_hysteresis = 1.0
+            elif switch_proba < hold_threshold and prev_hysteresis_signal > 0:
+                signal_hysteresis = -1.0
+            else:
+                signal_hysteresis = prev_hysteresis_signal
+        prev_hysteresis_signal = signal_hysteresis
+
+        # === ALGO 3: Continuous ===
+        signal_continuous = posterior[1] - posterior[0]
+        if switch_proba > 0.5:
+            signal_continuous = np.sign(signal_continuous) * 1.0
+        if abs(signal_continuous) < 0.1:
+            signal_continuous = 0.0
+
+        # === ALGO 4: Conviction ===
+        regime_direction = 1.0 if current_regime == 1 else -1.0
+        signal_conviction = regime_direction * (1.0 - 1.5 * switch_proba)
+        if switch_proba > 0.5:
+            signal_conviction = np.sign(signal_conviction) * 1.0
+
+        signals = np.array([signal_unifortho, signal_hysteresis,
+                            signal_continuous, signal_conviction])
+
+        # =============================================================
+        # ADAPTIVE WEIGHTING: based on realized performance
+        # =============================================================
+        if use_adaptive:
+            if i == 0:
+                # First window: equal weights, no history yet
+                current_weights = np.array([0.3, 0.1, 0.3, 0.3])
+            else:
+                # Look back over the last adaptive_lookback windows
+                lb = max(0, len(algo_cum_returns['unifortho']) - adaptive_lookback)
+                
+                # Compute cumulative return per algo over lookback
+                perf = np.array([
+                    np.prod([1 + r for r in algo_cum_returns['unifortho'][lb:]]) - 1,
+                    np.prod([1 + r for r in algo_cum_returns['hysteresis'][lb:]]) - 1,
+                    np.prod([1 + r for r in algo_cum_returns['continuous'][lb:]]) - 1,
+                    np.prod([1 + r for r in algo_cum_returns['conviction'][lb:]]) - 1,
+                ])
+
+                # Softmax with temperature
+                # Higher temperature → more equal weights
+                # Lower temperature → winner takes more
+                scaled = perf * softmax_temperature
+                scaled -= np.max(scaled)  # numerical stability
+                exp_perf = np.exp(scaled)
+                current_weights = exp_perf / np.sum(exp_perf)
+
+            ensemble_signal = np.dot(current_weights, signals)
+        else:
+            current_weights = np.array(ensemble_weights)
+            ensemble_signal = np.dot(current_weights, signals)
+
+        ensemble_signal = np.clip(ensemble_signal, -1.0, 1.0)
+        trade_signals.append(ensemble_signal)
+        adaptive_weights_history.append(current_weights.copy())
+
+        # === Apply to next window and track per-algo returns ===
+        next_week_returns = portfolio_returns.iloc[end_idx:end_idx + window_size]
+
+        # Per-algo hypothetical return for this window
+        window_return_unifortho = np.prod([1 + signal_unifortho * r for r in next_week_returns]) - 1
+        window_return_hysteresis = np.prod([1 + signal_hysteresis * r for r in next_week_returns]) - 1
+        window_return_continuous = np.prod([1 + signal_continuous * r for r in next_week_returns]) - 1
+        window_return_conviction = np.prod([1 + signal_conviction * r for r in next_week_returns]) - 1
+
+        algo_cum_returns['unifortho'].append(window_return_unifortho)
+        algo_cum_returns['hysteresis'].append(window_return_hysteresis)
+        algo_cum_returns['continuous'].append(window_return_continuous)
+        algo_cum_returns['conviction'].append(window_return_conviction)
+
+        # Compound portfolio
+        for ret in next_week_returns:
+            period_return = ensemble_signal * ret
+            new_value = portfolio_value[-1] * (1 + period_return)
+            portfolio_value.append(new_value)
+            cum_pnl.append(new_value - initial_capital)
+
+        signal_details.append({
+            'week': i + 1,
+            'regime': current_regime,
+            'switch_proba': switch_proba,
+            'unifortho': signal_unifortho,
+            'hysteresis': signal_hysteresis,
+            'continuous': signal_continuous,
+            'conviction': signal_conviction,
+            'ensemble': ensemble_signal,
+            'weights': current_weights.tolist(),
+            'algo_returns': [window_return_unifortho, window_return_hysteresis,
+                             window_return_continuous, window_return_conviction]
+        })
+
+        print(f"  Signals → Uni: {signal_unifortho:.2f} | Hyst: {signal_hysteresis:.2f} | "
+              f"Cont: {signal_continuous:.2f} | Conv: {signal_conviction:.2f}")
+        print(f"  Weights → {current_weights}")
+        print(f"  Ensemble: {ensemble_signal:.2f} | Portfolio: {portfolio_value[-1]:.2f}")
+        print(f"Cumulative P&L: {cum_pnl[-1]:.2f}")
+        print("---" * 10)
+
+    return np.array(portfolio_value), trade_signals, cum_pnl, signal_details
+
 # --- Helper: variance-adjust a portfolio value array ---
 def vol_adjust(pv_array, dates):
     pv = pd.Series(pv_array, index=dates)
