@@ -5,6 +5,7 @@ import src.wasserstein as ws
 import src.metrics as mt
 import matplotlib.pyplot as plt
 
+debug = False
 
 def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
     """
@@ -45,10 +46,12 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
         end_idx = (i + 1) * window_size
         week_data = S.iloc[start_idx:end_idx, :]
 
-        print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]} with {len(week_data)} data points.')
+        if debug:
+            print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]} with {len(week_data)} data points.')
 
         if len(week_data) <= h1:
-            print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
+            if debug:
+                print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
             return np.array(portfolio_value), trade_signals, cum_pnl
             
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
@@ -60,10 +63,12 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
         
         if current_regime == 1:
             signal = 1
-            print("Bullish ! Week", i+1, "go long")
+            if debug:
+                print("Bullish ! Week", i+1, "go long")
         else:
             signal = -1
-            print("Bearish!, Week", i+1, "go short")
+            if debug:
+                print("Bearish!, Week", i+1, "go short")
       
         trade_signals.append(signal)
 
@@ -76,10 +81,78 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
-        print("---" * 10)
-        print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
-        print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
-        print("---" * 10)
+        if debug:
+            print("---" * 10)
+            print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
+            print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
+            print("---" * 10)
+    return np.array(portfolio_value), trade_signals, cum_pnl
+
+def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
+    """
+    Similar to long_strat_unifort
+    ho but uses S_label for regime detection and S_trade for trading.
+    This allows us to test the strategy on one dataset while using another for regime inference.
+    """
+    epsilon = 1e-6  
+
+    # === FIX: Use percentage returns, equal-weighted ===
+
+    if weighting == "equal":
+        pct_returns = S_trade.pct_change().dropna()
+        theta = np.ones((1, S_trade.shape[1])) / S_trade.shape[1]  # Equal weights for each asset
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
+
+    if weighting == "inverse_vol":
+        pct_returns = S_trade.pct_change().dropna()
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
+        inv_vol = 1 / (vol + epsilon)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
+
+    # Arrays to store results
+    portfolio_value = [initial_capital]
+    cum_pnl = [0.0]
+    trade_signals = []
+    
+    num_steps = math.floor(len(S_label) / window_size)
+
+    for i in range(num_steps - 1):
+        
+        start_idx = i * window_size
+        end_idx = (i + 1) * window_size
+        week_data = S_label.iloc[start_idx:end_idx, :]
+
+        if debug:
+            print(f'Analyzing Regime from {S_label.index[start_idx]} to {S_label.index[end_idx-1]} with {len(week_data)} data points.')
+
+        if len(week_data) <= h1:
+            if debug:
+                print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
+            return np.array(portfolio_value), trade_signals, cum_pnl
+            
+        projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
+        
+        if majority_lookback > len(labels):
+            current_regime = np.bincount(labels).argmax()
+        else:
+            current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+
+        trade_signals.append(current_regime)
+
+        next_week_returns = portfolio_returns.iloc[end_idx : end_idx + window_size]
+
+        # === FIX: Compounding with percentage returns ===
+        for ret in next_week_returns:
+            period_return = current_regime * ret
+            new_value = portfolio_value[-1] * (1 + period_return)
+            portfolio_value.append(new_value)
+            cum_pnl.append(new_value - initial_capital)
+        if debug:
+            print("---" * 10)
+            print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
+            print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
+            print("---" * 10)
     return np.array(portfolio_value), trade_signals, cum_pnl
 
 def long_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
@@ -165,10 +238,11 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         start_idx = i * window_size
         end_idx = (i + 1) * window_size
         week_data = S.iloc[start_idx:end_idx, :]
-        
-        print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]} with {len(week_data)} data points.')
+        if debug:
+            print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]} with {len(week_data)} data points.')
         if len(week_data) <= h1:
-            print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
+            if debug:
+                print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
             return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
 
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
@@ -176,12 +250,13 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(projected_emp, centroids, labels, lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight)
         
         if not live_plot:
-            print('---' * 10)
-            print("Week", i + 1)
-            print(f"Switch Probability: {switch_proba:.4f}")
-            print(f"Transition Matrix:\n{transition_matrix}")
-            print(f"Posterior Probabilities:\n{posterior}")
-            print('---' * 10)
+            if debug:
+                print('---' * 10)
+                print("Week", i + 1)
+                print(f"Switch Probability: {switch_proba:.4f}")
+                print(f"Transition Matrix:\n{transition_matrix}")
+                print(f"Posterior Probabilities:\n{posterior}")
+                print('---' * 10)
 
         for m in range(start_idx, end_idx):
             switch_proba_history.append(switch_proba)
@@ -226,7 +301,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
                 signal = np.sign(signal) * 1.0
 
         trade_signals.append(signal)
-        if not live_plot:
+        if not live_plot and debug:
             print(f"Final signal: {signal}")
 
         # === FIX 2: Compounding portfolio value with percentage returns ===
@@ -318,7 +393,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
             fig.canvas.flush_events()
             plt.pause(0.01)
         
-        if not live_plot:
+        if not live_plot and debug:
             print("---" * 10)
             print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
             print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
@@ -329,6 +404,125 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         plt.show()
     return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
 
+
+def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", live_plot=False):
+    """
+    Similar to long_strat_implied but uses S_label for regime detection and S_trade for trading.
+    This allows us to test the strategy on one dataset while using another for regime inference.
+    """
+    epsilon = 1e-6
+
+    if start_date is not None and end_date is not None:
+        S_label = S_label.loc[start_date:end_date]
+        S_trade = S_trade.loc[start_date:end_date]
+
+    if weighting == "equal":
+        pct_returns = S_trade.pct_change().dropna()
+        theta = np.ones((1, S_trade.shape[1])) / S_trade.shape[1]
+        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)
+    elif weighting == "inverse_vol":
+        pct_returns = S_trade.pct_change().dropna()
+        vol = pct_returns.rolling(window=window_size).std().iloc[window_size - 1:]
+        inv_vol = 1 / (vol + epsilon)
+        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)
+        portfolio_returns = (pct_returns.iloc[window_size - 1:] * theta).sum(axis=1)
+
+    # Arrays to store results
+    portfolio_value = [initial_capital]
+    cum_pnl = [0.0]
+    trade_signals = []
+    num_steps = math.floor(len(S_label) / window_size)
+    switch_proba_history = []
+
+    for i in range(num_steps - 1):
+
+        start_idx = i * window_size
+        end_idx = (i + 1) * window_size
+        week_data = S_label.iloc[start_idx:end_idx, :]
+        
+        if debug:
+            print(f'Analyzing Regime from {S_label.index[start_idx]} to {S_label.index[end_idx - 1]} with {len(week_data)} data points.')
+
+        if len(week_data) <= h1:
+            if debug:
+                print(f"Warning: Week {i} has {len(week_data)} points, which is too small for h1={h1}. STOP.")
+            return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
+
+        # Regime detection uses S_label
+        projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
+
+        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(
+            projected_emp, centroids, labels,
+            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight
+        )
+
+        if debug:
+            print('---' * 10)
+            print("Week", i + 1)
+            print(f"Switch Probability: {switch_proba:.4f}")
+            print(f"Transition Matrix:\n{transition_matrix}")
+            print(f"Posterior Probabilities:\n{posterior}")
+            print('---' * 10)
+
+        for m in range(start_idx, end_idx):
+            switch_proba_history.append(switch_proba)
+
+        current_regime = np.bincount(labels[-h2:]).argmax()
+
+        if signal_type == "continuous":
+            signal = posterior[1] - posterior[0]
+            dead_zone = 0.1
+            if switch_proba > 0.5:
+                signal = 1 * np.sign(signal)
+            if abs(signal) < dead_zone:
+                signal = 0.0
+
+        if signal_type == "hysteresis":
+            prev_signal = trade_signals[-1] if trade_signals else 0
+            if current_regime == 1:
+                if switch_proba >= entry_threshold and prev_signal >= 0:
+                    signal = -1
+                elif switch_proba < hold_threshold and prev_signal < 0:
+                    signal = 1
+                else:
+                    signal = prev_signal
+            else:
+                if switch_proba >= entry_threshold and prev_signal <= 0:
+                    signal = 1
+                elif switch_proba < hold_threshold and prev_signal > 0:
+                    signal = -1
+                else:
+                    signal = prev_signal
+
+        if signal_type == "conviction":
+            regime_direction = 1 if current_regime == 1 else -1
+            conviction = 1.0 - 1.5 * switch_proba
+            signal = regime_direction * conviction
+            if switch_proba > 0.5:
+                signal = np.sign(signal) * 1.0
+
+        trade_signals.append(signal)
+        if debug:
+            print(f"Final signal: {signal}")
+
+        # PnL computed on S_trade returns
+        next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
+
+        for ret in next_week_returns:
+            period_return = signal * ret
+            new_value = portfolio_value[-1] * (1 + period_return)
+            portfolio_value.append(new_value)
+            cum_pnl.append(new_value - initial_capital)
+
+        if debug:
+            print("---" * 10)
+            print(f'Portfolio value after week {i + 1}: {portfolio_value[-1]}')
+            print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
+            print("---" * 10)
+
+    return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
+
+ 
 
 def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size, 
                       K=2, metric="CVaR", majority_lookback=7, 
@@ -377,10 +571,13 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
         end_idx = (i + 1) * window_size
         week_data = S.iloc[start_idx:end_idx, :]
 
-        print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]}')
+
+        if debug:
+            print(f'Analyzing Regime from {S.index[start_idx]} to {S.index[end_idx-1]}')
 
         if len(week_data) <= h1:
-            print(f"Warning: too small for h1={h1}. STOP.")
+            if debug:
+                print(f"Warning: too small for h1={h1}. STOP.")
             return np.array(portfolio_value), trade_signals, cum_pnl, signal_details
 
         # === Core regime detection ===
@@ -502,12 +699,13 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
                              window_return_continuous, window_return_conviction]
         })
 
-        print(f"  Signals → Uni: {signal_unifortho:.2f} | Hyst: {signal_hysteresis:.2f} | "
-              f"Cont: {signal_continuous:.2f} | Conv: {signal_conviction:.2f}")
-        print(f"  Weights → {current_weights}")
-        print(f"  Ensemble: {ensemble_signal:.2f} | Portfolio: {portfolio_value[-1]:.2f}")
-        print(f"Cumulative P&L: {cum_pnl[-1]:.2f}")
-        print("---" * 10)
+        if debug:
+            print(f"  Signals → Uni: {signal_unifortho:.2f} | Hyst: {signal_hysteresis:.2f} | "
+                f"Cont: {signal_continuous:.2f} | Conv: {signal_conviction:.2f}")
+            print(f"  Weights → {current_weights}")
+            print(f"  Ensemble: {ensemble_signal:.2f} | Portfolio: {portfolio_value[-1]:.2f}")
+            print(f"Cumulative P&L: {cum_pnl[-1]:.2f}")
+            print("---" * 10)
 
     return np.array(portfolio_value), trade_signals, cum_pnl, signal_details
 
