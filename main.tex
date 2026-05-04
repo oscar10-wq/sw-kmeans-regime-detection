@@ -162,6 +162,7 @@ As above, the time span, wil focus on 15 to 20 years of data. The target data se
         \subitem S\&P 500, NASDAQ, Dow Jones (US Equity Cluster) (daily data)
         \subitem CAC 40, DAX40, FTSE 100 (European Equity Cluster) (daily data)
         \subitem Nikkei 225, Hang Seng, Kospi 200 (Asian Equity Cluster) (daily data)
+
     \item  Commodity Series Data (4D and 5D)
         \subitem WTI Crude Oil, Brent Crude Oil, Natural Gas, Heating Oil. 
         \subitem Copper Aluminum, Zinc, Nickel, Lead. 
@@ -171,7 +172,12 @@ As above, the time span, wil focus on 15 to 20 years of data. The target data se
 \begin{itemize}
 \item Long/Short strategy based on majority regime detection signals
 \item Long/Short strategy based on Implied probability signals (using the distance to the centroids as a proxy for the confidence of the regime detection)
+\item Ensemble Methods: combining the above two strategies using a weighted average of the signals or an adaptative weighting scheme to generate the final trading signal.
 \end{itemize}
+
+Tested trading strategies on FX and Equity data sets. Performance is compared to a long only and short-only approach. 
+Moreover, for equities, we look at the performance for different clusters (US, Europe, Asia) to see if the performance of the regime detection is better in some markets than others.
+We also test, trading algorithm that use american regime detection to trade in Asian and European markets to see if the regime detection is more generalizable in some markets than others.
 
 \subsubsection{Standard SW k-means trading strategy}
 Pseudo code for this strategy is provided here : 
@@ -357,6 +363,12 @@ $V \leftarrow [C_0]$, \quad $\Sigma \leftarrow [\,]$, \quad $n \leftarrow \lfloo
 
 
 \subsection{Performance Analysis for Trading Strategies: Ledoit-Wolf test on sharpe ratios}
+Conducted Ledoit-Wolf test to compare the Sharpe ratios of the different trading strategies and see if the differences in performance are statistically significant.
+
+
+
+Need to read more about shap analysis in \cite{LedoitWolf2008}
+
 
 
 \section{Experiment 5: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}

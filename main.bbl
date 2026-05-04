@@ -5,6 +5,11 @@ B.~Horvath, A.~Muguruza, and M.~Tomas.
 \newblock Wasserstein k-means for clustering distributions.
 \newblock {\em Journal of Machine Learning Research}, 2024.
 
+\bibitem{LedoitWolf2008}
+O.~Ledoit and M.~Wolf.
+\newblock Robust performance hypothesis testing with the sharpe ratio.
+\newblock {\em Journal of Empirical Finance}, 15(5):850--859, 2008.
+
 \bibitem{LuanHamp2025}
 Qinmeng Luan and James Hamp.
 \newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
