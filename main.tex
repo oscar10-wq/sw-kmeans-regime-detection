@@ -370,6 +370,39 @@ Conducted Ledoit-Wolf test to compare the Sharpe ratios of the different trading
 Need to read more about shap analysis in \cite{LedoitWolf2008}
 
 
+\subsection{Tuning the weights for ensemble methods}
+
+Tested multiple combination of weights for the ensemble methods, which combines the binary regime long/short stratey and the implied probability strategy with different variations (hysteresis, continuous, conviction).
+The weights are ordered as following :
+\newline [$w_{binary}$, $w_{implied\_probability(hysteresis)}$ $w_{implied\_probability(continuous)}$, $w_{implied\_probability(conviction)}$]. 
+We have tested the following weights: 
+\begin{itemize}
+    \item \text{[0.25, 0.25, 0.25, 0.25]},
+    \item \text{[0.30, 0.10, 0.30, 0.30]},
+    \item \text{[0.20, 0.30, 0.20, 0.30]},
+    \item  \text{[0.30, 0.20, 0.30, 0.20]},
+    \item  \text{[0.10, 0.40, 0.10, 0.40]}
+\end{itemize}
+
+\subsection{Tuning the gradient weight for implied probability methods}
+Tested multiple values for the gradient weight $\alpha$ in the implied probability strategy with gradient.
+The values tested are the following 
+\begin{equation}
+    \alpha \in \{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0\}
+\end{equation}
+
+Optimal value for $\alpha$ is determined based on the highest Sharpe ratio achieved during the backtesting period.
+For the American equity data we have determined that the optimal value is $\alpha = 0.5$. As most of the variants of implied porbability strategies (continus and hysteresis), have a peak performance at $\alpha = 0.5$. 
+
+$\alpha = 0.0$ corresponds to a pure bayesian approach. It captures current cluster membership, regime persistence and more generally where the market is. 
+$\alpha = 1.0$ corresponds to a pure gradient approach. It captures the direction of the market (getting closer or further from a certain regime) and therefore captures the momentum of the market.
+
+Hence an optimal value of $\alpha = 0.5$ suggests that  regime identification and regime momentum are equally predictive. 
+We could also thinkg that $\mathbb{P}_{Bayers}$ and $\mathbb{P}_{Grad}$ are not redundant and capture different information about the market. 
+
+
+\subsection{Tuning the temperature parameter $\tau$ }
+Compared $\tau$ taken as adaptative to the 
 
 \section{Experiment 5: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}
 

@@ -284,7 +284,7 @@ def sliced_wasserstein_clustering_conv_loop(projected_emp_dist, K,M, L, epsilon)
                 centroids[k] = sliced_wasserstein_compute_barycenter(cluster_k_distributions, p=2)
 
             else:
-                print(f"Warning: Cluster {k} became empty. Reinitializing.")
+                #print(f"Warning: Cluster {k} became empty. Reinitializing.")
                 # Standard k-means fallback: pick a new random point if a cluster dies
                 centroids[k] = projected_emp_dist[random.randint(0, M-1)]
 
@@ -389,7 +389,7 @@ def sliced_wasserstein_clustering_conv_loop_opt(projected_emp_dist, K, M, L, eps
                 centroids[k] = [ProjectedDistribution(barycenter_matrix[l]) for l in range(L)]
 
             else:
-                print(f"Warning: Cluster {k} became empty. Reinitializing.")
+                #print(f"Warning: Cluster {k} became empty. Reinitializing.")
                 centroids[k] = projected_emp_dist[random.randint(0, M-1)]
 
     return projected_emp_dist, centroids, labels
@@ -553,6 +553,8 @@ def choose_label(best_centroids, best_labels,metric, K):
         dic_mean_cvar[k] = cvar
 
     if (K == 2):
+
+        # What other metrics can I choose ? 
         if metric == "CVaR":
             # Associate 0 to the cluster with the min CVaR and 1 the cluster with the max CVaR
             if dic_mean_cvar[0] > dic_mean_cvar[1]:

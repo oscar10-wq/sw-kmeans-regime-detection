@@ -185,7 +185,7 @@ def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
 
-def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False):
+def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False, tau=None):
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
@@ -247,7 +247,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
 
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
 
-        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(projected_emp, centroids, labels, lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight)
+        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(projected_emp, centroids, labels, lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau)
         
         if not live_plot:
             if debug:
