@@ -160,36 +160,28 @@ def _se_delta(v, Psi, T):
 # Studentized circular block bootstrap  (Section 3.2.2)
 # =============================================================================
 
-def _circular_block_resample(data, b):
-    """Circular block bootstrap resample of a T × d array with block size b."""
-    T, d = data.shape
+def _circular_block_resample(data, b, rng):
+    """Vectorised circular block bootstrap — no Python loops."""
+    T, d     = data.shape
     n_blocks = int(np.ceil(T / b))
-    indices = []
-    for _ in range(n_blocks):
-        start = np.random.randint(0, T)
-        block = [(start + j) % T for j in range(b)]
-        indices.extend(block)
-    return data[np.array(indices[:T])]
+    starts   = rng.integers(0, T, size=n_blocks)
+    offsets  = np.arange(b)
+    indices  = (starts[:, None] + offsets[None, :]) % T
+    return data[indices.ravel()[:T]]
 
 
 def _bootstrap_se(ri_star, rn_star, b):
-    """Bootstrap standard error using the block-variance estimator of
-    Götze & Künsch (1996), as described in Section 3.2.2."""
-    T = len(ri_star)
-    v_star = _v_hat(ri_star, rn_star)
-    Y_star = _y_matrix(ri_star, rn_star, v_star)
-    l = T // b
+    """Bootstrap SE with vectorised block means."""
+    T        = len(ri_star)
+    v_star   = _v_hat(ri_star, rn_star)
+    Y_star   = _y_matrix(ri_star, rn_star, v_star)
+    l        = T // b
     if l < 2:
-        # fallback to HAC on bootstrap sample
         Psi_star = _hac_psi(Y_star, prewhiten=False)
         return _se_delta(v_star, Psi_star, T)
-    # block means
-    phi = np.zeros((l, 4))
-    for j in range(l):
-        phi[j] = Y_star[j * b:(j + 1) * b].sum(axis=0) / np.sqrt(b)
+    phi      = Y_star[:l * b].reshape(l, b, 4).sum(axis=1) / np.sqrt(b)
     Psi_star = phi.T @ phi / l
     return _se_delta(v_star, Psi_star, T)
-
 
 # =============================================================================
 # Block-size calibration  (Algorithm 3.1)
@@ -232,7 +224,7 @@ def _fit_var1_and_resample(ri, rn, T_out, rng):
 def _calibrate_block_size(ri, rn, block_sizes, alpha=0.05, K=500, M_cal=499, seed=42):
     """Algorithm 3.1 — estimate the coverage function g(b) and return the
     block size closest to nominal 1-α coverage."""
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng(seed)   # single Generator for the entire calibration
     T = len(ri)
     delta_hat = _delta_sharpe(_v_hat(ri, rn))
     coverage = {}
@@ -241,39 +233,39 @@ def _calibrate_block_size(ri, rn, block_sizes, alpha=0.05, K=500, M_cal=499, see
         hits = 0
         for k in range(K):
             ri_pseudo, rn_pseudo = _fit_var1_and_resample(ri, rn, T, rng)
-            v_pseudo = _v_hat(ri_pseudo, rn_pseudo)
+            v_pseudo    = _v_hat(ri_pseudo, rn_pseudo)
             delta_pseudo = _delta_sharpe(v_pseudo)
-            Y_pseudo = _y_matrix(ri_pseudo, rn_pseudo, v_pseudo)
-            Psi_pseudo = _hac_psi(Y_pseudo, prewhiten=True)
-            se_pseudo = _se_delta(v_pseudo, Psi_pseudo, T)
+            Y_pseudo    = _y_matrix(ri_pseudo, rn_pseudo, v_pseudo)
+            Psi_pseudo  = _hac_psi(Y_pseudo, prewhiten=True)
+            se_pseudo   = _se_delta(v_pseudo, Psi_pseudo, T)
             if se_pseudo < 1e-14:
                 continue
             d_orig = abs(delta_pseudo) / se_pseudo
 
-            # bootstrap world
             data_pseudo = np.column_stack([ri_pseudo, rn_pseudo])
             count_ge = 0
             for m in range(M_cal):
-                star = _circular_block_resample(data_pseudo, b)
+                # ← pass rng here — fixes the TypeError
+                star       = _circular_block_resample(data_pseudo, b, rng)
                 ri_s, rn_s = star[:, 0], star[:, 1]
-                v_s = _v_hat(ri_s, rn_s)
-                delta_s = _delta_sharpe(v_s)
-                se_s = _bootstrap_se(ri_s, rn_s, b)
+                v_s        = _v_hat(ri_s, rn_s)
+                delta_s    = _delta_sharpe(v_s)
+                se_s       = _bootstrap_se(ri_s, rn_s, b)
                 if se_s < 1e-14:
                     continue
                 d_star = abs(delta_s - delta_pseudo) / se_s
                 if d_star >= d_orig:
                     count_ge += 1
+
             pv = (count_ge + 1) / (M_cal + 1)
             if pv > alpha:
                 hits += 1
+
         coverage[b] = hits / K
         print(f"  block size b={b:>2d}  →  coverage = {coverage[b]:.4f}  (target = {1 - alpha:.2f})")
 
-    # pick b minimising |coverage - (1-alpha)|
     best_b = min(block_sizes, key=lambda b: abs(coverage[b] - (1 - alpha)))
     return best_b, coverage
-
 
 # =============================================================================
 # Public API
@@ -343,69 +335,49 @@ def ledoit_wolf_test(returns_i, returns_n,
     }
 
     # --- HAC inference ---
-    if method in ("hac", "both"):
-        Y = _y_matrix(ri, rn, v)
-        Psi = _hac_psi(Y, prewhiten=True)
-        se = _se_delta(v, Psi, T)
-        if se > 0:
-            z = abs(delta) / se
-            pval = 2 * norm.sf(z)
-        else:
-            pval = np.nan
-        results["hac_se"] = se
-        results["hac_pval"] = pval
-
-    # --- Bootstrap inference ---
+    # Inside ledoit_wolf_test, replace the bootstrap block with:
     if method in ("boot", "both"):
         if block_sizes is None:
             block_sizes = [1, 2, 4, 6, 8, 10]
 
         if calibrate:
-            print("Running block-size calibration (this may take a while)...")
+            print("Running block-size calibration...")
             best_b, cov_fn = _calibrate_block_size(
                 ri, rn, block_sizes, alpha=alpha,
                 K=K_calibration, M_cal=M_calibration, seed=seed
             )
-            print(f"Optimal block size: b = {best_b}")
             results["calibration_coverage"] = cov_fn
         else:
             best_b = max(block_sizes)
 
         results["boot_block_size"] = best_b
 
-        # Original studentized statistic
-        Y = _y_matrix(ri, rn, v)
-        Psi = _hac_psi(Y, prewhiten=True)
+        # — compute original studentized statistic once —
+        Y       = _y_matrix(ri, rn, v)
+        Psi     = _hac_psi(Y, prewhiten=True)
         se_orig = _se_delta(v, Psi, T)
-        d_orig = abs(delta) / se_orig if se_orig > 0 else 0.0
+        d_orig  = abs(delta) / se_orig if se_orig > 0 else 0.0
 
-        data = np.column_stack([ri, rn])
-        rng = np.random.default_rng(seed + 1)
+        data_arr = np.column_stack([ri, rn])
+        rng      = np.random.default_rng(seed + 1)   # single Generator, no legacy mixing
 
-        d_stars = np.zeros(n_bootstrap)
+        d_stars     = np.zeros(n_bootstrap)
         delta_stars = np.zeros(n_bootstrap)
-        se_stars = np.zeros(n_bootstrap)
+        se_stars    = np.zeros(n_bootstrap)
 
         for m in range(n_bootstrap):
-            np.random.seed(rng.integers(0, 2 ** 31))
-            star = _circular_block_resample(data, best_b)
-            ri_s, rn_s = star[:, 0], star[:, 1]
-            v_s = _v_hat(ri_s, rn_s)
-            delta_s = _delta_sharpe(v_s)
-            se_s = _bootstrap_se(ri_s, rn_s, best_b)
+            star          = _circular_block_resample(data_arr, best_b, rng)  # vectorised
+            ri_s, rn_s    = star[:, 0], star[:, 1]
+            v_s           = _v_hat(ri_s, rn_s)
+            delta_s       = _delta_sharpe(v_s)
+            se_s          = _bootstrap_se(ri_s, rn_s, best_b)                # vectorised
             delta_stars[m] = delta_s
-            se_stars[m] = se_s
-            if se_s > 1e-14:
-                d_stars[m] = abs(delta_s - delta) / se_s
-            else:
-                d_stars[m] = 0.0
+            se_stars[m]    = se_s
+            d_stars[m]     = abs(delta_s - delta) / se_s if se_s > 1e-14 else 0.0
 
-        # p-value (Remark 3.2, Eq. 9)
-        pval_boot = (np.sum(d_stars >= d_orig) + 1) / (n_bootstrap + 1)
-        results["boot_pval"] = pval_boot
-
-        # Confidence interval (Eq. 7)
-        q = np.quantile(d_stars, 1 - alpha)
+        pval_boot              = (np.sum(d_stars >= d_orig) + 1) / (n_bootstrap + 1)
+        q                      = np.quantile(d_stars, 1 - alpha)
+        results["boot_pval"]   = pval_boot
         results["boot_ci_lower"] = delta - q * se_orig
         results["boot_ci_upper"] = delta + q * se_orig
 
