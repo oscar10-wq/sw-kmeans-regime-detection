@@ -9,7 +9,8 @@ import matplotlib.colors as mcolors
 import matplotlib.cm as cm
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import confusion_matrix
-
+from sklearn.cross_decomposition import PLSRegression
+from sklearn.preprocessing import StandardScaler
 
 
 def convert_prediction(N, labels, h1, h2):
@@ -417,3 +418,44 @@ def display_results(N_C,results, liste_L, liste_h1_h2, types):
     plt.show()
     return 
     
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def compute_vip(pls_model, X):
+    """
+    Compute Variable Importance in Projection (VIP) scores for a fitted PLSRegression model.
+    
+    Parameters:
+        pls_model : fitted sklearn PLSRegression
+        X         : input feature matrix (numpy array or DataFrame)
+    
+    Returns:
+        vip_scores : np.array of shape (n_features,)
+    """
+    # W: weights matrix (n_features x n_components)
+    W = pls_model.x_weights_          # shape: (n_features, n_components)
+    T = pls_model.x_scores_           # shape: (n_samples,  n_components)
+    Q = pls_model.y_loadings_         # shape: (n_targets,  n_components)
+
+    n_features   = W.shape[0]
+    n_components = W.shape[1]
+
+    # Variance of Y explained by each component
+    # SS_col[h] = (t_h' t_h) * (q_h' q_h)
+    SS = np.array([
+        (T[:, h] @ T[:, h]) * (Q[:, h] @ Q[:, h])
+        for h in range(n_components)
+    ])                                 # shape: (n_components,)
+
+    SS_total = SS.sum()
+
+    # Normalized squared weights per feature per component
+    W_norm = (W ** 2) / (W ** 2).sum(axis=0)   # shape: (n_features, n_components)
+
+    # VIP = sqrt( n_features * sum_h[ SS_h * w_norm_jh ] / SS_total )
+    vip_scores = np.sqrt(
+        n_features * (W_norm @ SS) / SS_total
+    )
+
+    return vip_scores
