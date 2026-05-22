@@ -88,6 +88,8 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
             print("---" * 10)
     return np.array(portfolio_value), trade_signals, cum_pnl
 
+
+# majority_lookback = 7 !! 
 def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
     """
     Similar to long_strat_unifort
@@ -185,7 +187,7 @@ def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
 
-def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False, tau=None):
+def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False, tau=None, tau_gradient=None):
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
@@ -247,7 +249,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
 
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
 
-        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(projected_emp, centroids, labels, lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau)
+        proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(projected_emp, centroids, labels, lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient)
         
         if not live_plot:
             if debug:
@@ -405,7 +407,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
     return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
 
 
-def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", live_plot=False):
+def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", live_plot=False, tau=None, tau_gradient=None):
     """
     Similar to long_strat_implied but uses S_label for regime detection and S_trade for trading.
     This allows us to test the strategy on one dataset while using another for regime inference.
@@ -453,7 +455,7 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
 
         proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(
             projected_emp, centroids, labels,
-            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight
+            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient
         )
 
         if debug:
@@ -531,7 +533,8 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
                       lookback=5, use_gradient=False, gradient_weight=0.3,
                       entry_threshold=0.15, hold_threshold=0.10,
                       adaptive_lookback=3,  # how many past windows to evaluate
-                      softmax_temperature=10.0):  # controls how aggressive weighting is
+                      softmax_temperature=10.0, 
+                      tau=None, tau_gradient=None):  # controls how aggressive weighting is
     
     epsilon = 1e-6
 
@@ -586,7 +589,7 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
         )
         proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(
             projected_emp, centroids, labels,
-            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight
+            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient
         )
 
         current_regime = np.bincount(labels[-majority_lookback:]).argmax() \
@@ -713,7 +716,7 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
                                  K=2, metric="CVaR", majority_lookback=7, weighting="inverse_vol",
                                  ensemble_weights=None, lookback=5, use_gradient=False, gradient_weight=0.3,
                                  entry_threshold=0.15, hold_threshold=0.10,
-                                 adaptive_lookback=3, softmax_temperature=10.0, debug=False):
+                                 adaptive_lookback=3, softmax_temperature=10.0, tau=None, tau_gradient=None, debug=False):
 
     epsilon = 1e-6
 
@@ -768,7 +771,7 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
         )
         proba_matrix, switch_proba, transition_matrix, posterior = ws.compute_implied_proba(
             projected_emp, centroids, labels,
-            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight
+            lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient
         )
 
         current_regime = np.bincount(labels[-majority_lookback:]).argmax() \

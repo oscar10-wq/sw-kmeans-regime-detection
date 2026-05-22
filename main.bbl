@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{BonnierKidger2019}
+Patric Bonnier, Patrick Kidger, Imanol~Perez Arribas, Cristopher Salvi, and Terry Lyons.
+\newblock Deep signature transforms.
+\newblock {\em arXiv preprint arXiv:1905.08494}, 2019.
+
 \bibitem{HorvathEtAl2024}
 B.~Horvath, A.~Muguruza, and M.~Tomas.
 \newblock Wasserstein k-means for clustering distributions.

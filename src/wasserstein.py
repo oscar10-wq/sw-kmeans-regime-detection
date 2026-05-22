@@ -496,7 +496,7 @@ def max_mccd_unifortho_sim(N_S, S, K, L, epsilon, h1, h2, metric = "CVaR"):
     best_labels = None
     for sim in range(N_S):
         _, centroids, labels = sliced_wasserstein_clustering_conv_loop_opt(projected_emp_dist, K, M, L, epsilon)
-        #print(f"Simulation {sim + 1}/{N_S} completed. Evaluating accuracy...")
+        print(f"Simulation {sim + 1}/{N_S} completed. Evaluating accuracy...")
         mccd = mt.mean_centroid_centroid_distance(centroids, K, p=2)
         if mccd > best_mccd:
             best_mccd = mccd
@@ -592,7 +592,7 @@ def choose_label(best_centroids, best_labels,metric, K):
 
 
 
-def compute_implied_proba(projected_emp_dist, centroids, labels, tau=None, lookback=5, use_gradient=False, gradient_weight=0.3):
+def compute_implied_proba(projected_emp_dist, centroids, labels, tau=None, tau_gradient = None, lookback=5, use_gradient=False, gradient_weight=0.3):
     """
     Computes implied regime probabilities for each lifted sample,
     with a focused "switch signal" for the most recent sample.
@@ -680,7 +680,11 @@ def compute_implied_proba(projected_emp_dist, centroids, labels, tau=None, lookb
 
         # Normalize into a probability-like vector via softmax
         gradient_signal -= gradient_signal.max()
-        gradient_proba = np.exp(gradient_signal / tau)
+        if tau_gradient is None:
+            tau_gradient = 0.5 * np.std(gradient_signal) if np.std(gradient_signal) > 0 else 1.0 #this for now but to be changed
+
+    
+        gradient_proba = np.exp(gradient_signal / tau_gradient)
         gradient_proba /= (gradient_proba.sum() + 1e-12)  # avoid division by zero
 
         # Blend: posterior = (1 - w) * bayesian_posterior + w * gradient_signal
