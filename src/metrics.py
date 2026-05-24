@@ -418,10 +418,6 @@ def display_results(N_C,results, liste_L, liste_h1_h2, types):
     plt.show()
     return 
     
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
 def compute_vip(pls_model, X):
     """
     Compute Variable Importance in Projection (VIP) scores for a fitted PLSRegression model.
@@ -459,3 +455,13 @@ def compute_vip(pls_model, X):
     )
 
     return vip_scores
+
+def results_to_matrix(results_dict, tau_list, tau_gradient_list):
+    mat = np.zeros((len(tau_list), len(tau_gradient_list)))
+    for i, t in enumerate(tau_list):
+        for j, tg in enumerate(tau_gradient_list):
+            tk  = "mean_distance" if t  is None else t
+            tgk = "mean_distance" if tg is None else tg
+            val = results_dict.get((tk, tgk))
+            mat[i, j] = np.nan if val is None else float(val)
+    return mat

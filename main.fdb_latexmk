@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1779488337.34753 "main.aux" "main.bbl" "main" 1779488337.45333 0
+["bibtex main"] 1779621020.84492 "main.aux" "main.bbl" "main" 1779621082.92515 0
   "./main.bib" 1779488337.11503 1863 851d5c4dc9fad4f84a9764d8977dea27 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1779488201.57727 5992 f967950446a51afa37d8da68b314c6ef "pdflatex"
+  "main.aux" 1779621082.61893 6410 1acafe8d47ad49ece980a62679858f08 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1779488201.11321 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1779488337.45337 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1779488199.82533 28836 ce1611c15c25abd395f3057ccbfe9811 ""
+["pdflatex"] 1779621082.15118 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1779621082.92529 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1779621081.91499 31089 73e3d51c16eb67990b9fca19dab42c6e ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -86,6 +86,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1248133631 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb" 1248133631 39386 0bb525d495ceab21fe797301a586e0d7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb" 1248133631 35309 940e81a5b9e04201a07e8b33a3ae6e64 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbi1000.pfb" 1215737283 193571 dce9a978093738902238b3e227edef6c ""
@@ -145,9 +146,9 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1747757462 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1747757358 3345732 bf2d039a444dadce9876abadfbef8f88 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "main.aux" 1779488201.57727 5992 f967950446a51afa37d8da68b314c6ef "pdflatex"
-  "main.bbl" 1779488337.45072 1127 ad0565598afabb8f9add54e95cc17c16 "bibtex main"
-  "main.tex" 1779488199.82533 28836 ce1611c15c25abd395f3057ccbfe9811 ""
+  "main.aux" 1779621082.61893 6410 1acafe8d47ad49ece980a62679858f08 "pdflatex"
+  "main.bbl" 1779621020.93084 1518 394864e997a81e4ea16835ed015af850 "bibtex main"
+  "main.tex" 1779621081.91499 31089 73e3d51c16eb67990b9fca19dab42c6e ""
   (generated)
   "main.aux"
   "main.log"

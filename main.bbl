@@ -20,6 +20,11 @@ Qinmeng Luan and James Hamp.
 \newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
 \newblock {\em Data Science in Finance and Economics}, 5(3):387--418, 2025.
 
+\bibitem{RowlandEtAl2019}
+Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and Adrian Weller.
+\newblock Orthogonal estimation of {W}asserstein distances.
+\newblock In {\em Proceedings of the 22nd International Conference on Artificial Intelligence and Statistics (AISTATS)}, volume~89 of {\em Proceedings of Machine Learning Research}, pages 186--195. PMLR, 2019.
+
 \bibitem{PetrovicBardenetDesolneux2025}
 R{\'e}mi~Bardenet Vladimir~Petrovic and Agn{\`e}s Desolneux.
 \newblock Repulsive monte carlo on the sphere for the sliced wasserstein distance.

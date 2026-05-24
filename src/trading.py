@@ -5,9 +5,9 @@ import src.wasserstein as ws
 import src.metrics as mt
 import matplotlib.pyplot as plt
 
-debug = False
+debug = True 
 
-def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
+def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol", half_life=10):
     """
     Implements a rolling regime-based trading strategy.
     Input: 
@@ -41,7 +41,6 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
     num_steps = math.floor(len(S) / window_size)
 
     for i in range(num_steps - 1):
-        
         start_idx = i * window_size
         end_idx = (i + 1) * window_size
         week_data = S.iloc[start_idx:end_idx, :]
@@ -57,10 +56,15 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
         
         if majority_lookback > len(labels):
-            current_regime = np.bincount(labels).argmax()
+            #current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
         else:
-            current_regime = np.bincount(labels[-majority_lookback:]).argmax()
-        
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+        current_regime = weighted_counts.argmax()
+
         if current_regime == 1:
             signal = 1
             if debug:
@@ -90,7 +94,7 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
 
 
 # majority_lookback = 7 !! 
-def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol"):
+def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol", half_life=10):
     """
     Similar to long_strat_unifort
     ho but uses S_label for regime detection and S_trade for trading.
@@ -136,9 +140,15 @@ def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h
         projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, week_data, K, L, epsilon, h1, h2, metric)
         
         if majority_lookback > len(labels):
-            current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
+            #current_regime = np.bincount(labels).argmax()
         else:
-            current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+        current_regime = weighted_counts.argmax()
 
         trade_signals.append(current_regime)
 
@@ -187,7 +197,7 @@ def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
 
-def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", live_plot=False, tau=None, tau_gradient=None):
+def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", majority_lookback= 20, half_life=10, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", tau=None, tau_gradient=None, live_plot=False):
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
@@ -263,7 +273,19 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
         for m in range(start_idx, end_idx):
             switch_proba_history.append(switch_proba)
 
-        current_regime = np.bincount(labels[-h2:]).argmax()
+        #current_regime = np.bincount(labels[-h2:]).argmax()
+        if majority_lookback > len(labels):
+            #current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
+        else:
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+
+        current_regime = weighted_counts.argmax()
+
+
 
         if signal_type == "continuous":
             signal = posterior[1] - posterior[0]
@@ -407,7 +429,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
     return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
 
 
-def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", live_plot=False, tau=None, tau_gradient=None):
+def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", majority_lookback= 20, half_life=10, entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", tau=None, tau_gradient=None, live_plot=False):
     """
     Similar to long_strat_implied but uses S_label for regime detection and S_trade for trading.
     This allows us to test the strategy on one dataset while using another for regime inference.
@@ -469,7 +491,18 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
         for m in range(start_idx, end_idx):
             switch_proba_history.append(switch_proba)
 
-        current_regime = np.bincount(labels[-h2:]).argmax()
+        #current_regime = np.bincount(labels[-h2:]).argmax()
+        if majority_lookback > len(labels):
+            #current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
+        else:
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+        current_regime = weighted_counts.argmax()
+        
+
 
         if signal_type == "continuous":
             signal = posterior[1] - posterior[0]
@@ -530,11 +563,11 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
                       K=2, metric="CVaR", majority_lookback=7, 
                       weighting="inverse_vol",
                       ensemble_weights=None,  # None = adaptive
-                      lookback=5, use_gradient=False, gradient_weight=0.3,
-                      entry_threshold=0.15, hold_threshold=0.10,
+                      lookback=5, use_gradient=False, gradient_weight=0.5,
+                      entry_threshold=0.28, hold_threshold=0.31,
                       adaptive_lookback=3,  # how many past windows to evaluate
-                      softmax_temperature=10.0, 
-                      tau=None, tau_gradient=None):  # controls how aggressive weighting is
+                      softmax_temperature=10.0, # controls how aggressive weighting is  
+                      tau=None, tau_gradient=None, half_life=10):  
     
     epsilon = 1e-6
 
@@ -592,9 +625,18 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
             lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient
         )
 
-        current_regime = np.bincount(labels[-majority_lookback:]).argmax() \
-            if majority_lookback <= len(labels) else np.bincount(labels).argmax()
 
+
+        if majority_lookback > len(labels):
+            #current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
+        else:
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+        current_regime = weighted_counts.argmax()
+        
         # === ALGO 1: Unifortho ===
         signal_unifortho = 1.0 if current_regime == 1 else -1.0
 
@@ -774,10 +816,18 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
             lookback=lookback, use_gradient=use_gradient, gradient_weight=gradient_weight, tau=tau, tau_gradient=tau_gradient
         )
 
-        current_regime = np.bincount(labels[-majority_lookback:]).argmax() \
-            if majority_lookback <= len(labels) else np.bincount(labels).argmax()
+        if majority_lookback > len(labels):
+            #current_regime = np.bincount(labels).argmax()
+            recent_labels = labels
+        else:
+            #current_regime = np.bincount(labels[-majority_lookback:]).argmax()
+            recent_labels = labels[-majority_lookback:]
+        weights = np.array([np.exp(-np.log(2) / half_life * (len(recent_labels) - 1 - k)) for k in range(len(recent_labels))])
+        weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
+        current_regime = weighted_counts.argmax()
+        
 
-        # === ALGO 1: Unifortho ===
+         # === ALGO 1: Unifortho ===
         signal_unifortho = 1.0 if current_regime == 1 else -1.0
 
         # === ALGO 2: Hysteresis ===
@@ -963,3 +1013,50 @@ def expanding_sharpe(pv_array, dates, rf=0, obs_per_day=1, min_periods=20):
     sharpe = (expanding_mean - rf) / expanding_std.clip(lower=1e-8)
 
     return sharpe
+
+def compute_hit_ratio(portfolio_values, trade_signals):
+    pv = np.array(portfolio_values)
+    ts = np.array(trade_signals)
+
+    wins, losses = 0, 0
+    entry_value  = pv[0]  # always in a trade from the start
+
+    for i in range(1, len(ts)):
+        # Exit + re-entry on every sign change
+        if np.sign(ts[i]) != np.sign(ts[i-1]):
+            if pv[i] > entry_value:
+                wins += 1
+            else:
+                losses += 1
+            entry_value = pv[i]  # re-enter immediately
+
+    # Close the final open trade
+    if pv[-1] > entry_value:
+        wins += 1
+    else:
+        losses += 1
+
+    total = wins + losses
+    return (wins / total * 100) if total > 0 else np.nan
+
+
+def compute_win_loss_ratio(portfolio_values, trade_signals):
+    pv = np.array(portfolio_values)
+    ts = np.array(trade_signals)
+
+    wins_pnl, losses_pnl = [], []
+    entry_value = pv[0]
+
+    for i in range(1, len(ts)):
+        if np.sign(ts[i]) != np.sign(ts[i-1]):
+            trade_pnl = pv[i] - entry_value
+            (wins_pnl if trade_pnl > 0 else losses_pnl).append(abs(trade_pnl))
+            entry_value = pv[i]
+
+    # Final open trade
+    trade_pnl = pv[-1] - entry_value
+    (wins_pnl if trade_pnl > 0 else losses_pnl).append(abs(trade_pnl))
+
+    avg_win  = np.mean(wins_pnl)   if wins_pnl   else 0.0
+    avg_loss = np.mean(losses_pnl) if losses_pnl else np.nan
+    return avg_win / avg_loss if avg_loss and avg_loss > 0 else np.nan

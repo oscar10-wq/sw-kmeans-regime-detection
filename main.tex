@@ -108,7 +108,10 @@ Given two distributions $\mu, \nu \in \mathcal{P}(\mathbb{R}^d)$ with $d>1$, the
 \mathcal{\bar{W}}_p(\mu, \nu) = \int_{\mathbb{S}^{d-1}} \mathcal{W}_p(\mu'(\theta), \nu'(\theta)) d\theta
 \end{equation}
 with $\mathcal{W}_p(\mu'(\theta), \nu'(\theta))$ the Wasserstein distance in d=1 between the projected empirical measures $\mu'(\theta)$ and $\nu'(\theta)$ on the direction $\theta$. \cite{LuanHamp2025}
-
+In Rowland et. al (2019) \cite{RowlandEtAl2019}, from which we adopt the unifortho variant, the sliced Wasserstein metric is defined slightly differently as: 
+\begin{equation}
+\mathcal{\bar{W}}_p(\mu, \nu) = \left( \int_{\mathbb{S}^{d-1}} \mathcal{W}_p^p(\mu'(\theta), \nu'(\theta)) d\theta \right)^{1/p}
+\end{equation}
 
 \paragraph{Definition: The sliced Wasserstein Barycenter}
 
@@ -355,13 +358,17 @@ $n \leftarrow \lfloor T / w \rfloor$\;
     $\hat{F},\; \boldsymbol{\mu},\; \boldsymbol{\lambda} \leftarrow \textsc{MaxMCCD\_UnifOrtho}(N_S,\, W,\, K,\, L,\, \varepsilon,\, h_1,\, h_2,\, m)$\;
  
     \BlankLine
-    \Comment{Step 2 --- Majority-vote regime classification}
+    \Comment{Step 2 --- Exponentially weighted regime classification}
     \eIf{$\ell > |\boldsymbol{\lambda}|$}{
-        $\hat{k} \leftarrow \arg\max_k \;\text{count}(\boldsymbol{\lambda} = k)$\;
+        $\tilde{\boldsymbol{\lambda}} \leftarrow \boldsymbol{\lambda}$\;
     }{
-        $\hat{k} \leftarrow \arg\max_k \;\text{count}(\boldsymbol{\lambda}_{[-\ell:]} = k)$\;
+        $\tilde{\boldsymbol{\lambda}} \leftarrow \boldsymbol{\lambda}_{[-\ell:]}$\;
     }
- 
+    \For{$k = 0, 1, \ldots, |\tilde{\boldsymbol{\lambda}}| - 1$}{
+        $w_k \leftarrow \exp\!\left(-\dfrac{\ln 2}{\tau}\,(|\tilde{\boldsymbol{\lambda}}| - 1 - k)\right)$\;
+    }
+    $\hat{k} \leftarrow \arg\max_k \sum_{i=0}^{|\tilde{\boldsymbol{\lambda}}|-1} w_i \,\mathbf{1}\!\left[\tilde{\lambda}_i = k\right]$\;
+
     \BlankLine
     \Comment{Step 3 --- Generate binary signal}
     \eIf{$\hat{k} = 1$}{
@@ -464,7 +471,34 @@ No significant statistically difference in sharpe ratios betweent the trading st
 
 
 \subsection{Tuning the hyperparameters for the trading strategies}
-Tested multiple values for the hyperparameters of the trading strategies, such as the entry and hold
+Tested multiple values for the hyperparameters of the trading strategies, such as the number of projection vectors L, the entry and hold thresholds, the half-life parameter for the exponentially weighted majority voting scheme, the weights for the ensemble methods and the gradient weight for the implied probability strategy with gradient.
+
+\paragraph{Definition: Hit Ratio}
+The hit ratio is defined as follows: 
+\begin{equation}
+    \text{Hit Ratio} = \frac{\text{Number of profitable trades}}{\text{Total number of trades}} \times 100
+\end{equation}
+We use the hit ratio as a performance metric to evaluate the effectiveness of the trading strategies specifically when evaluate the different parameters for tau, or the different parameters for the half-life. A higher hit ratio indicates a higher proportion of profitable trades, which is desirable for a successful trading strategy.
+
+\paragraph{Definition: Win/Loss Ratio}
+The win/loss ratio is defined as follows:
+\begin{equation}
+    \text{Win/Loss Ratio} = \frac{\text{Average profit of winning trades}}{\text{Average loss of losing trades}}
+\end{equation}
+We will also be using this metric to evaluate the performance of the trading strategies. 
+
+
+\subsection{Tuning the half-life parameter for the Long-Strat Unifortho Strategy}
+Tested multiple values for the half-life parameter $\tau$ in the exponentially weighted majority voting scheme for the Ensemble method with equally weighted signals.
+The values tested are the following
+\begin{equation}
+    \tau \in \{1.0, 3.0, 5.0, 10.0,20.0\}
+\end{equation}
+
+Optimal value tested indicates that the half-life parameter at $10$ is optimal in terms of Win/Loss ratio.  
+
+
+
 \subsubsection{Tuning the weights for ensemble methods}
 
 Tested multiple combination of weights for the ensemble methods, which combines the binary regime long/short stratey and the implied probability strategy with different variations (hysteresis, continuous, conviction).
@@ -498,8 +532,8 @@ We could also thinkg that $\mathbb{P}_{Bayers}$ and $\mathbb{P}_{Grad}$ are not 
 
 \subsubsection{Tuning the temperature parameter $\tau$ and $\tau_{grad}$ for the implied probability strategy}
 Peformed grid search for $\tau$ taken as adaptative to the switch probability as well as for $\tau_{grad}$ taken as adaptative to the gradient values.
-The optimal values for $\tau$ and $\tau_{grad}$ are determined based on the highest Sharpe ratio achieved during the backtesting period. 
-For the American equity data, we have determined that the optimal value for $\tau$ is 0.01 and the optimal value for $\tau_{grad}$ is 0.01.
+The optimal values for $\tau$ and $\tau_{grad}$ are determined based on the highest hit ratio achieved during the backtesting period (2006-2020). 
+For the American equity data, we have determined that the optimal value for the couple $(\tau, \tau_{grad})$ must be around $(0.5, 0.1)$ overall based on all the trading strategies. 
 
 \section{Experiment 5: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}
 
