@@ -629,6 +629,7 @@ def compute_implied_proba(projected_emp_dist, centroids, labels, tau=None, tau_g
     diff_sq = (X[:, None, :, :] - C[None, :, :, :]) ** 2
     dist_matrix = np.mean(np.sqrt(np.mean(diff_sq, axis=3)), axis=2)
 
+
     # --- Step 2: Calibrate temperature if not provided ---
     if tau is None:
         # Use half the mean inter-centroid distance as default
@@ -654,7 +655,6 @@ def compute_implied_proba(projected_emp_dist, centroids, labels, tau=None, tau_g
     row_sums[row_sums == 0] = 1  # avoid division by zero
     transition_matrix /= row_sums
 
-    
     
     # --- Step 5: Bayesian combination for the latest sample ---
     current_regime = labels[-1]

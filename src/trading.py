@@ -5,7 +5,7 @@ import src.wasserstein as ws
 import src.metrics as mt
 import matplotlib.pyplot as plt
 
-debug = True 
+debug = True
 
 def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol", half_life=10):
     """
@@ -197,7 +197,7 @@ def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
 
 
-def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", majority_lookback= 20, half_life=10, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", tau=None, tau_gradient=None, live_plot=False):
+def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_date = None, end_date = None, K=2, metric="CVaR", signal_type="conviction", majority_lookback= 20, half_life=10, entry_threshold=0.11, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting = "inverse_vol", tau=None, tau_gradient=None, live_plot=False):
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
@@ -285,8 +285,6 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
 
         current_regime = weighted_counts.argmax()
 
-
-
         if signal_type == "continuous":
             signal = posterior[1] - posterior[0]
             dead_zone = 0.1
@@ -316,7 +314,6 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
                     #signal = 0
         if signal_type == "conviction":
             regime_direction = 1 if current_regime == 1 else -1
-
             conviction = 1.0 - 1.5 * switch_proba # more agressive scalling of conviction
             #conviction = 1.0 - 2.0 * switch_proba
             signal = regime_direction * conviction
@@ -336,6 +333,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, start_da
             period_return = signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
+            print(f'period return is {period_return} with signal {signal} -> new portfolio value: {new_value}')
             cum_pnl.append(new_value - initial_capital)
         
         # === Live plot update ===
@@ -459,12 +457,11 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
     switch_proba_history = []
 
     for i in range(num_steps - 1):
-
         start_idx = i * window_size
         end_idx = (i + 1) * window_size
         week_data = S_label.iloc[start_idx:end_idx, :]
         
-        if debug:
+        if not debug:
             print(f'Analyzing Regime from {S_label.index[start_idx]} to {S_label.index[end_idx - 1]} with {len(week_data)} data points.')
 
         if len(week_data) <= h1:
@@ -541,6 +538,9 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
             print(f"Final signal: {signal}")
 
         # PnL computed on S_trade returns
+
+        if not debug:
+            print(f"Applying the signal on week S_trade returns from {S_trade.index[end_idx]} to {S_trade.index[end_idx + window_size - 1]}")
         next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
 
         for ret in next_week_returns:
@@ -1023,13 +1023,24 @@ def compute_hit_ratio(portfolio_values, trade_signals):
 
     for i in range(1, len(ts)):
         # Exit + re-entry on every sign change
-        if np.sign(ts[i]) != np.sign(ts[i-1]):
+        if ts[i-1] == 0 and ts[i-1]:
+            if ts[i]==0:
+                entry_value = pv[i]  
+                continue
+            else:
+                if pv[i] > entry_value:
+                    wins += 1
+                else:
+                    losses += 1
+                entry_value = pv[i]  # re-enter immediately
+            
+
+        elif np.sign(ts[i]) != np.sign(ts[i-1]):
             if pv[i] > entry_value:
                 wins += 1
             else:
                 losses += 1
             entry_value = pv[i]  # re-enter immediately
-
     # Close the final open trade
     if pv[-1] > entry_value:
         wins += 1
@@ -1048,7 +1059,18 @@ def compute_win_loss_ratio(portfolio_values, trade_signals):
     entry_value = pv[0]
 
     for i in range(1, len(ts)):
-        if np.sign(ts[i]) != np.sign(ts[i-1]):
+        if ts[i-1] == 0:
+            if ts[i]==0:
+                entry_value = pv[i]
+                continue
+            else: 
+                trade_pnl = pv[i]- entry_value 
+                (wins_pnl if trade_pnl > 0 else losses_pnl).append(abs(trade_pnl))
+                entry_value = pv[i]
+        
+        #if ts[i] == 0 and ts[i-1]!= 0 does not exist in the case of hysteresis 
+
+        elif np.sign(ts[i]) != np.sign(ts[i-1]):
             trade_pnl = pv[i] - entry_value
             (wins_pnl if trade_pnl > 0 else losses_pnl).append(abs(trade_pnl))
             entry_value = pv[i]
@@ -1060,3 +1082,28 @@ def compute_win_loss_ratio(portfolio_values, trade_signals):
     avg_win  = np.mean(wins_pnl)   if wins_pnl   else 0.0
     avg_loss = np.mean(losses_pnl) if losses_pnl else np.nan
     return avg_win / avg_loss if avg_loss and avg_loss > 0 else np.nan
+
+
+def compute_trade_stats(portfolio_values, trade_signals):
+    pv = np.asarray(portfolio_values, dtype=float)
+    ts = np.asarray(trade_signals)
+    trade_returns = []
+    entry_value = None
+    prev_sign = 0
+    for i in range(len(ts)):
+        s = np.sign(ts[i])
+        if s != prev_sign:                      # position changed
+            if prev_sign != 0 and entry_value:  # close a real (non-flat) trade
+                trade_returns.append(pv[i] / entry_value - 1.0)
+            entry_value = pv[i] if s != 0 else None
+            prev_sign = s
+    if prev_sign != 0 and entry_value:          # close final open trade
+        trade_returns.append(pv[-1] / entry_value - 1.0)
+
+    trade_returns = np.array(trade_returns)
+    wins = trade_returns[trade_returns > 0]
+    losses = trade_returns[trade_returns < 0]   # note: < 0, breakeven excluded
+    total = len(wins) + len(losses)
+    hit = len(wins) / total * 100 if total else np.nan
+    wl = wins.mean() / abs(losses.mean()) if len(wins) and len(losses) else np.nan
+    return hit, wl

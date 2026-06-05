@@ -5,6 +5,11 @@ Patric Bonnier, Patrick Kidger, Imanol~Perez Arribas, Cristopher Salvi, and Terr
 \newblock Deep signature transforms.
 \newblock {\em arXiv preprint arXiv:1905.08494}, 2019.
 
+\bibitem{ChoromanskiEtAl2019}
+K.~Choromanski, M.~Rowland, W.~Chen, and A.~Weller.
+\newblock {\em Unifying Orthogonal Monte Carlo Methods}, volume~97 of {\em Proceedings of Machine Learning Research}.
+\newblock PMLR, 2019.
+
 \bibitem{HorvathEtAl2024}
 B.~Horvath, A.~Muguruza, and M.~Tomas.
 \newblock Wasserstein k-means for clustering distributions.
@@ -19,6 +24,12 @@ O.~Ledoit and M.~Wolf.
 Qinmeng Luan and James Hamp.
 \newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
 \newblock {\em Data Science in Finance and Economics}, 5(3):387--418, 2025.
+
+\bibitem{Mezzadri2007}
+Francesco Mezzadri.
+\newblock How to generate random matrices from the classical compact groups.
+\newblock {\em Notices of the American Mathematical Society}, 54(5):592--604, 2007.
+\newblock arXiv:math-ph/0609050.
 
 \bibitem{RowlandEtAl2019}
 Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and Adrian Weller.
