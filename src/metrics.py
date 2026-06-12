@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.preprocessing import StandardScaler
 
+import src.trading as tr 
 
 def convert_prediction(N, labels, h1, h2):
     '''
@@ -465,3 +466,25 @@ def results_to_matrix(results_dict, tau_list, tau_gradient_list):
             val = results_dict.get((tk, tgk))
             mat[i, j] = np.nan if val is None else float(val)
     return mat
+
+
+def report_metrics(name, portfolio_value, cum_pnl, trade_signals = None, window_size = 20 , n_years= 30):
+    final_value = portfolio_value[-1]
+    if trade_signals is not None:
+        hit = tr.compute_hit_ratio(portfolio_value, trade_signals, window_size=window_size)
+        wl  = tr.compute_win_loss_ratio(portfolio_value, trade_signals, window_size=window_size)
+        print(f"------[{name}]------")
+        print(f"hit ratio: {hit:.4f} | win/loss: {wl:.4f} | final value: {final_value:.2f}")
+        strat_ret = np.diff(portfolio_value) / portfolio_value[:-1]
+        sharpe = (strat_ret.mean()/strat_ret.std()) * np.sqrt(252)
+        ann_returns = ((final_value / portfolio_value[0]) ** (1/n_years)) - 1
+        print(f"Cummulative pnl: {cum_pnl[-1]:.4f} | Annualized Sharpe Ratio: {sharpe:.4f} | Annual return: {ann_returns:.4f}")
+
+    else:
+        print(f"------[{name}]------")
+        print(f"final value: {final_value:.2f}")
+        strat_ret = np.diff(portfolio_value) / portfolio_value[:-1]
+        sharpe = (strat_ret.mean()/strat_ret.std()) * np.sqrt(252)
+        ann_returns = ((final_value / portfolio_value[0]) ** (1/n_years)) - 1
+        print(f"Cummulative pnl: {cum_pnl[-1]:.4f} | Annualized Sharpe Ratio: {sharpe:.4f} | Annual return: {ann_returns:.4f}")
+    

@@ -28,19 +28,30 @@ to infer which regime the market is in without pre-specified assumptions on the 
 Specifically, they use the Wasserstein or sliced-Wasserstein (in higher dimensions) distance as a metric to compare different returns distributions. Our focus will be on improving the Sliced Wasserstein clustering algorithm in high-dimensional settings.
 This sliced-Wasserstein method has been designed to project high-dimensional distributions into one-dimensional distributions and then compute the Wasserstein distance in one dimension, which is computationally efficient.
 However, in order to get a good approximation of the sliced Wasserstein distance, one needs to sample a large number of random projection vectors to approximate the latter distance. 
-This is exactly, the problem we are trying to solve in this thesis. Instead of using a fixed set of well-chosen random projection vectors to compute the Sliced-Wasserstein distance as in \cite{LuanHamp2025}, we propose to use the UnifOrtho method designed by \cite{RowlandEtAl2019} to sample orthogonal projections, which leads to a significant reduction in variance and more stable clustering results in high-dimensions.
+This is exactly, the problem we are trying to solve in this thesis. Instead of using a fixed set of well-chosen random projection vectors to compute the Sliced-Wasserstein distance as in Luamp et. al \cite{LuanHamp2025}, we propose to use the UnifOrtho method designed by Rowland et. al \cite{RowlandEtAl2019} to sample orthogonal projections, which leads to a significant reduction in variance and more stable clustering results in high-dimensions.
 Another, key contribution of this research is to use the clustering results from the improved Sliced-Wasserstein distance, to derive implied probabilities of regime swtiches in the market using simple softmax functions and bayesian priors. 
 Finally, we design multiple trading strategies based on the above regime detection method and compare their performance using statistical tests such as the Ledoit-Wolf test on Sharpe ratios.
 
-
 \section{Literature Review}
-Regime detection in financial markets is heavily studied topic in literature. 
+Regime detection in financial markets is a heavily studied topic in literature, as it is of great interest for practitioners. 
+Notably, knowing regimes helps actively investors to adapt their trading strategies and risk management to the current market conditions. 
+One of the first notable papers by Hamilton \cite{Hamilton1989} introduced a parametric approach to regime detection using hidden Markov models (HMM). 
+This method is until now, one of the most widely used methods for regime detection in financial markets.
+Rydén et al. \cite{Rydén1998} showed that the HMMs approach captures heavy-tails and unconditional non-normality in the returns distriubtion, in addition to being a highly intuitive method for regime detection.
+More recently, Ang et al. \cite{AngTimmermann2012} showed that regime in financial markets empirically switches abruptly and this changed behavior persists for many periods. 
+However, HMMs struggle as the framework assumes that regimes are a mixture of Gaussian distributions, which is not always the case in financial markets.
+Moreover, breaking points in the markets forces the model to adapts its parameters for the return distribution, which can be difficult to do in practice.
+Traditional regime detection approach try to identify these global beaking-points for adapting parameters such as in Bai et al.\cite{BaiPerron2003} and with general-to-specific modeling approaches in Hendry et.al \cite{Hendry2014}.
+The Wasserstein -k-means approach as proposed by Horvath et al. \cite{HorvathEtAl2024} is instead classifying regime by analysing the behaviour of the \textit{distribution} of the time-series of returns through the study period.
+This enables to be model-free for the returns distribution and therefore skip parameters adaptation issues.
+The Sliced Wasserstein k-means clustering algorithm as proposed by Luan et al. \cite{LuanHamp2025} generalizes Horvath's approach to high-dimensional time-series data and infers regimes changes using returns distribution in $\mathcal{P}_p(\mathbb{R}^d)$, the space of probability measures on $\mathbb{R}^d$ with finite $p$-th moment.
+
+
 
 
 
 
 \section{Theoretical Background}
-
 This chapter will focus on the theoretical framework to understand the Wasserstein distance and its extension to the Sliced Wasserstein distance.
 It will also provide the mathematics behind the implied probability derived from the Wasserstein distance to produce predictive signals for trading strategies. 
 Finally, we will provide some background on the statistical tests we used to compare the performance of the different trading strategies (i.e Ledoit-Wolf test on Sharpe ratios). 
@@ -559,7 +570,7 @@ Tested multiple values for the hyperparameters of the trading strategies, such a
 \paragraph{Definition: Hit Ratio}
 The hit ratio is defined as follows: 
 \begin{equation}
-    \text{Hit Ratio} = \frac{\text{Number of profitable trades}}{\text{Total number of trades}} \times 100
+    \text{Hit Ratio} = \frac{\text{Number of profitable trades}}{\text{Total number of trades}} 
 \end{equation}
 We use the hit ratio as a performance metric to evaluate the effectiveness of the trading strategies specifically when evaluate the different parameters for tau, or the different parameters for the half-life. A higher hit ratio indicates a higher proportion of profitable trades, which is desirable for a successful trading strategy.
 
@@ -657,6 +668,44 @@ We observe that in particular during predicted bear regimes by the sliced-Wasser
 
 \newpage
 \section{Appendix}
+\subsection*{The Mathematical Structure of Hadamard-Rademacher Matrices}
+
+\textbf{Definition} (from the paper \cite{ChoromanskiEtAl2019}) The Hadamard-Rademacher chain on $O(2^L)$ is 
+the Markov chain $(X_T)_{T=1}^\infty$ defined by:
+
+\begin{equation}
+    X_T = \prod_{t=1}^{T} HD_t
+\end{equation}
+
+where $(D_t)_{t=1}^\infty$ are independent random diagonal matrices with each diagonal 
+element a Rademacher (i.e.\ $\mathrm{Unif}(\{+1,-1\})$) random variable, and $H$ is 
+the normalized Hadamard matrix, defined as the Kronecker product:
+
+\begin{equation}
+    H = \underbrace{
+        \begin{pmatrix} 
+            \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[6pt] 
+            \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+        \end{pmatrix} 
+        \otimes \cdots \otimes 
+        \begin{pmatrix} 
+            \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[6pt] 
+            \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+        \end{pmatrix}
+    }_{L \text{ times}}
+\end{equation}
+
+These matrices $X_T$ (typically with $T \in \{1, 2, 3\}$) have been used in 
+dimensionality reduction, kernel approximation, and locality-sensitive hashing.
+
+In practice one uses $T = 3$, giving the matrix:
+
+\begin{equation}
+    M = HD_3 \cdot HD_2 \cdot HD_1
+\end{equation}
+
+where each $D_i = \mathrm{diag}(\epsilon_1^{(i)}, \ldots, \epsilon_d^{(i)})$ with 
+$\epsilon_j^{(i)} \overset{\mathrm{i.i.d.}}{\sim} \mathrm{Unif}(\{+1,-1\})$.
 \newpage
 \bibliographystyle{plain}
 \bibliography{main}

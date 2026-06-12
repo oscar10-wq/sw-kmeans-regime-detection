@@ -1,4 +1,14 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{AngTimmermann2012}
+A.~Ang and A.~Timmermann.
+\newblock Regime changes and financial markets.
+\newblock {\em Annual Review of Financial Economics}, 4:313--337, 2012.
+
+\bibitem{BaiPerron2003}
+J.~Bai and P.~Perron.
+\newblock Computation and analysis of multiple structural change models.
+\newblock {\em Journal of Applied Econometrics}, 97(1-2), 2003.
 
 \bibitem{BonnierKidger2019}
 Patric Bonnier, Patrick Kidger, Imanol~Perez Arribas, Cristopher Salvi, and Terry Lyons.
@@ -9,6 +19,16 @@ Patric Bonnier, Patrick Kidger, Imanol~Perez Arribas, Cristopher Salvi, and Terr
 K.~Choromanski, M.~Rowland, W.~Chen, and A.~Weller.
 \newblock {\em Unifying Orthogonal Monte Carlo Methods}, volume~97 of {\em Proceedings of Machine Learning Research}.
 \newblock PMLR, 2019.
+
+\bibitem{Hamilton1989}
+James~D. Hamilton.
+\newblock A new approach to the economic analysis of nonstationary time series and the business cycle.
+\newblock {\em Econometrica}, 57(2):357--384, 1989.
+
+\bibitem{Hendry2014}
+D.~F. Hendry and J.~A. Doornik.
+\newblock Empirical model discovery and theory evaluation.
+\newblock {\em Journal of Econometrics}, 178(2), 2014.
 
 \bibitem{HorvathEtAl2024}
 B.~Horvath, A.~Muguruza, and M.~Tomas.
@@ -35,6 +55,11 @@ Francesco Mezzadri.
 Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and Adrian Weller.
 \newblock Orthogonal estimation of {W}asserstein distances.
 \newblock In {\em Proceedings of the 22nd International Conference on Artificial Intelligence and Statistics (AISTATS)}, volume~89 of {\em Proceedings of Machine Learning Research}, pages 186--195. PMLR, 2019.
+
+\bibitem{Rydén1998}
+T.~T.~Rydén, Teräsvirta and S.~Åsbrink.
+\newblock Stylized facts of daily return series and the hidden markov model.
+\newblock {\em Computational Statistics \& Data Analysis}, 28(3):217--236, 1998.
 
 \bibitem{PetrovicBardenetDesolneux2025}
 R{\'e}mi~Bardenet Vladimir~Petrovic and Agn{\`e}s Desolneux.
