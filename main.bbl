@@ -45,6 +45,11 @@ Qinmeng Luan and James Hamp.
 \newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
 \newblock {\em Data Science in Finance and Economics}, 5(3):387--418, 2025.
 
+\bibitem{lundberg2017unified}
+Scott~M Lundberg and Su-In Lee.
+\newblock A unified approach to interpreting model predictions.
+\newblock 2017.
+
 \bibitem{Mezzadri2007}
 Francesco Mezzadri.
 \newblock How to generate random matrices from the classical compact groups.

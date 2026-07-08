@@ -40,7 +40,7 @@ def convert_prediction_proba(N, proba_matrix, h1, h2):
     return regime_pred_proba
 
     
-def visualize_clustering_results(t, S, labels, h1, h2, K, returns = True): # K 2 or 3
+def visualize_clustering_results(t, S, labels, h1, h2, K, returns = True, names = None): # K 2 or 3
     '''
     Visualize the clustering results by plotting the time series colored with prediction 
     '''
@@ -53,12 +53,20 @@ def visualize_clustering_results(t, S, labels, h1, h2, K, returns = True): # K 2
         end_idx = start_idx + h1-1
         regime_pred[start_idx:end_idx+1, 0] = labels[m-1] # Assign the predicted regime to the corresponding time points
 
-    fig , ax = plt.subplots(d,1, figsize=(18, 6))
+    fig , ax = plt.subplots(d,1, figsize=(18, 6), sharex=True)
     for i in range(d):
         if returns:
             ax[i].plot(t[1:], r_S[:, i], color='blue', label='Original Returns')
         else:
-            ax[i].plot(t, S.iloc[:,i], color="blue", label ="Original Prices")
+            # Check if S is a pandas DataFrame
+            if isinstance(S, pd.DataFrame):
+                ax[i].plot(t, S.iloc[:, i], color="blue", label="Original Prices")
+            else:
+                # Assuming S is a NumPy array or similar 2D structure
+                ax[i].plot(t, S[:, i], color="blue", label="Original Prices")
+            
+            if names : 
+                ax[i].set_ylabel(names[i])
         for m in range(1, M+1): 
             start_idx = h2 * (m-1)
             end_idx = start_idx + h1-1
@@ -83,12 +91,66 @@ def visualize_clustering_results(t, S, labels, h1, h2, K, returns = True): # K 2
                 ax[i].plot([], [], color='orange', alpha=0.3, label='Predicted Regime 2') # Add legend entry for regime 2
             ax[i].legend(loc='upper right')
     plt.xlabel('Time')
-    plt.ylabel('Returns')
     plt.title('Clustering Results with Predicted Regimes')
     plt.legend()
     plt.tight_layout()
-    plt.show()
 
+  
+def visualize_one_plot_ts(t, S, labels, centroids , h1, h2, K): # K 2 or 3
+    '''
+    Visualize the clustering results by plotting the time series colored with prediction 
+    '''
+    r_S = np.diff(np.log(S), axis=0)
+    N , d = r_S.shape
+    M = math.floor((N-(h1-h2))/h2)
+    regime_pred = np.zeros((N, 1)) # Create an array to hold the original data and the predicted regimes
+    for m in range(1, M+1): 
+        start_idx = h2 * (m-1)
+        end_idx = start_idx + h1-1
+        regime_pred[start_idx:end_idx+1, 0] = labels[m-1] # Assign the predicted regime to the corresponding time points
+
+    fig , ax = plt.subplots(figsize=(18, 6))
+    colors = plt.cm.viridis(range(d)) 
+    for i in range(d): 
+        print("entering first loop")
+        ax.plot(t, S[:,i], color = colors[i])
+    
+    if K >= 2:
+        ax.plot([], [], color='red', alpha=0.3, label='Predicted Regime 0') # Add legend entry for regime 1
+        ax.plot([], [], color='green', alpha=0.3, label='Predicted Regime 1') # Add legend entry for regime 0
+        _, labels = ws.choose_label(centroids,labels, "CVaR", K)
+    
+    if K==3:
+        ax.plot([], [], color='orange', alpha=0.3, label='Predicted Regime 2') # Add legend entry for regime 2
+    
+    ax.legend(loc='upper right') 
+    
+
+
+    for m in range(1, M+1): 
+        print("entering second loop")
+        start_idx = h2 * (m-1)
+        end_idx = start_idx + h1-1
+        if K == 2:
+            if labels[m-1] == 1:
+                    #print(f"Regime 1 predicted for time points {start_idx} to {end_idx}")
+                ax.axvspan(t[start_idx], t[end_idx+1], color='green', alpha=0.1) # Highlight the predicted regime with a red shaded area
+            else:
+                    #print(f"Regime 0 predicted for time points {start_idx} to {end_idx}")
+                ax.axvspan(t[start_idx], t[end_idx+1], color='red', alpha=0.1) # Highlight the predicted regime with a green shaded area
+        if K == 3:
+            if labels[m-1] == 0:
+                ax.axvspan(t[start_idx], t[end_idx+1], color='red', alpha=0.1) # Highlight the predicted regime with a red shaded area
+            elif labels[m-1] == 1:
+                ax.axvspan(t[start_idx], t[end_idx+1], color='orange', alpha=0.1) # Highlight the predicted regime with a green shaded area
+            else:
+                ax.axvspan(t[start_idx], t[end_idx+1], color='green', alpha=0.1) # Highlight the predicted regime with an orange shaded area
+        
+    plt.ylabel("Value of GBM")
+    plt.xlabel('Time')
+    plt.title('Clustering Results with Predicted Regimes')
+    plt.legend()
+    plt.tight_layout()
 
 
 def total_accuracy(S, true_regimes, labels, h1, h2):
@@ -416,7 +478,9 @@ def display_results(N_C,results, liste_L, liste_h1_h2, types):
                     cell.set_text_props(weight='bold')
 
     #plt.title(f'Accuracy of UnifOrtho Sliced Wasserstein:  Hyperparameter Groups for {N_C} Simulations', pad=30, fontsize=16, weight='bold')
+    
     plt.show()
+
     return 
     
 def compute_vip(pls_model, X):
@@ -468,23 +532,45 @@ def results_to_matrix(results_dict, tau_list, tau_gradient_list):
     return mat
 
 
-def report_metrics(name, portfolio_value, cum_pnl, trade_signals = None, window_size = 20 , n_years= 30):
-    final_value = portfolio_value[-1]
-    if trade_signals is not None:
-        hit = tr.compute_hit_ratio(portfolio_value, trade_signals, window_size=window_size)
-        wl  = tr.compute_win_loss_ratio(portfolio_value, trade_signals, window_size=window_size)
-        print(f"------[{name}]------")
-        print(f"hit ratio: {hit:.4f} | win/loss: {wl:.4f} | final value: {final_value:.2f}")
-        strat_ret = np.diff(portfolio_value) / portfolio_value[:-1]
-        sharpe = (strat_ret.mean()/strat_ret.std()) * np.sqrt(252)
-        ann_returns = ((final_value / portfolio_value[0]) ** (1/n_years)) - 1
-        print(f"Cummulative pnl: {cum_pnl[-1]:.4f} | Annualized Sharpe Ratio: {sharpe:.4f} | Annual return: {ann_returns:.4f}")
+def report_metrics(name, portfolio_value, dates, cum_pnl, trade_signals=None, 
+                   window_size=20, per_period_signals=False, normalized=False,
+                rf=0.0):
+    """
+    periods_per_year : return observations per year for THIS series.
+        daily=252, weekly=52, monthly=12, 15-min(24/7)=252*24*4, business-15min=252*6.5*4.
+        Required unless `dates` is given (then it's inferred).
+    dates : optional DatetimeIndex aligned to portfolio_value; if provided,
+        periods_per_year and n_years are inferred from it and override the args.
+    """
+    pv = np.asarray(portfolio_value, dtype=float)
+    strat_ret = np.diff(pv) / pv[:-1]
+
+    # --- derive frequency + span from the index when available (single source of truth) ---
+    if dates is None:
+        raise ValueError("require dates index to work")
 
     else:
-        print(f"------[{name}]------")
-        print(f"final value: {final_value:.2f}")
-        strat_ret = np.diff(portfolio_value) / portfolio_value[:-1]
-        sharpe = (strat_ret.mean()/strat_ret.std()) * np.sqrt(252)
-        ann_returns = ((final_value / portfolio_value[0]) ** (1/n_years)) - 1
-        print(f"Cummulative pnl: {cum_pnl[-1]:.4f} | Annualized Sharpe Ratio: {sharpe:.4f} | Annual return: {ann_returns:.4f}")
+        dates = pd.DatetimeIndex(dates)
+        span_years = (dates[-1] - dates[0]).days / 365.25
+        inferred_ppy = len(strat_ret) / span_years          # obs per year, empirically
+        periods_per_year = inferred_ppy
+        n_years = span_years
     
+
+    mu, sigma = strat_ret.mean(), strat_ret.std(ddof=1)
+    sharpe = ((mu * periods_per_year - rf) / (sigma * np.sqrt(periods_per_year))
+              if sigma > 0 else np.nan)
+    ann_return = (pv[-1] / pv[0]) ** (1 / n_years) - 1
+
+    print(f"------[{name}]------")
+    if trade_signals is not None:
+        hit = tr.compute_hit_ratio(pv, trade_signals, window_size=window_size,
+                                   per_period_signals=per_period_signals)
+        wl  = tr.compute_win_loss_ratio(pv, trade_signals, window_size=window_size,
+                                        per_period_signals=per_period_signals, normalized=normalized)
+        print(f"hit ratio: {hit:.4f} | win/loss: {wl:.4f} | final value: {pv[-1]:.2f}")
+    else:
+        print(f"final value: {pv[-1]:.2f}")
+    print(f"Cumulative PnL: {cum_pnl[-1]:.4f} | Sharpe (ann., {periods_per_year:.0f}/yr): "
+          f"{sharpe:.4f} | Annual return ({n_years:.1f}y): {ann_return:.4f}")
+    return dict(sharpe=sharpe, ann_return=ann_return, periods_per_year=periods_per_year, n_years=n_years)

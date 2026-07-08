@@ -7,7 +7,46 @@ import matplotlib.pyplot as plt
 
 debug = False 
 
-def look_ahead_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol", half_life=5):
+def labels_to_signal_series(signal_values, return_index, h1, h2):
+    """
+    Map per-lifted-window signals to a per-return-date signal series.
+ 
+    Window m covers return positions [m*h2, m*h2 + h1 - 1] and therefore ENDS at
+    position m*h2 + h1 - 1. Each signal is stamped on its window's end date and
+    forward-filled until the next window end, so the signal at any date t comes
+    from a window ending at or before t (staleness <= h2 - 1; == 0 when h2 == 1).
+    Dates before the first window end carry NaN (nothing has completed yet).
+    """
+    signal_values = np.asarray(signal_values, dtype=float)
+    end_pos = np.arange(len(signal_values)) * h2 + h1 - 1
+    if len(end_pos) and end_pos[-1] >= len(return_index):
+        raise ValueError(
+            f"label windows overrun the return series: last window ends at "
+            f"position {end_pos[-1]} but only {len(return_index)} returns exist "
+            f"(check that len(labels) matches the lifting of THIS price series)")
+    sig = pd.Series(signal_values, index=return_index[end_pos])
+    return sig.reindex(return_index).ffill()
+ 
+
+def compute_portfolio_returns(S, weighting="inverse_vol", window_size=5, eps=1e-6):
+    """Single source of truth for portfolio returns. Date-indexed, no look-ahead.
+    - equal:       constant weights, only pct_change warm-up (1 row) lost.
+    - inverse_vol: weights known at t-1 (shift(1)); first window_size rows lost to vol estimate.
+    Returns a date-indexed Series so callers select next windows by .reindex(dates).
+    """
+    r = S.pct_change().dropna()
+    if weighting == "equal":
+        theta = pd.DataFrame(1.0 / S.shape[1], index=r.index, columns=r.columns)
+    elif weighting == "inverse_vol":
+        vol = r.rolling(window_size).std()
+        inv = 1.0 / (vol + eps)
+        theta = inv.div(inv.sum(axis=1), axis=0).shift(1)   # causal weights
+    else:
+        raise ValueError(f"unknown weighting {weighting!r}")
+    return (r * theta).sum(axis=1, min_count=1).dropna()
+    
+
+def look_ahead_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", weighting = "inverse_vol"):
     """
     Implements a rolling regime-based trading strategy with look-ahead bias (for testing purposes).
     Input: 
@@ -15,34 +54,43 @@ def look_ahead_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, 
     """
 
     epsilon = 1e-6
-    if weighting == "equal":
-        pct_returns = S.pct_change().dropna()
-        theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
-        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
+    
+    
+    portfolio_returns = compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
 
-    if weighting == "inverse_vol":
-        pct_returns = S.pct_change().dropna()
-        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
-        inv_vol = 1 / (vol + epsilon)
-        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
-        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)
-
-
+    value_dates = [S.index[0]]          # initial capital anchored at the first date (pre-trading)
     portfolio_value = [initial_capital]
-    cum_pnl = [0.0]
-    trade_signals = []
+    signal_series = pd.Series(index = portfolio_returns.index, dtype = float)
 
     projected_emp, centroids, labels = ws.max_mccd_unifortho_sim(N_S, S, K, L, epsilon, h1, h2, metric)
+        
+        
+    rets = S.pct_change().dropna()
+    N = rets.shape[0]
 
-    signals = np.where(labels == 1, 1, -1)  # Look-ahead signal based on the current window's regime
+    signal_label = labels_to_signal_series(
+            labels,
+            rets.index,
+            h1,
+            h2,
+        ) 
+        
+    common = rets.index.intersection(signal_series.index)
 
-    strat_ret = signals[window_size-h1:] *  portfolio_returns  # Apply the signal to the returns (long/short)
-    cumulative_ret = (1+strat_ret).cumprod()
-    portfolio_val = initial_capital*cumulative_ret
-    cum_pnl = portfolio_val-initial_capital
-    return np.array(portfolio_val), np.array(signals), np.array(cum_pnl)
+    signal_series.loc[common] = signal_label
+            
+    signal_series = signal_series.ffill()
+    signal_series, pf = signal_series.align(portfolio_returns, join="inner")
+    strat_ret = signal_series * pf
 
-
+    pv_vals = initial_capital * (1 + strat_ret).cumprod()
+    pv_series  = pd.Series(
+        np.concatenate([[initial_capital], pv_vals.values]),
+        index=pd.DatetimeIndex([S.index[0]]).append(strat_ret.index),   # anchor + traded dates
+        name="portfolio_value")
+    pnl_series = (pv_series - initial_capital).rename("cum_pnl")
+    
+    return pv_series, signal_series, pnl_series
 
 
 def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=7, weighting = "inverse_vol", half_life=5):
@@ -56,22 +104,11 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
     - If 'Bearish', stay Flat (0 position).
     """
     epsilon = 1e-6  
-
     # === FIX: Use percentage returns, equal-weighted ===
+    portfolio_returns = compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
 
-    if weighting == "equal":
-        pct_returns = S.pct_change().dropna()
-        theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
-        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
-
-    if weighting == "inverse_vol":
-        pct_returns = S.pct_change().dropna()
-        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
-        inv_vol = 1 / (vol + epsilon)
-        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
-        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
-    
     # Arrays to store results
+    value_dates = [S.index[0]]
     portfolio_value = [initial_capital]
     cum_pnl = [0.0]
     trade_signals = []
@@ -115,20 +152,25 @@ def long_strat_unifortho(initial_capital, N_S, S, L, h1, h2, window_size, K=2, m
         trade_signals.append(signal)
 
          #TODO Add something to only be able to trade at the open of the next available week day !!! 
-        next_week_returns = portfolio_returns.iloc[end_idx : end_idx + window_size]
+        #next_week_returns = portfolio_returns.iloc[end_idx : end_idx + window_size]
+        next_dates = S.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
 
         # === FIX: Compounding with percentage returns ===
-        for ret in next_week_returns:
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
         if debug:
             print("---" * 10)
             print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
             print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
             print("---" * 10)
-    return np.array(portfolio_value), trade_signals, cum_pnl
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
+    return pv_series, trade_signals, pnl_series
 
 
 def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, K=2, metric="CVaR", majority_lookback=20, weighting = "inverse_vol", half_life=5):
@@ -140,20 +182,10 @@ def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h
     epsilon = 1e-6  
 
     # === FIX: Use percentage returns, equal-weighted ===
+    portfolio_returns = compute_portfolio_returns(S_trade, weighting=weighting, window_size=window_size, eps=epsilon)
 
-    if weighting == "equal":
-        pct_returns = S_trade.pct_change().dropna()
-        theta = np.ones((1, S_trade.shape[1])) / S_trade.shape[1]  # Equal weights for each asset
-        portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
-
-    if weighting == "inverse_vol":
-        pct_returns = S_trade.pct_change().dropna()
-        vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
-        inv_vol = 1 / (vol + epsilon)
-        theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
-        portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
-    
     # Arrays to store results
+    value_dates = [S_trade.index[0]]          # initial capital anchored at the first date (pre-trading)
     portfolio_value = [initial_capital]
     cum_pnl = [0.0]
     trade_signals = []
@@ -197,31 +229,45 @@ def long_strat_unifortho_label_data(initial_capital, N_S, S_label, S_trade, L, h
                 print("Bearish!, Week", i+1, "go short")
         
         trade_signals.append(signal)
-        next_week_returns = portfolio_returns.iloc[end_idx : end_idx + window_size]
-
+        #next_week_returns = portfolio_returns.iloc[end_idx : end_idx + window_size]
+        next_dates = S_trade.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
         # === FIX: Compounding with percentage returns ===
-        for ret in next_week_returns:
+
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
         if debug:
             print("---" * 10)
             print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
             print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
             print("---" * 10)
-    return np.array(portfolio_value), trade_signals, cum_pnl
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
+    return pv_series, trade_signals, pnl_series
 
 def long_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
+    
+    epsilon = 1e-6
+    '''
     pct_returns = S.pct_change().dropna()
     if weighting == "equal":
         theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
         portfolio_returns = pct_returns.dot(theta.T).sum(axis=1)  # Portfolio returns
     elif weighting == "inverse_vol":
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
-        inv_vol = 1 / (vol + 1e-6)
+        inv_vol = 1 / (vol + epsilon)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        theta = theta.shift(1)
         portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
+    '''
+
+    portfolio_returns = compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
+
+
     cumulative = (1 + portfolio_returns).cumprod()
     portfolio_value = initial_capital * cumulative
     cum_pnl = portfolio_value-initial_capital
@@ -229,6 +275,8 @@ def long_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
 
 def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
     #TODO output P&L after holding for the entire time the security S 
+    epsilon = 1e-6
+    '''
     pct_returns = S.pct_change().dropna()
     if weighting == "equal":
         theta = np.ones((1, S.shape[1])) / S.shape[1]  # Equal weights for each asset
@@ -237,7 +285,11 @@ def short_only(S, initial_capital, weighting = "inverse_vol", window_size=5):
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
         inv_vol = 1 / (vol + 1e-6)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        theta = theta.shift(1)
         portfolio_returns = -(pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Short position: negative returns with inverse volatility weighting
+    '''
+    portfolio_returns = -compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
+    
     cumulative = (1 + portfolio_returns).cumprod()
     portfolio_value = initial_capital * cumulative
     return portfolio_value, cumulative, portfolio_value.iloc[-1]
@@ -249,7 +301,7 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, K=2, met
     epsilon = 1e-6
 
     # === FIX 1: Use percentage returns, equal-weighted across assets ===
-
+    '''
     if weighting == "equal":
         pct_returns = S.pct_change().dropna()
         #portfolio_returns = pct_returns.mean(axis=1)  # equal-weight average
@@ -260,10 +312,15 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, K=2, met
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
         inv_vol = 1 / (vol + epsilon)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)  # Normalize to sum to 1
+        theta = theta.shift(1)
         portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)  # Portfolio returns with inverse volatility weighting
+    '''
+
+    portfolio_returns = compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
 
     # Arrays to store results
     portfolio_value = [initial_capital]
+    value_dates = [S.index[0]]
     cum_pnl = [0.0]
     trade_signals = []
     num_steps = math.floor(len(S) / window_size)
@@ -293,9 +350,6 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, K=2, met
             print(f"Transition Matrix:\n{transition_matrix}")
             print(f"Posterior Probabilities:\n{posterior}")
             print('---' * 10)
-
-        for m in range(start_idx, end_idx):
-            switch_proba_history.append(switch_proba)
 
         #current_regime = np.bincount(labels[-h2:]).argmax()
         if majority_lookback > len(labels):
@@ -350,23 +404,27 @@ def long_strat_implied(initial_capital, N_S, S, L, h1, h2, window_size, K=2, met
             print(f"Final signal: {signal}")
 
         # === FIX 2: Compounding portfolio value with percentage returns ===
-        next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
-
-        for ret in next_week_returns:
-            # signal scales exposure: 1.0 = fully long, 0.5 = half, -1 = short
+        #next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
+        next_dates = S.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
+    
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
-            #print(f'period return is {period_return} with signal {signal} -> new portfolio value: {new_value}')
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
+            switch_proba_history.append(switch_proba)
                 
         if debug:
             print("---" * 10)
             print(f'Portfolio value after week {i+1}: {portfolio_value[-1]}')
             print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
             print("---" * 10)
-
-    return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
+    switch_series = switch_proba_history
+    return pv_series, trade_signals, pnl_series, switch_series
 
 
 def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size, start_date=None, end_date=None, K=2, metric="CVaR", signal_type="conviction", majority_lookback= 20, half_life=5, entry_threshold=0.15, hold_threshold=0.10, lookback=5, use_gradient=False, gradient_weight=0.3, weighting="inverse_vol", tau=None, tau_gradient=None, live_plot=False):
@@ -380,6 +438,8 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
         S_label = S_label.loc[start_date:end_date]
         S_trade = S_trade.loc[start_date:end_date]
 
+
+    '''
     if weighting == "equal":
         pct_returns = S_trade.pct_change().dropna()
         theta = np.ones((1, S_trade.shape[1])) / S_trade.shape[1]
@@ -389,10 +449,15 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size - 1:]
         inv_vol = 1 / (vol + epsilon)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)
+        theta = theta.shift(1)
         portfolio_returns = (pct_returns.iloc[window_size - 1:] * theta).sum(axis=1)
+    '''
+
+    portfolio_returns = compute_portfolio_returns(S_trade, weighting=weighting, window_size=window_size, eps=epsilon)
 
     # Arrays to store results
     portfolio_value = [initial_capital]
+    value_dates = [S.index[0]]
     cum_pnl = [0.0]
     trade_signals = []
     num_steps = math.floor(len(S_label) / window_size)
@@ -427,8 +492,8 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
             print(f"Posterior Probabilities:\n{posterior}")
             print('---' * 10)
 
-        for m in range(start_idx, end_idx):
-            switch_proba_history.append(switch_proba)
+        #for m in range(start_idx, end_idx):
+        #    switch_proba_history.append(switch_proba)
 
         #current_regime = np.bincount(labels[-h2:]).argmax()
         if majority_lookback > len(labels):
@@ -441,8 +506,6 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
         weighted_counts = np.bincount(recent_labels, weights=weights, minlength=K)
         current_regime = weighted_counts.argmax()
         
-
-
         if signal_type == "continuous":
             signal = posterior[1] - posterior[0]
             dead_zone = 0.1
@@ -483,21 +546,28 @@ def long_strat_implied_label_data(initial_capital, N_S, S_label, S_trade, L, h1,
 
         if debug:
             print(f"Applying the signal on week S_trade returns from {S_trade.index[end_idx]} to {S_trade.index[end_idx + window_size - 1]}")
-        next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
-
-        for ret in next_week_returns:
+        
+        next_dates = S_trade.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
+    
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
+            switch_proba_history.append(switch_proba) 
 
         if debug:
             print("---" * 10)
             print(f'Portfolio value after week {i + 1}: {portfolio_value[-1]}')
             print(f"AND :Cumulative P&L: {cum_pnl[-1]}")
             print("---" * 10)
-
-    return np.array(portfolio_value), trade_signals, cum_pnl, switch_proba_history
+    # ... at the end, REPLACE the return line with: ...
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
+    switch_series = switch_proba_history
+    return pv_series, trade_signals, pnl_series, switch_series
 
  
 
@@ -513,6 +583,7 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
     
     epsilon = 1e-6
 
+    '''
     # === Portfolio returns ===
     if weighting == "equal":
         pct_returns = S.pct_change().dropna()
@@ -523,10 +594,15 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size-1:]
         inv_vol = 1 / (vol + epsilon)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)
+        theta = theta.shift(1)
         portfolio_returns = (pct_returns.iloc[window_size-1:] * theta).sum(axis=1)
+    '''
+
+    portfolio_returns = compute_portfolio_returns(S, weighting=weighting, window_size=window_size, eps=epsilon)
 
     # Storage
     portfolio_value = [initial_capital]
+    value_dates = [S.index[0]]
     cum_pnl = [0.0]
     trade_signals = []
     signal_details = []
@@ -652,8 +728,10 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
         adaptive_weights_history.append(current_weights.copy())
 
         # === Apply to next window and track per-algo returns ===
-        next_week_returns = portfolio_returns.iloc[end_idx:end_idx + window_size]
-
+        #next_week_returns = portfolio_returns.iloc[end_idx:end_idx + window_size]
+        next_dates = S.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
+    
         # Per-algo hypothetical return for this window
         window_return_unifortho = np.prod([1 + signal_unifortho * r for r in next_week_returns]) - 1
         window_return_hysteresis = np.prod([1 + signal_hysteresis * r for r in next_week_returns]) - 1
@@ -666,11 +744,12 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
         algo_cum_returns['conviction'].append(window_return_conviction)
 
         # Compound portfolio
-        for ret in next_week_returns:
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = ensemble_signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
 
         signal_details.append({
             'week': i + 1,
@@ -694,7 +773,9 @@ def ensemble_strategy(initial_capital, N_S, S, L, h1, h2, window_size,
             print(f"Cumulative P&L: {cum_pnl[-1]:.2f}")
             print("---" * 10)
 
-    return np.array(portfolio_value), trade_signals, cum_pnl, signal_details
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
+    return pv_series, trade_signals, pnl_series, signal_details
 
 def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, h2, window_size,
                                  K=2, metric="CVaR", majority_lookback=7, weighting="inverse_vol",
@@ -704,6 +785,8 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
 
     epsilon = 1e-6
 
+
+    '''
     # === Portfolio returns computed on S_trade ===
     if weighting == "equal":
         pct_returns = S_trade.pct_change().dropna()
@@ -714,9 +797,15 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
         vol = pct_returns.rolling(window=window_size).std().iloc[window_size - 1:]
         inv_vol = 1 / (vol + epsilon)
         theta = inv_vol.div(inv_vol.sum(axis=1), axis=0)
+        theta = theta.shift(1)
+
         portfolio_returns = (pct_returns.iloc[window_size - 1:] * theta).sum(axis=1)
+    '''
+
+    portfolio_returns = compute_portfolio_returns(S_trade, weighting=weighting, window_size=window_size, eps=epsilon)
 
     # Storage
+    value_dates = [S.index[0]]
     portfolio_value = [initial_capital]
     cum_pnl = [0.0]
     trade_signals = []
@@ -832,7 +921,10 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
         adaptive_weights_history.append(current_weights.copy())
 
         # === PnL on S_trade ===
-        next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
+        #next_week_returns = portfolio_returns.iloc[end_idx: end_idx + window_size]
+        next_dates = S_trade.index[end_idx : end_idx + window_size]
+        next_week_returns = portfolio_returns.reindex(next_dates).dropna()
+    
 
         window_return_unifortho  = np.prod([1 + signal_unifortho  * r for r in next_week_returns]) - 1
         window_return_hysteresis = np.prod([1 + signal_hysteresis * r for r in next_week_returns]) - 1
@@ -844,11 +936,12 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
         algo_cum_returns['continuous'].append(window_return_continuous)
         algo_cum_returns['conviction'].append(window_return_conviction)
 
-        for ret in next_week_returns:
+        for dt, ret in next_week_returns.items():          # .items() gives (date, return)
             period_return = ensemble_signal * ret
             new_value = portfolio_value[-1] * (1 + period_return)
             portfolio_value.append(new_value)
             cum_pnl.append(new_value - initial_capital)
+            value_dates.append(dt)                          # capture the date that produced this value
 
         signal_details.append({
             'week': i + 1,
@@ -871,16 +964,10 @@ def ensemble_strategy_label_data(initial_capital, N_S, S_label, S_trade, L, h1, 
             print(f"  Ensemble: {ensemble_signal:.2f} | Portfolio: {portfolio_value[-1]:.2f}")
             print(f"  Cumulative P&L: {cum_pnl[-1]:.2f}")
             print("---" * 10)
+    pv_series     = pd.Series(portfolio_value, index=pd.DatetimeIndex(value_dates), name="portfolio_value")
+    pnl_series    = pd.Series(cum_pnl,         index=pv_series.index,               name="cum_pnl")
 
-    return np.array(portfolio_value), trade_signals, cum_pnl, signal_details                  
-
-# --- Helper: variance-adjust a portfolio value array ---
-def vol_adjust(pv_array, dates):
-    pv = pd.Series(pv_array, index=dates)
-    returns = pv.pct_change()
-    rolling_vol = returns.rolling(window=vol_window).std() * np.sqrt(4 * 24 * 252)  # annualise
-    rolling_vol[rolling_vol < 1e-8] = 1e-8
-    return pv / rolling_vol
+    return pv_series, trade_signals, pnl_series, signal_details              
 
 def rolling_sharpe(pv_array, dates, days_lookback=20, rf=0, obs_per_day=1):
     # 1. Setup Series and Frequency
@@ -956,54 +1043,73 @@ def expanding_sharpe(pv_array, dates, rf=0, obs_per_day=1, min_periods=20):
 
     return sharpe
 
-def compute_hit_ratio(portfolio_value, trade_signals, window_size, discrete = False):
-    trades = pd.Series(expand_trade_signals(trade_signals,window_size, discrete))
-    strat_ret = pd.Series(portfolio_value).pct_change()
-    df = pd.concat({"Strat_ret": strat_ret, "trades": trades}, axis=1)
 
-    active_returns = df.loc[df["trades"].shift(1)!= 0, "Strat_ret"].dropna()
 
-    if len(active_returns) == 0:
+def _active_strategy_returns(portfolio_value, trade_signals, window_size,
+                             per_period_signals=False):
+    """
+    Reconstruct per-period strategy returns and the position that produced each,
+    then keep only periods where a position was actually held.
+
+    Conventions handled:
+      - Walk-forward strategies (long_strat_unifortho, long_strat_implied,
+        ensemble_strategy, and their *_label_data variants):
+          portfolio_value = [C0, v1, v2, ...]   (leading initial capital)
+          trade_signals   = one signal per window -> expanded by window_size
+      - Look-ahead strategy (per_period_signals=True):
+          portfolio_value = [C0, v1, v2, ...]   (prepend C0 in the strategy, see note)
+          trade_signals   = one signal per return period, no expansion
+    """
+    pv = pd.Series(np.asarray(portfolio_value, dtype=float))
+    # pv[0] = C0, so after pct_change the k-th (0-based) return is the return
+    # earned during traded period k -> aligns 1:1 with expanded signals. No shift.
+    strat_ret = pv.pct_change().dropna().reset_index(drop=True)
+    print(strat_ret.shape)
+    print(len(trade_signals))
+
+    sig = np.asarray(trade_signals, dtype=float)
+    if not per_period_signals:
+        sig = np.repeat(sig, window_size)
+    trades = pd.Series(sig).fillna(0.0)
+
+    # Front-aligned truncation: only the FINAL window can be shorter than
+    # window_size (the loop's iloc[end:end+w] slice at the series tail), so
+    # trades may overrun strat_ret; cut both to the common length.
+    n = min(len(strat_ret), len(trades))
+    strat_ret, trades = strat_ret.iloc[:n], trades.iloc[:n]
+
+    return strat_ret[trades.values != 0]
+
+
+def compute_hit_ratio(portfolio_value, trade_signals, window_size,
+                      per_period_signals=False):
+    """Fraction of actively-traded periods with a positive strategy return."""
+
+    active = _active_strategy_returns(portfolio_value, trade_signals,
+                                      window_size, per_period_signals)
+    if len(active) == 0:
         return 0.0
-    
-    # 3. Calculate Vectorized Hit Ratio (Wins / Total Active Trades)
-    hit_ratio = np.mean(active_returns > 0)
-    return float(hit_ratio)
-    
-
-def compute_win_loss_ratio(portfolio_values, trade_signals, window_size = 20, discrete = False):
-    trades = pd.Series(expand_trade_signals(trade_signals, window_size, discrete))
-    strat_ret = pd.Series(portfolio_values).pct_change()
-    df = pd.concat({"Strat_ret": strat_ret, "trades": trades}, axis=1)
-    active_returns = df.loc[df["trades"].shift(1)!= 0, "Strat_ret"].dropna()
+    return float((active > 0).mean())
 
 
-    if len(active_returns) == 0:
-        return 0.0
-    
-    # 3. Separate winning and losing trade returns
-    avg_win = active_returns[active_returns > 0].mean()
-    avg_loss = np.abs(active_returns[active_returns < 0].mean())
+def compute_win_loss_ratio(portfolio_value, trade_signals, window_size,
+                           per_period_signals=False, normalized=False):
+    """
+    Average win vs average loss over actively-traded periods.
+    normalized=True  -> avg_win / (avg_win + avg_loss), in [0, 1]  (your thesis convention)
+    normalized=False -> avg_win / avg_loss, the raw Definition (18) ratio
+    """
+    active = _active_strategy_returns(portfolio_value, trade_signals,
+                                      window_size, per_period_signals)
+    if len(active) == 0:
+        return 0.5 if normalized else np.nan
 
+    wins, losses = active[active > 0], active[active < 0]
+    if len(wins) == 0:
+        return 0.0 if normalized else 0.0
+    if len(losses) == 0:
+        return 1.0 if normalized else np.inf
 
-    # 4. Handle edge cases (e.g., no wins or no losses)
-    if np.isnan(avg_win) or np.isnan(avg_loss) or (avg_win + avg_loss == 0):
-         #0.5 means a perfect balance, 1.0 means all wins, 0.0 means all losses
-        return 0.5 if (np.isnan(avg_win) == np.isnan(avg_loss)) else (1.0 if avg_loss == 0 else 0.0)
-    
-    # 5. Normalize ratio strictly between 0 and 1
-    win_loss_ratio = avg_win / (avg_win + avg_loss)
-    
-    return float(win_loss_ratio)
- 
-def expand_trade_signals(trade_signals, window_size=20, discrete= False):
-    # 1. Repeat each original element window_size times
-    # If trade_signals=[A, B], this makes [A,A..A, B,B..B] (length: len * window_size)
-    repeated_signals = np.repeat(trade_signals, window_size)
-    
-    # 2. Convert to a Pandas Series so we can easily mask and forward fill
-    final_signals = pd.Series(repeated_signals)
-    #if discrete == True:
-    #    return final_signals.astype(int).to_numpy()
-    return final_signals.astype(float).to_numpy()
+    avg_win, avg_loss = wins.mean(), -losses.mean()
+    return float(avg_win / (avg_win + avg_loss)) if normalized else float(avg_win / avg_loss)
 

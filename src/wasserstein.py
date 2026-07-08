@@ -650,6 +650,8 @@ def max_mccd_unifortho_sim(N_S: int, S: np.ndarray, K: int, L: int, epsilon: flo
             best_labels = labels
     
     #associate label 0 to bearish associate label 1 to bullish
+    #new_best_centroids = best_centroids 
+    #new_best_labels = best_labels
     new_best_centroids, new_best_labels = choose_label(best_centroids, best_labels, metric, K)
     return projected_emp_dist, new_best_centroids, new_best_labels
 
@@ -657,34 +659,32 @@ def max_mccd_unifortho_sim(N_S: int, S: np.ndarray, K: int, L: int, epsilon: flo
 # ---------------------------------------------------------------------------
 # Regime labelling
 # ---------------------------------------------------------------------------
+import numpy as np
+from scipy import stats
 
 def choose_label(best_centroids: list, best_labels: np.ndarray, metric: str, K: int) -> tuple:
     """
-    Canonicalise cluster labels so that label 0 always corresponds to the
-    bearish regime, using either CVaR or mean-variance ordering.
+    Canonicalise cluster labels so that:
+    - K=2: label 0 is Bearish, label 1 is Bullish.
+    - K=3: label 0 is Bearish, label 1 is Neutral/Transition, label 2 is Bullish.
 
     Parameters
     ----------
     best_centroids : list[list[ProjectedDistribution]]
     best_labels : np.ndarray of shape (M,)
-    metric : {"CVaR", "MeanVar"}
-        "CVaR"    — label 0 receives the cluster with the lower (more negative) 5 % CVaR.
-        "MeanVar" — label 0 receives the cluster with higher variance and lower mean.
+    metric : {"CVaR", "MeanVar", "Skewness"}
     K : int
-        Number of clusters.
-    
+        Number of clusters (Supports 2 and 3).
+        
     Returns
     -------
     (best_centroids, best_labels) with labels canonicalised.
+    """
 
-    '"""
-
-    ## TESTING FOR METRICS TO DIFFERENTIAL BULL/BEAR REGIMES 
-    dic_mean_var = {}
-    dic_mean_cvar = {} 
+    # 1. Compute metrics for each cluster
+    dic_metrics = {}
+    
     for k in range(K):
-        # Assuming your 'projected' object has a way to get the raw array of returns/atoms
-        # e.g., projected.get_atoms() or projected.samples    
         means = []
         variances = []
         skews = []
@@ -696,54 +696,55 @@ def choose_label(best_centroids: list, best_labels: np.ndarray, metric: str, K: 
             means.append(np.mean(sorted_atoms))
             variances.append(np.var(sorted_atoms))
             skews.append(stats.skew(sorted_atoms))
-        
+            
             # 5% Expected Shortfall (Conditional VaR)
             cvars.append(np.mean(sorted_atoms[:max(1, int(len(sorted_atoms)*0.05))])) 
 
-        avg = np.mean(means)
-        var = np.mean(variances)
-        skew = np.mean(skews) 
-        cvar = np.mean(cvars)
+        dic_metrics[k] = {
+            'mean': np.mean(means),
+            'var': np.mean(variances),
+            'skew': np.mean(skews),
+            'cvar': np.mean(cvars)
+        }
 
-        dic_mean_var[k] = (avg, var)
-        dic_mean_cvar[k] = cvar
+    # 2. Determine the sorted order of cluster indices based on the metric
+    if metric == "CVaR":
+        # More negative/lower CVaR = Worse (Bearish). 
+        # Sorting ascending means: [Worst CVaR, Middle CVaR, Best CVaR]
+        sorted_clusters = sorted(range(K), key=lambda k: dic_metrics[k]['cvar'])
 
-    if (K == 2):
-        # What other metrics can I choose ? 
-        if metric == "CVaR":
-            # Associate 0 to the cluster with the min CVaR and 1 the cluster with the max CVaR
-            if dic_mean_cvar[0] > dic_mean_cvar[1]:
-                # Cluster 1 has the lower (worse) CVaR. We need to swap them.
-                best_centroids[0], best_centroids[1] = best_centroids[1], best_centroids[0]
-                best_labels = 1 - best_labels # Efficient numpy trick to swap 0s and 1s
-                #print("Labels and Centroids swapped based on CVaR metric (0 is now bearish).")
-            #else:
-                #print("Labels kept as is based on CVaR metric (0 is already bearish).")
-
-        elif metric == "MeanVar":
-            # Associate 0 to the cluster with max variance and min mean, 1 to the other 
-            mean0, var0 = dic_mean_var[0]
-            mean1, var1 = dic_mean_var[1]
-
-            if var1 > var0 and mean1 < mean0:
-                # Cluster 1 is clearly the bearish one. Swap them.
-                best_centroids[0], best_centroids[1] = best_centroids[1], best_centroids[0]
-                best_labels = 1 - best_labels
-                #print("Labels and Centroids swapped based on MeanVar metric (0 is now bearish).")
-            elif var0 > var1 and mean0 < mean1:
-                # Cluster 0 is clearly the bearish one. Keep as is.
-                print("Labels kept as is based on MeanVar metric (0 is already bearish).")
-            else:
-                # Condition not strictly satisfied (e.g., one has higher mean AND higher variance)
-                print("MeanVar condition not strictly satisfied. Labels left unchanged.")
-            
-        else:
-            print(f"Metric '{metric}' not yet implemented.")
-
+    elif metric == "MeanVar":
+        # For K=3, we look for a risk-adjusted return proxy. 
+        # Bearish: Low mean, High variance. Bullish: High mean, Low variance.
+        # We can sort primarily by Mean (ascending). If means are identical, higher variance comes first.
+        sorted_clusters = sorted(range(K), key=lambda k: (dic_metrics[k]['mean'], -dic_metrics[k]['var']))
+        
+    elif metric == "Skewness":
+        # Alternative metric: Bearish regimes often have strong negative skewness (market crashes).
+        sorted_clusters = sorted(range(K), key=lambda k: dic_metrics[k]['skew'])
+        
     else:
-        print("Automated metric swapping not yet implemented for K != 2.")
+        print(f"Metric '{metric}' not recognized. Keeping original labels.")
+        return best_centroids, best_labels
 
-    return best_centroids, best_labels
+    # 3. Permute the centroids and labels based on the new ranking
+    # sorted_clusters[0] becomes label 0 (Bear)
+    # sorted_clusters[1] becomes label 1 (Neutral if K=3, Bull if K=2)
+    # sorted_clusters[2] becomes label 2 (Bull if K=3)
+    
+    # Reorder centroids
+    new_centroids = [best_centroids[old_idx] for old_idx in sorted_clusters]
+    
+    # Map the old labels to the new rank labels using a mapping array
+    # mapping[old_label] = new_label
+    mapping = np.zeros(K, dtype=int)
+    for new_label, old_label in enumerate(sorted_clusters):
+        mapping[old_label] = new_label
+        
+    new_labels = mapping[best_labels]
+
+    #print(f"Canonicalised K={K} clusters using {metric}. Order mapping (old -> new): {sorted_clusters}")
+    return new_centroids, new_labels
 
 
 # ---------------------------------------------------------------------------
