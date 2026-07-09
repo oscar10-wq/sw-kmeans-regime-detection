@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{Andrews1991}
+Donald W.~K. Andrews.
+\newblock Heteroskedasticity and autocorrelation consistent covariance matrix estimation.
+\newblock {\em Econometrica}, 59(3):817--858, 1991.
+
 \bibitem{AngTimmermann2012}
 A.~Ang and A.~Timmermann.
 \newblock Regime changes and financial markets.
@@ -49,6 +54,11 @@ Qinmeng Luan and James Hamp.
 Scott~M Lundberg and Su-In Lee.
 \newblock A unified approach to interpreting model predictions.
 \newblock 2017.
+
+\bibitem{Memmel2003}
+Christoph Memmel.
+\newblock Performance hypothesis testing with the sharpe ratio.
+\newblock {\em Finance Letters}, 1(1):29--40, 2003.
 
 \bibitem{Mezzadri2007}
 Francesco Mezzadri.

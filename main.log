@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  8 JUL 2026 22:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  9 JUL 2026 16:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -178,7 +178,63 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks23
 \inpenc@posthook=\toks24
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/siunitx/siunitx.sty
+Package: siunitx 2025-02-27 v3.4.6 A comprehensive (SI) units package
+\l__siunitx_number_uncert_offset_int=\count290
+\l__siunitx_number_exponent_fixed_int=\count291
+\l__siunitx_number_min_decimal_int=\count292
+\l__siunitx_number_min_integer_int=\count293
+\l__siunitx_number_round_precision_int=\count294
+\l__siunitx_number_lower_threshold_int=\count295
+\l__siunitx_number_upper_threshold_int=\count296
+\l__siunitx_number_group_first_int=\count297
+\l__siunitx_number_group_size_int=\count298
+\l__siunitx_number_group_minimum_int=\count299
+\l__siunitx_angle_tmp_dim=\dimen176
+\l__siunitx_angle_marker_box=\box55
+\l__siunitx_angle_unit_box=\box56
+\l__siunitx_compound_count_int=\count300
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations.sty
+Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages (CN)
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count301
+) (/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/local/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+) (/usr/local/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+\l__siunitx_table_tmp_box=\box57
+\l__siunitx_table_tmp_dim=\dimen177
+\l__siunitx_table_column_width_dim=\dimen178
+\l__siunitx_table_integer_box=\box58
+\l__siunitx_table_decimal_box=\box59
+\l__siunitx_table_uncert_box=\box60
+\l__siunitx_table_before_box=\box61
+\l__siunitx_table_after_box=\box62
+\l__siunitx_table_before_dim=\dimen179
+\l__siunitx_table_carry_dim=\dimen180
+\l__siunitx_unit_tmp_int=\count302
+\l__siunitx_unit_position_int=\count303
+\l__siunitx_unit_total_int=\count304
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
+\col@sep=\dimen181
+\ar@mcellbox=\box63
+\extrarowheight=\dimen182
+\NC@list=\toks25
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box64
+)) (/usr/local/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
@@ -186,38 +242,29 @@ Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen176
-\captionmargin=\dimen177
-\caption@leftmargin=\dimen178
-\caption@rightmargin=\dimen179
-\caption@width=\dimen180
-\caption@indent=\dimen181
-\caption@parindent=\dimen182
-\caption@hangindent=\dimen183
+\caption@tempdima=\dimen183
+\captionmargin=\dimen184
+\caption@leftmargin=\dimen185
+\caption@rightmargin=\dimen186
+\caption@width=\dimen187
+\caption@indent=\dimen188
+\caption@parindent=\dimen189
+\caption@hangindent=\dimen190
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count290
-\c@continuedfloat=\count291
+\c@caption@flags=\count305
+\c@continuedfloat=\count306
 )
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count292
+\c@subfigure=\count307
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count293
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/tools/array.sty
-Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
-\col@sep=\dimen184
-\ar@mcellbox=\box55
-\extrarowheight=\dimen185
-\NC@list=\toks25
-\extratabsurround=\skip58
-\backup@length=\skip59
-\ar@cellbox=\box56
+\c@subtable=\count308
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@colwidth=\skip60
-\multirow@cntb=\count294
+\multirow@cntb=\count309
 \multirow@dima=\skip61
-\bigstrutjot=\dimen186
+\bigstrutjot=\dimen191
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -238,13 +285,13 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 Package: colortbl 2024/07/06 v1.0i Color table columns (DPC)
 \everycr=\toks26
 \minrowclearance=\skip62
-\rownum=\count295
+\rownum=\count310
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks27
-\pgfutil@tempdima=\dimen187
-\pgfutil@tempdimb=\dimen188
+\pgfutil@tempdima=\dimen192
+\pgfutil@tempdimb=\dimen193
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box57
+\pgfutil@abb=\box65
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
@@ -257,26 +304,26 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks30
 ))
-\pgf@x=\dimen189
-\pgf@y=\dimen190
-\pgf@xa=\dimen191
-\pgf@ya=\dimen192
-\pgf@xb=\dimen193
-\pgf@yb=\dimen194
-\pgf@xc=\dimen195
-\pgf@yc=\dimen196
-\pgf@xd=\dimen197
-\pgf@yd=\dimen198
+\pgf@x=\dimen194
+\pgf@y=\dimen195
+\pgf@xa=\dimen196
+\pgf@ya=\dimen197
+\pgf@xb=\dimen198
+\pgf@yb=\dimen199
+\pgf@xc=\dimen256
+\pgf@yc=\dimen257
+\pgf@xd=\dimen258
+\pgf@yd=\dimen259
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count296
-\c@pgf@countb=\count297
-\c@pgf@countc=\count298
-\c@pgf@countd=\count299
+\c@pgf@counta=\count311
+\c@pgf@countb=\count312
+\c@pgf@countc=\count313
+\c@pgf@countd=\count314
 \t@pgf@toka=\toks31
 \t@pgf@tokb=\toks32
 \t@pgf@tokc=\toks33
-\pgf@sys@id@count=\count300
+\pgf@sys@id@count=\count315
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -287,59 +334,59 @@ File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count301
-\pgfsyssoftpath@bigbuffer@items=\count302
+\pgfsyssoftpath@smallbuffer@items=\count316
+\pgfsyssoftpath@bigbuffer@items=\count317
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen199
-\pgfmath@count=\count303
-\pgfmath@box=\box58
+\pgfmath@dimen=\dimen260
+\pgfmath@count=\count318
+\pgfmath@box=\box66
 \pgfmath@toks=\toks34
 \pgfmath@stack@operand=\toks35
 \pgfmath@stack@operation=\toks36
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count304
+\c@pgfmathroundto@lastzeros=\count319
 )) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen256
-\pgf@picmaxx=\dimen257
-\pgf@picminy=\dimen258
-\pgf@picmaxy=\dimen259
-\pgf@pathminx=\dimen260
-\pgf@pathmaxx=\dimen261
-\pgf@pathminy=\dimen262
-\pgf@pathmaxy=\dimen263
-\pgf@xx=\dimen264
-\pgf@xy=\dimen265
-\pgf@yx=\dimen266
-\pgf@yy=\dimen267
-\pgf@zx=\dimen268
-\pgf@zy=\dimen269
+\pgf@picminx=\dimen261
+\pgf@picmaxx=\dimen262
+\pgf@picminy=\dimen263
+\pgf@picmaxy=\dimen264
+\pgf@pathminx=\dimen265
+\pgf@pathmaxx=\dimen266
+\pgf@pathminy=\dimen267
+\pgf@pathmaxy=\dimen268
+\pgf@xx=\dimen269
+\pgf@xy=\dimen270
+\pgf@yx=\dimen271
+\pgf@yy=\dimen272
+\pgf@zx=\dimen273
+\pgf@zy=\dimen274
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen270
-\pgf@path@lasty=\dimen271
+\pgf@path@lastx=\dimen275
+\pgf@path@lasty=\dimen276
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen272
-\pgf@shorten@start@additional=\dimen273
+\pgf@shorten@end@additional=\dimen277
+\pgf@shorten@start@additional=\dimen278
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box59
-\pgf@hbox=\box60
-\pgf@layerbox@main=\box61
-\pgf@picture@serial@count=\count305
+\pgfpic=\box67
+\pgf@hbox=\box68
+\pgf@layerbox@main=\box69
+\pgf@picture@serial@count=\count320
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen274
+\pgflinewidth=\dimen279
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen275
-\pgf@pt@y=\dimen276
-\pgf@pt@temp=\dimen277
+\pgf@pt@x=\dimen280
+\pgf@pt@y=\dimen281
+\pgf@pt@temp=\dimen282
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
@@ -348,17 +395,17 @@ File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen278
+\pgfarrowsep=\dimen283
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen279
-\pgf@sys@shading@range@num=\count306
-\pgf@shadingcount=\count307
+\pgf@max=\dimen284
+\pgf@sys@shading@range@num=\count321
+\pgf@shadingcount=\count322
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box62
+\pgfexternal@startupbox=\box70
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
@@ -369,101 +416,54 @@ File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box63
+\pgfnodeparttextbox=\box71
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen280
-\pgf@nodesepend=\dimen281
+\pgf@nodesepstart=\dimen285
+\pgf@nodesepend=\dimen286
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/local/texlive/2025/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen282
-\pgffor@skip=\dimen283
+\pgffor@iter=\dimen287
+\pgffor@skip=\dimen288
 \pgffor@stack=\toks37
 \pgffor@toks=\toks38
 )) (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count308
-\pgfplotmarksize=\dimen284
+\pgf@plot@mark@count=\count323
+\pgfplotmarksize=\dimen289
 )
-\tikz@lastx=\dimen285
-\tikz@lasty=\dimen286
-\tikz@lastxsaved=\dimen287
-\tikz@lastysaved=\dimen288
-\tikz@lastmovetox=\dimen289
-\tikz@lastmovetoy=\dimen290
-\tikzleveldistance=\dimen291
-\tikzsiblingdistance=\dimen292
-\tikz@figbox=\box64
-\tikz@figbox@bg=\box65
-\tikz@tempbox=\box66
-\tikz@tempbox@bg=\box67
-\tikztreelevel=\count309
-\tikznumberofchildren=\count310
-\tikznumberofcurrentchild=\count311
-\tikz@fig@count=\count312
+\tikz@lastx=\dimen290
+\tikz@lasty=\dimen291
+\tikz@lastxsaved=\dimen292
+\tikz@lastysaved=\dimen293
+\tikz@lastmovetox=\dimen294
+\tikz@lastmovetoy=\dimen295
+\tikzleveldistance=\dimen296
+\tikzsiblingdistance=\dimen297
+\tikz@figbox=\box72
+\tikz@figbox@bg=\box73
+\tikz@tempbox=\box74
+\tikz@tempbox@bg=\box75
+\tikztreelevel=\count324
+\tikznumberofchildren=\count325
+\tikznumberofcurrentchild=\count326
+\tikz@fig@count=\count327
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count313
-\pgfmatrixcurrentcolumn=\count314
-\pgf@matrix@numberofcolumns=\count315
+\pgfmatrixcurrentrow=\count328
+\pgfmatrixcurrentcolumn=\count329
+\pgf@matrix@numberofcolumns=\count330
 )
-\tikz@expandcount=\count316
+\tikz@expandcount=\count331
  (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (/usr/local/texlive/2025/texmf-dist/tex/latex/siunitx/siunitx.sty
-Package: siunitx 2025-02-27 v3.4.6 A comprehensive (SI) units package
-\l__siunitx_number_uncert_offset_int=\count317
-\l__siunitx_number_exponent_fixed_int=\count318
-\l__siunitx_number_min_decimal_int=\count319
-\l__siunitx_number_min_integer_int=\count320
-\l__siunitx_number_round_precision_int=\count321
-\l__siunitx_number_lower_threshold_int=\count322
-\l__siunitx_number_upper_threshold_int=\count323
-\l__siunitx_number_group_first_int=\count324
-\l__siunitx_number_group_size_int=\count325
-\l__siunitx_number_group_minimum_int=\count326
-\l__siunitx_angle_tmp_dim=\dimen293
-\l__siunitx_angle_marker_box=\box68
-\l__siunitx_angle_unit_box=\box69
-\l__siunitx_compound_count_int=\count327
- (/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations.sty
-Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages (CN)
- (/usr/local/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count328
-) (/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (/usr/local/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-) (/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2024/12/12 v1.0g TeX engine tests
-) (/usr/local/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-)
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-))
-\l__siunitx_table_tmp_box=\box70
-\l__siunitx_table_tmp_dim=\dimen294
-\l__siunitx_table_column_width_dim=\dimen295
-\l__siunitx_table_integer_box=\box71
-\l__siunitx_table_decimal_box=\box72
-\l__siunitx_table_uncert_box=\box73
-\l__siunitx_table_before_box=\box74
-\l__siunitx_table_after_box=\box75
-\l__siunitx_table_before_dim=\dimen296
-\l__siunitx_table_carry_dim=\dimen297
-\l__siunitx_unit_tmp_int=\count329
-\l__siunitx_unit_position_int=\count330
-\l__siunitx_unit_total_int=\count331
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
+))) (/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count332
 \float@exts=\toks39
@@ -691,8 +691,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip83
 )
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 61.
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 61.
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 62.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 62.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -712,24 +712,24 @@ LaTeX Warning: Label `fig:Asian_look_ahead' multiply defined.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
  (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count355
@@ -748,15 +748,14 @@ Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-))
+)) (/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
+File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
+)
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 62.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
- (/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
-File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
-)
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 61.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -792,41 +791,41 @@ Package translations Info: loading dictionary `translations-basic-dictionary' fo
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 61.
-Package microtype Info: Applying patch `item' on input line 61.
-Package microtype Info: Applying patch `toc' on input line 61.
-Package microtype Info: Applying patch `eqnum' on input line 61.
-Package microtype Info: Applying patch `footnote' on input line 61.
-Package microtype Info: Applying patch `verbatim' on input line 61.
-LaTeX Info: Redefining \microtypesetup on input line 61.
+LaTeX Info: Redefining \microtypecontext on input line 62.
+Package microtype Info: Applying patch `item' on input line 62.
+Package microtype Info: Applying patch `toc' on input line 62.
+Package microtype Info: Applying patch `eqnum' on input line 62.
+Package microtype Info: Applying patch `footnote' on input line 62.
+Package microtype Info: Applying patch `verbatim' on input line 62.
+LaTeX Info: Redefining \microtypesetup on input line 62.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 61.
+LaTeX Info: Redefining \showhyphens on input line 62.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-ptm.cfg
 File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
-Package hyperref Info: Link coloring OFF on input line 61.
+Package hyperref Info: Link coloring OFF on input line 62.
  (./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 67.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 68.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 LaTeX Font Warning: Font shape `TS1/ptm/m/sc' undefined
 (Font)              using `TS1/ptm/m/n' instead
-(Font)              for symbol `textperiodcentered' on input line 67.
+(Font)              for symbol `textperiodcentered' on input line 68.
 
-LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 73.
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 74.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
@@ -834,19 +833,19 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `ztmcm' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 73.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 74.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 73.
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 74.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 73.
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 74.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 73.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 74.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
@@ -856,16 +855,16 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 73.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 74.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 73.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 73.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 73.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
 
 
 [1
@@ -883,7 +882,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.38 ...{\numberline {6}Conclusion}{35}{section.6}
+l.38 ...ne {5.1}SHAP Analysis}{36}{subsection.5.1}
                                                   % [1])
 \tf@toc=\write5
 \openout5 = `main.toc'.
@@ -925,235 +924,299 @@ Package microtype Info: Loading generic protrusion settings for font family
 [13]
 
 [14]
-pdfTeX warning (ext4): destination with the same identifier (name{equation.25}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.498 \begin{equation}
+l.526 \begin{equation}
                       
-pdfTeX warning (ext4): destination with the same identifier (name{equation.25}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.498 \begin{equation}
+l.526 \begin{equation}
                       
-pdfTeX warning (ext4): destination with the same identifier (name{equation.25}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.498 \begin{equation}
+l.526 \begin{equation}
                       
-pdfTeX warning (ext4): destination with the same identifier (name{equation.25}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.498 \begin{equation}
+l.526 \begin{equation}
                       
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 546.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 546.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 546.
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.533 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.533 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.533 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.533 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.539 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.539 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.539 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.539 \begin{equation}
+                      
+
+[15
+pdfTeX warning (ext4): destination with the same identifier (name{equation.28}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.578 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.578 \begin{equation}
+                      ]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 621.
 
 
-[15]
 
 [16]
 
 [17]
-<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=403, 1292.9103pt x 426.393pt>
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 697.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 697.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 697.
+
+
+[18
+pdfTeX warning (ext4): destination with the same identifier (name{equation.36}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.741 W
+       e observe that for data type A and B, the UnifOrtho projections yield...]
+
+[19]
+
+[20]
+<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=454, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeA_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeA_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  used on input line 663.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  used on input line 814.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=405, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=456, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeB_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeB_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeB_5D_plot_regime.png  used on input line 672.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeB_5D_plot_regime.png  used on input line 823.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
 
 
-[18 <./graphs/synthetic_data_tests/typeA_5D_plot_regime.png>]
-<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=415, 1292.9103pt x 426.393pt>
+[21 <./graphs/synthetic_data_tests/typeA_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeB_5D_plot_regime.png>]
+<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=466, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeC_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeC_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeC_5D_plot_regime.png  used on input line 684.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeC_5D_plot_regime.png  used on input line 835.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=416, 1300.86pt x 433.62pt>
+<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=467, 1300.86pt x 433.62pt>
 File: graphs/synthetic_data_tests/typeD_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeD_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeD_5D_plot_regime.png  used on input line 693.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeD_5D_plot_regime.png  used on input line 844.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
 
 
-[19 <./graphs/synthetic_data_tests/typeB_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeC_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeD_5D_plot_regime.png>]
-Underfull \hbox (badness 4479) in paragraph at lines 754--755
+[22 <./graphs/synthetic_data_tests/typeC_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeD_5D_plot_regime.png>]
+Underfull \hbox (badness 4479) in paragraph at lines 905--906
 []|\T1/ptm/m/n/10.95 (+20) Switch-probability at/above which a
  []
 
 
-Underfull \hbox (badness 6001) in paragraph at lines 755--756
+Underfull \hbox (badness 6001) in paragraph at lines 906--907
 []|\T1/ptm/m/n/10.95 (+20) Switch-probability be-low which the
  []
 
 
 
-[20]
+[23]
 Overfull \vbox (55.44157pt too high) has occurred while \output is active []
 
 
 
-[21]
-<graphs/real_data_tests/american_index_clustering.png, id=439, 1300.86pt x 433.62pt>
+[24]
+<graphs/real_data_tests/american_index_clustering.png, id=489, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/american_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/american_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 803.
+Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 954.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/real_data_tests/european_index_clustering.png, id=440, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/european_index_clustering.png, id=490, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/european_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/european_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 810.
+Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 961.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
 
 
-[22]
-<graphs/real_data_tests/asian_index_clustering.png, id=447, 1300.86pt x 433.62pt>
+[25]
+<graphs/real_data_tests/asian_index_clustering.png, id=497, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/asian_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/asian_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 816.
+Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 967.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/look_ahead_perf/American_look_ahead.png, id=450, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/American_look_ahead.png, id=500, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/American_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/American_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 828.
+Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 979.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
-[23 <./graphs/real_data_tests/american_index_clustering.png> <./graphs/real_data_tests/european_index_clustering.png> <./graphs/real_data_tests/asian_index_clustering.png>]
-<graphs/look_ahead_perf/European_look_ahead.png, id=462, 1011.78pt x 505.89pt>
+[26 <./graphs/real_data_tests/american_index_clustering.png> <./graphs/real_data_tests/european_index_clustering.png> <./graphs/real_data_tests/asian_index_clustering.png>]
+<graphs/look_ahead_perf/European_look_ahead.png, id=512, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/European_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/European_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 835.
+Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 986.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
-<graphs/look_ahead_perf/Asian_look_ahead.png, id=463, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/Asian_look_ahead.png, id=513, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/Asian_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/Asian_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 843.
+Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 994.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
-[24 <./graphs/look_ahead_perf/American_look_ahead.png> <./graphs/look_ahead_perf/European_look_ahead.png>]
-Overfull \hbox (5.34471pt too wide) in paragraph at lines 880--888
+[27 <./graphs/look_ahead_perf/American_look_ahead.png> <./graphs/look_ahead_perf/European_look_ahead.png>]
+Overfull \hbox (5.34471pt too wide) in paragraph at lines 1031--1039
 []\T1/ptm/m/n/12 (-20) This give us a strong in-di-ca-tion that un-der real em-pir-i-cal dis-tri-bu-tions the Sliced-Wasserstein
  []
 
 
 
-[25 <./graphs/look_ahead_perf/Asian_look_ahead.png>]
-<graphs/real_trading_algos/America.png, id=485, 1011.78pt x 722.7pt>
-File: graphs/real_trading_algos/America.png Graphic file (type png)
-<use graphs/real_trading_algos/America.png>
-Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 911.
-(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
-
-
-[26]
-<graphs/real_trading_algos/Europe.png, id=492, 1011.78pt x 722.7pt>
-File: graphs/real_trading_algos/Europe.png Graphic file (type png)
-<use graphs/real_trading_algos/Europe.png>
-Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 918.
-(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
-
-
-[27 <./graphs/real_trading_algos/America.png>]
-<graphs/real_trading_algos/Asia.png, id=499, 1011.78pt x 722.7pt>
-File: graphs/real_trading_algos/Asia.png Graphic file (type png)
-<use graphs/real_trading_algos/Asia.png>
-Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 925.
-(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
-
-
-[28 <./graphs/real_trading_algos/Europe.png> <./graphs/real_trading_algos/Asia.png>]
+[28 <./graphs/look_ahead_perf/Asian_look_ahead.png>]
 
 [29]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1002.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\tau' on input line 1002.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1002.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1002.
+<graphs/real_trading_algos/America.png, id=541, 1011.78pt x 722.7pt>
+File: graphs/real_trading_algos/America.png Graphic file (type png)
+<use graphs/real_trading_algos/America.png>
+Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 1069.
+(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
+<graphs/real_trading_algos/Europe.png, id=542, 1011.78pt x 722.7pt>
+File: graphs/real_trading_algos/Europe.png Graphic file (type png)
+<use graphs/real_trading_algos/Europe.png>
+Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 1101.
+(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\tau' on input line 1002.
+[30 <./graphs/real_trading_algos/America.png>]
+<graphs/real_trading_algos/Asia.png, id=552, 1011.78pt x 722.7pt>
+File: graphs/real_trading_algos/Asia.png Graphic file (type png)
+<use graphs/real_trading_algos/Asia.png>
+Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 1134.
+(pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 1002.
+[31 <./graphs/real_trading_algos/Europe.png>]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1195.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1195.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1002.
-
-
-
-[30]
-
-[31]
-
-[32]
-<graphs/shap_analysis/OLS_bear_shap.png, id=535, 685.8423pt x 425.6703pt>
-File: graphs/shap_analysis/OLS_bear_shap.png Graphic file (type png)
-<use graphs/shap_analysis/OLS_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1099.
-(pdftex.def)             Requested size: 211.68661pt x 131.38484pt.
-<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=536, 714.7503pt x 425.6703pt>
-File: graphs/shap_analysis/OLS_feature_ranking_bear.png Graphic file (type png)
-<use graphs/shap_analysis/OLS_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1107.
-(pdftex.def)             Requested size: 211.68661pt x 126.07178pt.
-
+[32 <./graphs/real_trading_algos/Asia.png>]
 
 [33]
-<graphs/shap_analysis/Logistic_bear_shap.png, id=541, 685.8423pt x 426.393pt>
-File: graphs/shap_analysis/Logistic_bear_shap.png Graphic file (type png)
-<use graphs/shap_analysis/Logistic_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1122.
-(pdftex.def)             Requested size: 211.68661pt x 131.60791pt.
-<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=542, 714.7503pt x 426.393pt>
-File: graphs/shap_analysis/Logistic_feature_ranking_bear.png Graphic file (type png)
-<use graphs/shap_analysis/Logistic_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1130.
-(pdftex.def)             Requested size: 211.68661pt x 126.28581pt.
-<graphs/shap_analysis/RandomForest_bear_shap.png, id=543, 722.7pt x 433.62pt>
-File: graphs/shap_analysis/RandomForest_bear_shap.png Graphic file (type png)
-<use graphs/shap_analysis/RandomForest_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1145.
-(pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
-<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=544, 722.7pt x 433.62pt>
-File: graphs/shap_analysis/RandomForest_feature_ranking_bear.png Graphic file (type png)
-<use graphs/shap_analysis/RandomForest_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1153.
-(pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
+
+[34]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1305.
 
 
-[34 <./graphs/shap_analysis/OLS_bear_shap.png> <./graphs/shap_analysis/OLS_feature_ranking_bear.png> <./graphs/shap_analysis/Logistic_bear_shap.png> <./graphs/shap_analysis/Logistic_feature_ranking_bear.png> <./graphs/shap_analysis/RandomForest_bear_shap.png> <./graphs/shap_analysis/RandomForest_feature_ranking_bear.png>]
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\tau' on input line 1305.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1305.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1305.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\tau' on input line 1305.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 1305.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1305.
+
+
 
 [35]
 
 [36]
 
 [37]
+<graphs/shap_analysis/OLS_bear_shap.png, id=602, 685.8423pt x 425.6703pt>
+File: graphs/shap_analysis/OLS_bear_shap.png Graphic file (type png)
+<use graphs/shap_analysis/OLS_bear_shap.png>
+Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1402.
+(pdftex.def)             Requested size: 211.68661pt x 131.38484pt.
+<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=603, 714.7503pt x 425.6703pt>
+File: graphs/shap_analysis/OLS_feature_ranking_bear.png Graphic file (type png)
+<use graphs/shap_analysis/OLS_feature_ranking_bear.png>
+Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1410.
+(pdftex.def)             Requested size: 211.68661pt x 126.07178pt.
+<graphs/shap_analysis/Logistic_bear_shap.png, id=604, 685.8423pt x 426.393pt>
+File: graphs/shap_analysis/Logistic_bear_shap.png Graphic file (type png)
+<use graphs/shap_analysis/Logistic_bear_shap.png>
+Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1425.
+(pdftex.def)             Requested size: 211.68661pt x 131.60791pt.
+<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=605, 714.7503pt x 426.393pt>
+File: graphs/shap_analysis/Logistic_feature_ranking_bear.png Graphic file (type png)
+<use graphs/shap_analysis/Logistic_feature_ranking_bear.png>
+Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1433.
+(pdftex.def)             Requested size: 211.68661pt x 126.28581pt.
 
-[38]
 
-[39]
+[38 <./graphs/shap_analysis/OLS_bear_shap.png> <./graphs/shap_analysis/OLS_feature_ranking_bear.png>]
+<graphs/shap_analysis/RandomForest_bear_shap.png, id=613, 722.7pt x 433.62pt>
+File: graphs/shap_analysis/RandomForest_bear_shap.png Graphic file (type png)
+<use graphs/shap_analysis/RandomForest_bear_shap.png>
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1448.
+(pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
+<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=614, 722.7pt x 433.62pt>
+File: graphs/shap_analysis/RandomForest_feature_ranking_bear.png Graphic file (type png)
+<use graphs/shap_analysis/RandomForest_feature_ranking_bear.png>
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1456.
+(pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
+
+
+[39 <./graphs/shap_analysis/Logistic_bear_shap.png> <./graphs/shap_analysis/Logistic_feature_ranking_bear.png> <./graphs/shap_analysis/RandomForest_bear_shap.png> <./graphs/shap_analysis/RandomForest_feature_ranking_bear.png>]
 
 [40]
 
@@ -1169,9 +1232,19 @@ Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.
 
 [46]
 
-[47] (./main.bbl)
+[47]
 
-[48] (./main.aux)
+[48]
+
+[49]
+
+[50]
+
+[51]
+
+[52] (./main.bbl)
+
+[53] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1184,21 +1257,21 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3B42A543AE49703124320A64C70672D0;9232.
+(rerunfilecheck)             Checksum: E912B0CFAE13D30B34BCAFB8EBCCF089;9691.
  ) 
 Here is how much of TeX's memory you used:
- 33265 strings out of 473190
- 663667 string characters out of 5715800
- 1038698 words of memory out of 5000000
- 55164 multiletter control sequences out of 15000+600000
- 732108 words of font info for 564 fonts, out of 8000000 for 9000
+ 33405 strings out of 473190
+ 665676 string characters out of 5715800
+ 1041747 words of memory out of 5000000
+ 55234 multiletter control sequences out of 15000+600000
+ 749098 words of font info for 610 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,23n,87p,1081b,1124s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,23n,87p,1081b,1126s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (49 pages, 2683936 bytes).
+Output written on main.pdf (54 pages, 2704142 bytes).
 PDF statistics:
- 857 PDF objects out of 1000 (max. 8388607)
- 722 compressed objects within 8 object streams
- 282 named destinations out of 1000 (max. 500000)
- 169828 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 930 PDF objects out of 1000 (max. 8388607)
+ 790 compressed objects within 8 object streams
+ 316 named destinations out of 1000 (max. 500000)
+ 184180 words of extra memory for PDF output out of 184870 (max. 10000000)
 

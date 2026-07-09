@@ -104,15 +104,30 @@ def _auto_bandwidth_qs(Y):
     return max(ST, 1.0)
 
 
-def _prewhiten(Y):
-    """VAR(1) prewhitening: returns whitened residuals and the AR coefficient matrix."""
+def _prewhiten(Y, rho_max=0.97):
+    """AR(1) prewhitening, applied column-by-column (Andrews & Monahan 1992).
+
+    A *full* VAR(1) is unusable here: the columns of Y are (r_i, r_n, r_i^2, r_n^2),
+    whose scales differ by ~100x.  An unrestricted OLS fit puts large off-diagonal
+    coefficients on the cross-scale regressors, and the recolouring step
+    (I - A)^{-1} Psi (I - A)^{-T} then injects return-scale variance into the
+    tiny squared-return block, inflating the SE by an order of magnitude.
+
+    Restricting A to be diagonal makes each coefficient scale-free and makes
+    (I - A)^{-1} = diag(1/(1 - rho_j)), which cannot mix components.  The
+    coefficients are additionally bounded away from the unit circle.
+    """
     T, d = Y.shape
-    X = Y[:-1]  # T-1 × d
-    Yp = Y[1:]  # T-1 × d
-    # OLS:  A = (X'X)^{-1} X'Y
-    A = np.linalg.lstsq(X, Yp, rcond=None)[0]  # d × d
-    resid = Yp - X @ A
-    return resid, A
+    rhos = np.zeros(d)
+    resid = np.empty((T - 1, d))
+    for j in range(d):
+        x, y = Y[:-1, j], Y[1:, j]
+        denom = x @ x
+        rho = (x @ y) / denom if denom > 1e-300 else 0.0
+        rho = float(np.clip(rho, -rho_max, rho_max))   # keep (1 - rho) safely invertible
+        rhos[j] = rho
+        resid[:, j] = y - rho * x
+    return resid, np.diag(rhos)
 
 
 def _hac_psi(Y, prewhiten=True):
@@ -334,8 +349,32 @@ def ledoit_wolf_test(returns_i, returns_n,
         "T": T,
     }
 
+    if method not in ("hac", "boot", "both"):
+        raise ValueError(f"method must be 'hac', 'boot' or 'both'; got {method!r}")
+
+    results["alpha"] = alpha
+
+    # Ψ and the delta-method SE are needed by BOTH branches — compute once.
+    Y       = _y_matrix(ri, rn, v)
+    Psi     = _hac_psi(Y, prewhiten=True)
+    se_orig = _se_delta(v, Psi, T)
+
     # --- HAC inference ---
-    # Inside ledoit_wolf_test, replace the bootstrap block with:
+    if method in ("hac", "both"):
+        results["hac_se"] = se_orig
+        if se_orig > 1e-14:
+            z = delta / se_orig
+            zc = norm.ppf(1.0 - alpha / 2.0)
+            results["hac_stat"] = z
+            results["hac_pval"] = 2.0 * norm.sf(abs(z))   # two-sided
+            results["hac_ci_lower"] = delta - zc * se_orig
+            results["hac_ci_upper"] = delta + zc * se_orig
+        else:
+            results["hac_stat"] = 0.0
+            results["hac_pval"] = 1.0
+            results["hac_ci_lower"] = results["hac_ci_upper"] = delta
+
+    # --- Studentized circular block bootstrap ---
     if method in ("boot", "both"):
         if block_sizes is None:
             block_sizes = [1, 2, 4, 6, 8, 10]
@@ -352,10 +391,7 @@ def ledoit_wolf_test(returns_i, returns_n,
 
         results["boot_block_size"] = best_b
 
-        # — compute original studentized statistic once —
-        Y       = _y_matrix(ri, rn, v)
-        Psi     = _hac_psi(Y, prewhiten=True)
-        se_orig = _se_delta(v, Psi, T)
+        # — original studentized statistic (Y/Psi/se_orig computed above) —
         d_orig  = abs(delta) / se_orig if se_orig > 0 else 0.0
 
         data_arr = np.column_stack([ri, rn])
@@ -385,32 +421,52 @@ def ledoit_wolf_test(returns_i, returns_n,
 
 
 def print_results(results, strategy_name="Strategy", benchmark_name="Benchmark"):
-    """Pretty-print the test results."""
+    """Pretty-print the test results (reports every method that was actually run)."""
+    alpha = results.get("alpha", 0.05)
+    conf = 1.0 - alpha
+
     print("=" * 65)
     print("  Ledoit & Wolf (2008) Sharpe Ratio Difference Test")
     print("=" * 65)
     print(f"  {strategy_name} SR  :  {results['SR_i']:.4f}")
     print(f"  {benchmark_name} SR :  {results['SR_n']:.4f}")
-    print(f"  Δ (SR_i − SR_n)    :  {results['delta']:.4f}")
+    print(f"  \u0394 (SR_i \u2212 SR_n)    :  {results['delta']:.4f}")
     print(f"  T (observations)   :  {results['T']}")
-    print("-" * 65)
 
     if "hac_pval" in results:
-        print(f"  HAC p-value        :  {results['hac_pval']:.4f}")
-        print(f"  HAC std error      :  {results['hac_se']:.6f}")
+        print("-" * 65)
+        print("  HAC inference (prewhitened QS kernel)")
+        print(f"    std error        :  {results['hac_se']:.6f}")
+        print(f"    test statistic   :  {results['hac_stat']:.4f}")
+        print(f"    p-value          :  {results['hac_pval']:.4f}")
+        print(f"    {conf:.0%} CI          :  "
+              f"[{results['hac_ci_lower']:.4f}, {results['hac_ci_upper']:.4f}]")
+
     if "boot_pval" in results:
-        print(f"  Bootstrap p-value  :  {results['boot_pval']:.4f}")
-        print(f"  Block size (b)     :  {results['boot_block_size']}")
-        print(f"  95% CI             :  [{results['boot_ci_lower']:.4f}, {results['boot_ci_upper']:.4f}]")
+        print("-" * 65)
+        print("  Studentized circular block bootstrap")
+        print(f"    block size (b)   :  {results['boot_block_size']}")
+        print(f"    p-value          :  {results['boot_pval']:.4f}")
+        print(f"    {conf:.0%} CI          :  "
+              f"[{results['boot_ci_lower']:.4f}, {results['boot_ci_upper']:.4f}]")
+
     print("=" * 65)
-    # Interpretation
-    alpha = 0.05
-    key = "boot_pval" if "boot_pval" in results else "hac_pval"
-    if key in results:
-        if results[key] < alpha:
-            print(f"  ➜  REJECT H0 at {alpha:.0%}: the Sharpe ratios are significantly different.")
-        else:
-            print(f"  ➜  FAIL TO REJECT H0 at {alpha:.0%}: no significant difference in Sharpe ratios.")
+
+    # --- Interpretation: report EVERY method that was run, not just one ---
+    verdicts = {}
+    for label, key in (("HAC", "hac_pval"), ("Bootstrap", "boot_pval")):
+        if key in results:
+            reject = results[key] < alpha
+            verdicts[label] = reject
+            decision = "REJECT H0" if reject else "FAIL TO REJECT H0"
+            tail = ("Sharpe ratios differ significantly."
+                    if reject else "no significant difference in Sharpe ratios.")
+            print(f"  \u279c  {label:<9} at {alpha:.0%}:  {decision} \u2014 {tail}")
+
+    if not verdicts:
+        print("  \u26a0  No p-value in results \u2014 was `method` set correctly?")
+    elif len(set(verdicts.values())) > 1:
+        print("  \u26a0  Methods disagree. Ledoit & Wolf recommend trusting the bootstrap.")
     print()
 
 
@@ -473,7 +529,7 @@ if __name__ == "__main__":
         # For the full robust test use method="both" (slow but recommended).
         res = ledoit_wolf_test(
             ri, rn,
-            method="hac",          # change to "both" for bootstrap
+            method="both",         # "hac" is instant; "both" is the full robust test
             n_bootstrap=4999,
             calibrate=True,        # Algorithm 3.1 for block size
             K_calibration=500,     # increase to 1000+ for production

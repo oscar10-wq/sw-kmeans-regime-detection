@@ -160,7 +160,7 @@ def lifting_transformation(r_S: np.ndarray, h1: int, h2: int) -> np.ndarray:
     Returns
     -------
     np.ndarray of shape (M, h1, d)
-        Lifted sample array where M = floor((N − h1) / h2) + 1.
+        Lifted sample array where M = floor((N -(h1-h2)) / h2).
     """
      
     windows = sliding_window_view(r_S, window_shape=h1, axis=0)

@@ -153,54 +153,76 @@ def visualize_one_plot_ts(t, S, labels, centroids , h1, h2, K): # K 2 or 3
     plt.tight_layout()
 
 
-def total_accuracy(S, true_regimes, labels, h1, h2):
+def total_accuracy(S, true_regimes, labels, h1, h2, exclude_uncovered=True):
     """
-    Computes TA by handling the label switching problem and majority voting.
-    
-    true_regimes: np.array (N, 1) - The ground truth from your data generator
-    labels: np.array (M,) - The labels from sWk-means
-    """
-    r_S = np.diff(np.log(S), axis=0)
-    N,d = r_S.shape
-    N = len(true_regimes)
-    M = len(labels)
-    
-    # --- Step 1: Majority Voting (Convert Window Labels to Point Labels) ---
-    # We count how many times each point is assigned to each label
-    votes = np.zeros((N, len(np.unique(labels))))
-    
-    for m in range(M):
-        start_idx = h2 * m
-        end_idx = start_idx + h1
-        # Add a 'vote' for the label assigned to this window
-        votes[start_idx:end_idx, labels[m]] += 1
+    Total Accuracy with majority voting over overlapping lifted windows,
+    with alignment guards.
 
-    # Final prediction for each point is the label with the most votes
+    Alignment convention
+    ---------------------
+    Clustering runs on returns r_S = diff(log(S)), of length len(S) - 1.
+    Window m (m = 0..M-1) covers RETURN indices [h2*m : h2*m + h1] -- exactly the
+    windows produced by wasserstein.lifting_transformation. `true_regimes` must
+    therefore be indexed by RETURN: len(true_regimes) == len(S) - 1, where
+    true_regimes[i] is the regime that generated the step S[i] -> S[i+1].
+    """
+    true_regimes = np.asarray(true_regimes).flatten()
+    labels = np.asarray(labels)
+    n_ret = len(S) - 1
+    M = len(labels)
+
+    # --- Guard 1: return/label alignment (the real hole) -----------------
+    if len(true_regimes) != n_ret:
+        raise ValueError(
+            f"true_regimes has length {len(true_regimes)}, but returns have "
+            f"length len(S)-1 = {n_ret}. total_accuracy compares labels in RETURN "
+            f"space (return i = step S[i]->S[i+1]). If your generator emitted one "
+            f"label per PRICE (length {len(S)}), drop the first or last element to "
+            f"align it to returns before calling."
+        )
+
+    # --- Guard 2: labels/windows in sync with (h1, h2) -------------------
+    M_expected = math.floor((n_ret - (h1 - h2)) / h2)
+    if M != M_expected:
+        raise ValueError(
+            f"len(labels) = {M}, but lifting a length-{n_ret} return series with "
+            f"(h1, h2) = ({h1}, {h2}) yields {M_expected} windows. Out of sync."
+        )
+    if M > 0 and h2 * (M - 1) + h1 > n_ret:
+        raise ValueError(
+            f"window {M-1} reaches return index {h2*(M-1)+h1} > {n_ret}; "
+            f"(h1, h2) inconsistent with labels."
+        )
+
+    # --- Step 1: majority vote, tracking coverage ------------------------
+    n_classes = int(max(labels.max(), true_regimes.max())) + 1
+    votes = np.zeros((n_ret, n_classes))
+    covered = np.zeros(n_ret, dtype=bool)
+    for m in range(M):
+        s, e = h2 * m, h2 * m + h1
+        votes[s:e, labels[m]] += 1
+        covered[s:e] = True
+
     pred_regimes = np.argmax(votes, axis=1)
 
-    # --- Step 2: Handle Label Switching (Permutations) ---
-    # Find all unique labels (e.g., [0, 1])
-    unique_labels = np.unique(pred_regimes)
-    all_perms = list(permutations(unique_labels))
-    
-    max_acc = 0
-    best_perm = None
-    
-    for perm in all_perms:
-        # Map the labels based on the current permutation
-        # e.g., if perm is (1, 0), then 0 becomes 1 and 1 becomes 0
-        map_dict = dict(zip(unique_labels, perm))
-        mapped_preds = np.array([map_dict[p] for p in pred_regimes])
+    # --- Guard 3: deliberate tail handling -------------------------------
+    # Points beyond the last window receive no vote. Exclude them explicitly
+    # rather than letting argmax silently default them to class 0.
+    if exclude_uncovered:
+        if not covered.any():
+            raise ValueError("no points were covered by any window.")
+        pred_eval, true_eval = pred_regimes[covered], true_regimes[covered]
+    else:
+        pred_eval, true_eval = pred_regimes, true_regimes
 
-        # Calculate accuracy for this specific mapping
-        current_acc = sum(mapped_preds.flatten() == true_regimes.flatten()) / (sum(mapped_preds.flatten() == true_regimes.flatten()) + sum(mapped_preds.flatten() != true_regimes.flatten()))
-        
-        if current_acc > max_acc:
-            max_acc = current_acc
-            best_perm = perm
-            
-    return max_acc
-
+    # --- Step 2: label switching via best permutation --------------------
+    unique_labels = np.unique(pred_eval)
+    best_acc = 0.0
+    for perm in permutations(unique_labels):
+        mapping = dict(zip(unique_labels, perm))
+        mapped = np.array([mapping[p] for p in pred_eval])
+        best_acc = max(best_acc, float(np.mean(mapped == true_eval)))
+    return best_acc
 
 def mean_squared_point_centroid_distance(centroids, labels, projected_emp_dist, K, p=2):
     """

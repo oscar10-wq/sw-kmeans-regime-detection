@@ -22,23 +22,25 @@
 \contentsline {paragraph}{Proposition}{11}{section*.15}%
 \contentsline {subsection}{\numberline {2.4}Theoretical Framework for Implied Probability Regime Detection Strategy}{12}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Theoretical Framework for the Ledoit-Wolf Sharpe ratio test}{14}{subsection.2.5}%
-\contentsline {section}{\numberline {3}Experiment 1 - Synthetic Data Testing}{14}{section.3}%
-\contentsline {section}{\numberline {4}Experiment 2 - Application of sliced-SW k-means clustering with UnifOrtho projections on real world data sets}{20}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Performance Analysis of sliced Wasserstein Regime Detection using UnifOrtho with Look-Ahead}{22}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Performance analysis of regime detection using trading strategies}{26}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Ledoit-Wolf test on sharpe ratios}{29}{subsubsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.3}Tuning the hyperparameters for the trading strategies}{29}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Tuning the half-life parameter for the exponentially weighted majority voting scheme}{29}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Tuning the weights for ensemble methods}{30}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Tuning the gradient weight for implied probability methods}{30}{subsubsection.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.3.4}Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{31}{subsubsection.4.3.4}%
-\contentsline {section}{\numberline {5}Experiment 3: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}{31}{section.5}%
-\contentsline {subsection}{\numberline {5.1}SHAP Analysis}{31}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Experimental Setup}{32}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Conclusion}{35}{section.6}%
-\contentsline {section}{\numberline {A}Appendix}{36}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Sliced Wasserstein on Synthetic Data - Performance Tables}{36}{subsection.A.1}%
-\contentsline {subsubsection}{\numberline {A.1.1}Look-ahead regime strategy}{44}{subsubsection.A.1.1}%
-\contentsline {subsubsection}{\numberline {A.1.2}Standard SW k-means trading strategy}{45}{subsubsection.A.1.2}%
-\contentsline {subsubsection}{\numberline {A.1.3}Implied Probability SW k-means trading strategy}{46}{subsubsection.A.1.3}%
-\contentsline {section}{References}{48}{equation.37}%
+\contentsline {section}{\numberline {3}Experiment 1 - Synthetic Data Testing}{16}{section.3}%
+\contentsline {subsubsection}{\numberline {3.0.1}Performance Metrics}{17}{subsubsection.3.0.1}%
+\contentsline {subsubsection}{\numberline {3.0.2}Experimental Setup and Results}{17}{subsubsection.3.0.2}%
+\contentsline {section}{\numberline {4}Experiment 2 - Application of sliced-SW k-means clustering with UnifOrtho projections on real world data sets}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Performance Analysis of sliced Wasserstein Regime Detection using UnifOrtho with Look-Ahead}{25}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Performance analysis of regime detection using trading strategies}{29}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Ledoit-Wolf test on sharpe ratios}{33}{subsubsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.3}Tuning the hyperparameters for the trading strategies}{34}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Tuning the half-life parameter for the exponentially weighted majority voting scheme}{34}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Tuning the weights for ensemble methods}{35}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Tuning the gradient weight for implied probability methods}{35}{subsubsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.4}Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{35}{subsubsection.4.3.4}%
+\contentsline {section}{\numberline {5}Experiment 3: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}{36}{section.5}%
+\contentsline {subsection}{\numberline {5.1}SHAP Analysis}{36}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Experimental Setup and Results}{37}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Conclusion}{40}{section.6}%
+\contentsline {section}{\numberline {A}Appendix}{41}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Sliced Wasserstein on Synthetic Data - Performance Tables}{41}{subsection.A.1}%
+\contentsline {subsubsection}{\numberline {A.1.1}Look-ahead regime strategy}{49}{subsubsection.A.1.1}%
+\contentsline {subsubsection}{\numberline {A.1.2}Standard SW k-means trading strategy}{50}{subsubsection.A.1.2}%
+\contentsline {subsubsection}{\numberline {A.1.3}Implied Probability SW k-means trading strategy}{51}{subsubsection.A.1.3}%
+\contentsline {section}{References}{53}{equation.48}%

@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1783544858.69319 "main.aux" "main.bbl" "main" 1783544873.90419 0
-  "./main.bib" 1783354601.67494 4625 f7f199cfb0aff54be7d64d0924be7696 ""
+["bibtex main"] 1783609465.01715 "main.aux" "main.bbl" "main" 1783610774.825 0
+  "./main.bib" 1783607021.18535 5143 cdb991376497dcc28c5fe00cdbd251e4 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1783544873.44136 32716 41e4c2b8ea5b4cb91262c5efac751507 "pdflatex"
+  "main.aux" 1783610774.42523 36723 a491200d3a13114176ffd1464b7c0bf8 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1783544866.51235 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1783544873.90448 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1783544860.04418 117457 d8c316314f00a0ca2483098217c77ed9 ""
+["pdflatex"] 1783610768.63021 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1783610774.82538 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1783610768.91201 132368 0c6bf2ac2d4943f1949357e91e3d84a9 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -261,9 +261,9 @@
   "graphs/real_data_tests/american_index_clustering.png" 1783499602.8713 145802 2e6abc1dc9462c8047b2bbd986c6a539 ""
   "graphs/real_data_tests/asian_index_clustering.png" 1783499782.9613 172212 8c2daf6d342d19da23e897f81d410405 ""
   "graphs/real_data_tests/european_index_clustering.png" 1783499679.42472 176605 9313e59d7affd4f3ad4459d8250a7f32 ""
-  "graphs/real_trading_algos/America.png" 1783520281.77624 330592 ce4e3be11723f40ea25c6aeda9d27290 ""
-  "graphs/real_trading_algos/Asia.png" 1783523798.51947 347661 5568dbe73391f43d1997b14c1c0922f7 ""
-  "graphs/real_trading_algos/Europe.png" 1783523055.27258 335594 24b38179db8b7a6ac1819cc940742e3d ""
+  "graphs/real_trading_algos/America.png" 1783596967.7658 329388 250d808fb3e3318bbec615f361e96172 ""
+  "graphs/real_trading_algos/Asia.png" 1783598611.76228 344206 9dab6eb7994b1170f45ede6f43b12675 ""
+  "graphs/real_trading_algos/Europe.png" 1783597726.93674 340633 260317fa9d00adbf907312afb8f1179b ""
   "graphs/shap_analysis/Logistic_bear_shap.png" 1783432512.40217 68398 48760cf8ffe74c3f1771f4a7ae2b8059 ""
   "graphs/shap_analysis/Logistic_feature_ranking_bear.png" 1783432534.42843 35096 5a397d36780bc5acb10987b82f798904 ""
   "graphs/shap_analysis/OLS_bear_shap.png" 1783432468.92699 74440 9b089ca19bbec98f1417ce33d875fa55 ""
@@ -274,11 +274,11 @@
   "graphs/synthetic_data_tests/typeB_5D_plot_regime.png" 1783256293.19978 191238 58e1d755c80b2461a9c743e2c084b870 ""
   "graphs/synthetic_data_tests/typeC_5D_plot_regime.png" 1783256378.51422 160249 1fc709a154b2c5a8ec959d27ed4252ab ""
   "graphs/synthetic_data_tests/typeD_5D_plot_regime.png" 1783504525.98651 189339 c586c6d1f9045593af9430ab1a4ee67e ""
-  "main.aux" 1783544873.44136 32716 41e4c2b8ea5b4cb91262c5efac751507 "pdflatex"
-  "main.bbl" 1783544858.84915 3071 ca9fc30c92158355a249b6ec711c8545 "bibtex main"
-  "main.out" 1783544873.44487 9232 3b42a543ae49703124320a64c70672d0 "pdflatex"
-  "main.tex" 1783544860.04418 117457 d8c316314f00a0ca2483098217c77ed9 ""
-  "main.toc" 1783544873.44522 4618 5a39ba137bea40bcca61cdf067cafab6 "pdflatex"
+  "main.aux" 1783610774.42523 36723 a491200d3a13114176ffd1464b7c0bf8 "pdflatex"
+  "main.bbl" 1783609465.11277 3414 e643aaf43b00de6990d3c89c3f8b0316 "bibtex main"
+  "main.out" 1783610774.42847 9691 e912b0cfae13d30b34bcafb8ebccf089 "pdflatex"
+  "main.tex" 1783610768.91201 132368 0c6bf2ac2d4943f1949357e91e3d84a9 ""
+  "main.toc" 1783610774.42897 4833 d0ebf6d08957415bc916d9dba01afc0c "pdflatex"
   (generated)
   "main.aux"
   "main.log"
