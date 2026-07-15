@@ -289,9 +289,24 @@ This dissertation provides a number of contributed to the scientific literature 
   It further describes in detail the mathematical framework behind the implied probability of regime switches which will be used in the trading strategies later. 
 
   \item Synthetic Data Testing of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections.
+  This section provides a synthetic data testing of the Sliced-Wasserstein model with key accuracy comparisons for different tunings.
+  This synthetic experiment also includes an accuracy comparison with existing results in the literature (i.e Luan et al. (2025) \cite{LuanHamp2025}).
+
   \item Applications of the Sliced-Wasserstein algorithm on real-world data sets.
+  This section demonstrates the practical applicability of the Sliced-Wasserstein model by applying it to real-world financial data sets. 
+  This experiment is done through three steps. First, a look-ahead trading strategy is applied to assess the accuracy of the clustering results in a synthetic data type setting.
+  Then, the focus shifts to create multiple tradeable signals from the Sliced-Wasserstein k-means algorithm and test it again on real-world training data sets.
+  Finally, the section provides a discussion on the hyperparameter tuning of the trading strategies and its performance on test data sets.
+  
   \item Interpretability of clustering results with macroeconomic indicators.
+  This section gives an insight on the relationship between the statistical clustering results of the Sliced-Wasserstein k-means algorithm and macroeconomic indicators.
+  The research gives a features importance analysis on supervise learning algorithms trained on the clustering results of the Sliced-Wasserstein k-means algorithm with a set of 10 macroeconomic indicators.
+  In particular, the focus is to look at bear regime prediction of the supervise models and asses using the SHAP analysis toolbox which features are the most/leastimportant for the model.
+  
   \item Conclusion and Future Work.
+  In this final section, we summarize the key findings of the thesis as well as the limitations revolving around the Sliced-Wasserstein k-means algorithms. 
+   This will lead to a discussion of potential improvements.
+
 \end{itemize}
 %todo 
 
@@ -312,8 +327,6 @@ Especially in the Machine Learning literature, researchers have come to understa
 a crucial property for defining cluster centroids in the Wasserstein k-means algorithm \cite{Agueh&Carlier2011}.
 The Sliced Wasserstein k-means clustering algorithm as proposed by Luan et al. \cite{LuanHamp2025} generalizes Horvath's approach to high-dimensional time-series data and infers regimes changes using returns distribution in $\mathcal{P}_p(\mathbb{R}^d)$, the space of probability measures on $\mathbb{R}^d$ with finite $p$-th moment.
 Not only, this method adapts to high-dimensional setting, but also provides a robust and intelligible mathematical framework for regime detection.
-
-
 
 
 \section{Methodology and Theoretical Background}

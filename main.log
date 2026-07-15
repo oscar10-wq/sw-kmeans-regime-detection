@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  14 JUL 2026 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  15 JUL 2026 22:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -931,7 +931,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [14]
 
-LaTeX Warning: Citation `RowlandEtAl2020' on page 15 undefined on input line 310.
+LaTeX Warning: Citation `RowlandEtAl2020' on page 15 undefined on input line 325.
 
 
 
@@ -964,46 +964,6 @@ Package microtype Info: Loading generic protrusion settings for font family
 pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.695 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.695 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.695 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.695 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.702 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.702 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.702 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.702 \begin{equation}
-                      
-pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
 l.708 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
@@ -1020,18 +980,58 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) 
 <to be read again> 
                    \relax 
 l.708 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.715 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.715 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.715 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.715 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.721 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.721 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.721 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.721 \begin{equation}
                       
 
 [26
 pdfTeX warning (ext4): destination with the same identifier (name{equation.29}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.747 \begin{equation}
+l.760 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.30}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.747 \begin{equation}
+l.760 \begin{equation}
                       ]
 
 [27]
@@ -1040,31 +1040,31 @@ l.747 \begin{equation}
 pdfTeX warning (ext4): destination with the same identifier (name{equation.38}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.825 \begin{equation}
+l.838 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.38}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.825 \begin{equation}
+l.838 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.38}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.825 \begin{equation}
+l.838 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.38}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.825 \begin{equation}
+l.838 \begin{equation}
                       
 
 [29]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 874.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 887.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 874.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 887.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 874.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 887.
 
 
 [30]
@@ -1072,38 +1072,38 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 [31]
 
 [32]
-<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=782, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=783, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeA_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeA_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  used on input line 991.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  used on input line 1004.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=784, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=785, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeB_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeB_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeB_5D_plot_regime.png  used on input line 1000.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeB_5D_plot_regime.png  used on input line 1013.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
 
 
 [33 <./graphs/synthetic_data_tests/typeA_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeB_5D_plot_regime.png>]
-<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=792, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=793, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeC_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeC_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeC_5D_plot_regime.png  used on input line 1012.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeC_5D_plot_regime.png  used on input line 1025.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=793, 1300.86pt x 433.62pt>
+<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=794, 1300.86pt x 433.62pt>
 File: graphs/synthetic_data_tests/typeD_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeD_5D_plot_regime.png>
-Package pdftex.def Info: graphs/synthetic_data_tests/typeD_5D_plot_regime.png  used on input line 1021.
+Package pdftex.def Info: graphs/synthetic_data_tests/typeD_5D_plot_regime.png  used on input line 1034.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
 
 
 [34 <./graphs/synthetic_data_tests/typeC_5D_plot_regime.png> <./graphs/synthetic_data_tests/typeD_5D_plot_regime.png>]
-Underfull \hbox (badness 4479) in paragraph at lines 1087--1088
+Underfull \hbox (badness 4479) in paragraph at lines 1100--1101
 []|\T1/ptm/m/n/10.95 (+20) Switch-probability at/above which a
  []
 
 
-Underfull \hbox (badness 6001) in paragraph at lines 1088--1089
+Underfull \hbox (badness 6001) in paragraph at lines 1101--1102
 []|\T1/ptm/m/n/10.95 (+20) Switch-probability be-low which the
  []
 
@@ -1115,46 +1115,46 @@ Overfull \vbox (55.44157pt too high) has occurred while \output is active []
 
 
 [36]
-<graphs/real_data_tests/american_index_clustering.png, id=813, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/american_index_clustering.png, id=814, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/american_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/american_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 1137.
+Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 1150.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/real_data_tests/european_index_clustering.png, id=814, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/european_index_clustering.png, id=815, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/european_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/european_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 1144.
+Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 1157.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
 
 
 [37]
-<graphs/real_data_tests/asian_index_clustering.png, id=821, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/asian_index_clustering.png, id=822, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/asian_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/asian_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 1150.
+Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 1163.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/look_ahead_perf/American_look_ahead.png, id=824, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/American_look_ahead.png, id=825, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/American_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/American_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 1162.
+Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 1175.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
 [38 <./graphs/real_data_tests/american_index_clustering.png> <./graphs/real_data_tests/european_index_clustering.png> <./graphs/real_data_tests/asian_index_clustering.png>]
-<graphs/look_ahead_perf/European_look_ahead.png, id=833, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/European_look_ahead.png, id=834, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/European_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/European_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 1169.
+Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 1182.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
-<graphs/look_ahead_perf/Asian_look_ahead.png, id=834, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/Asian_look_ahead.png, id=835, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/Asian_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/Asian_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 1177.
+Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 1190.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
 [39 <./graphs/look_ahead_perf/American_look_ahead.png> <./graphs/look_ahead_perf/European_look_ahead.png>]
-Overfull \hbox (5.34471pt too wide) in paragraph at lines 1214--1222
+Overfull \hbox (5.34471pt too wide) in paragraph at lines 1227--1235
 []\T1/ptm/m/n/12 (-20) This give us a strong in-di-ca-tion that un-der real em-pir-i-cal dis-tri-bu-tions the Sliced-Wasserstein
  []
 
@@ -1163,87 +1163,87 @@ Overfull \hbox (5.34471pt too wide) in paragraph at lines 1214--1222
 [40 <./graphs/look_ahead_perf/Asian_look_ahead.png>]
 
 [41]
-<graphs/real_trading_algos/America.png, id=858, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/America.png, id=859, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/America.png Graphic file (type png)
 <use graphs/real_trading_algos/America.png>
-Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 1252.
+Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 1265.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
-<graphs/real_trading_algos/Europe.png, id=859, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/Europe.png, id=860, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/Europe.png Graphic file (type png)
 <use graphs/real_trading_algos/Europe.png>
-Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 1284.
+Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 1297.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
 [42 <./graphs/real_trading_algos/America.png>]
-<graphs/real_trading_algos/Asia.png, id=866, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/Asia.png, id=867, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/Asia.png Graphic file (type png)
 <use graphs/real_trading_algos/Asia.png>
-Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 1317.
+Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 1330.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
 [43 <./graphs/real_trading_algos/Europe.png>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1378.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1391.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1378.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1391.
 
 
 [44 <./graphs/real_trading_algos/Asia.png>]
 
 [45]
-<graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png, id=886, 722.7pt x 578.16pt>
+<graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png, id=887, 722.7pt x 578.16pt>
 File: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png Graphic file (type png)
 <use graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png  used on input line 1453.
+Package pdftex.def Info: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png  used on input line 1466.
 (pdftex.def)             Requested size: 352.81552pt x 282.25105pt.
 
 
 [46]
-<graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png, id=895, 1279.179pt x 444.2196pt>
+<graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png, id=896, 1279.179pt x 444.2196pt>
 File: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png Graphic file (type png)
 <use graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png  used on input line 1474.
+Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png  used on input line 1487.
 (pdftex.def)             Requested size: 352.81552pt x 122.52339pt.
 
 
 [47 <./graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png>]
-<graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png, id=903, 1281.588pt x 444.2196pt>
+<graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png, id=904, 1281.588pt x 444.2196pt>
 File: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png Graphic file (type png)
 <use graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png  used on input line 1481.
+Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png  used on input line 1494.
 (pdftex.def)             Requested size: 352.81552pt x 122.29294pt.
-<graphs/tuning_trading_algos/half_life_config/half_life_comparison.png, id=905, 1084.05pt x 867.24pt>
+<graphs/tuning_trading_algos/half_life_config/half_life_comparison.png, id=906, 1084.05pt x 867.24pt>
 File: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png Graphic file (type png)
 <use graphs/tuning_trading_algos/half_life_config/half_life_comparison.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png  used on input line 1505.
+Package pdftex.def Info: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png  used on input line 1518.
 (pdftex.def)             Requested size: 352.81552pt x 282.24666pt.
 
 
 [48 <./graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png> <./graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png>]
-<graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png, id=917, 367.1316pt x 421.3341pt>
+<graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png, id=918, 367.1316pt x 421.3341pt>
 File: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png Graphic file (type png)
 <use graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png  used on input line 1528.
+Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png  used on input line 1541.
 (pdftex.def)             Requested size: 352.81552pt x 404.90689pt.
 
 
 [49 <./graphs/tuning_trading_algos/half_life_config/half_life_comparison.png>]
-<graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png, id=925, 361.35pt x 420.8523pt>
+<graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png, id=926, 361.35pt x 420.8523pt>
 File: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png Graphic file (type png)
 <use graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png  used on input line 1535.
+Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png  used on input line 1548.
 (pdftex.def)             Requested size: 352.81552pt x 410.91693pt.
 
 
 [50 <./graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png>]
 
 [51 <./graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png>]
-<graphs/real_trading_algos/out_of_sample_america.png, id=939, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/out_of_sample_america.png, id=940, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/out_of_sample_america.png Graphic file (type png)
 <use graphs/real_trading_algos/out_of_sample_america.png>
-Package pdftex.def Info: graphs/real_trading_algos/out_of_sample_america.png  used on input line 1575.
+Package pdftex.def Info: graphs/real_trading_algos/out_of_sample_america.png  used on input line 1588.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
@@ -1252,38 +1252,38 @@ Package pdftex.def Info: graphs/real_trading_algos/out_of_sample_america.png  us
 [53]
 
 [54]
-<graphs/shap_analysis/OLS_bear_shap.png, id=962, 685.8423pt x 425.6703pt>
+<graphs/shap_analysis/OLS_bear_shap.png, id=963, 685.8423pt x 425.6703pt>
 File: graphs/shap_analysis/OLS_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/OLS_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1684.
+Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1697.
 (pdftex.def)             Requested size: 211.68661pt x 131.38484pt.
-<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=963, 714.7503pt x 425.6703pt>
+<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=964, 714.7503pt x 425.6703pt>
 File: graphs/shap_analysis/OLS_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/OLS_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1692.
+Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1705.
 (pdftex.def)             Requested size: 211.68661pt x 126.07178pt.
 
 
 [55]
-<graphs/shap_analysis/Logistic_bear_shap.png, id=968, 685.8423pt x 426.393pt>
+<graphs/shap_analysis/Logistic_bear_shap.png, id=969, 685.8423pt x 426.393pt>
 File: graphs/shap_analysis/Logistic_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/Logistic_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1707.
+Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1720.
 (pdftex.def)             Requested size: 211.68661pt x 131.60791pt.
-<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=969, 714.7503pt x 426.393pt>
+<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=970, 714.7503pt x 426.393pt>
 File: graphs/shap_analysis/Logistic_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/Logistic_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1715.
+Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1728.
 (pdftex.def)             Requested size: 211.68661pt x 126.28581pt.
-<graphs/shap_analysis/RandomForest_bear_shap.png, id=970, 722.7pt x 433.62pt>
+<graphs/shap_analysis/RandomForest_bear_shap.png, id=971, 722.7pt x 433.62pt>
 File: graphs/shap_analysis/RandomForest_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/RandomForest_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1730.
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1743.
 (pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
-<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=971, 722.7pt x 433.62pt>
+<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=972, 722.7pt x 433.62pt>
 File: graphs/shap_analysis/RandomForest_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/RandomForest_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1738.
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1751.
 (pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
 
 
@@ -1346,10 +1346,10 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  84i,23n,87p,1081b,1171s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (73 pages, 4221611 bytes).
+Output written on main.pdf (73 pages, 4222771 bytes).
 PDF statistics:
- 1302 PDF objects out of 1440 (max. 8388607)
- 1125 compressed objects within 12 object streams
+ 1303 PDF objects out of 1440 (max. 8388607)
+ 1126 compressed objects within 12 object streams
  368 named destinations out of 1000 (max. 500000)
  184303 words of extra memory for PDF output out of 184870 (max. 10000000)
 
