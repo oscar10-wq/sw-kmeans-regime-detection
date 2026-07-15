@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{Agueh&Carlier2011}
+M.~Agueh and G.~Carlier.
+\newblock Barycenters in the wasserstein space.
+\newblock {\em SIAM Journal on Mathematical Analysis}, 43(2):904--924, 2011.
+
 \bibitem{Andrews1991}
 Donald W.~K. Andrews.
 \newblock Heteroskedasticity and autocorrelation consistent covariance matrix estimation.
@@ -30,6 +35,11 @@ James~D. Hamilton.
 \newblock A new approach to the economic analysis of nonstationary time series and the business cycle.
 \newblock {\em Econometrica}, 57(2):357--384, 1989.
 
+\bibitem{HariomTatsat2025}
+Ariye~Shater Hariom~Tatsat.
+\newblock Beyond the black box: Interpretability of llms in finance.
+\newblock {\em arXiv:2505.24650v1 [cs.CE]}, 2025.
+
 \bibitem{Hendry2014}
 D.~F. Hendry and J.~A. Doornik.
 \newblock Empirical model discovery and theory evaluation.
@@ -55,6 +65,11 @@ Scott~M Lundberg and Su-In Lee.
 \newblock A unified approach to interpreting model predictions.
 \newblock 2017.
 
+\bibitem{Cuturi&Doucet2014}
+Cuturi M. and A.~Doucet.
+\newblock Fast computation of wasserstein barycenters.
+\newblock {\em International Conference on Machine Learning (ICML)}, 2014.
+
 \bibitem{Memmel2003}
 Christoph Memmel.
 \newblock Performance hypothesis testing with the sharpe ratio.
@@ -66,6 +81,11 @@ Francesco Mezzadri.
 \newblock {\em Notices of the American Mathematical Society}, 54(5):592--604, 2007.
 \newblock arXiv:math-ph/0609050.
 
+\bibitem{Peyré&Cuturi2019}
+Gabriel Peyré and Marco Cuturi.
+\newblock Computational optimal transport.
+\newblock {\em Foundations and Trends in Machine Learning}, 11(5-6):355--607, 2019.
+
 \bibitem{RowlandEtAl2019}
 Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and Adrian Weller.
 \newblock Orthogonal estimation of {W}asserstein distances.
@@ -75,6 +95,11 @@ Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and A
 T.~T.~Rydén, Teräsvirta and S.~Åsbrink.
 \newblock Stylized facts of daily return series and the hidden markov model.
 \newblock {\em Computational Statistics \& Data Analysis}, 28(3):217--236, 1998.
+
+\bibitem{Villani2009}
+Cédric Villani.
+\newblock Optimal transport: Old and new.
+\newblock {\em Springer-Verlag Berlin Heidelberg}, 2009.
 
 \bibitem{PetrovicBardenetDesolneux2025}
 R{\'e}mi~Bardenet Vladimir~Petrovic and Agn{\`e}s Desolneux.

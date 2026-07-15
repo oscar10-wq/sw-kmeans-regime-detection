@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1783609465.01715 "main.aux" "main.bbl" "main" 1783610774.825 0
-  "./main.bib" 1783607021.18535 5143 cdb991376497dcc28c5fe00cdbd251e4 ""
+["bibtex main"] 1784048399.46889 "main.aux" "main.bbl" "main" 1784048561.00559 0
+  "./main.bib" 1783959154.99271 6286 c062d92413180bcee8db817267c4174d ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1783610774.42523 36723 a491200d3a13114176ffd1464b7c0bf8 "pdflatex"
+  "main.aux" 1784048560.6886 44398 c5efcf920af2bb0b0d59369042a32e31 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1783610768.63021 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1783610774.82538 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1783610768.91201 132368 0c6bf2ac2d4943f1949357e91e3d84a9 ""
+["pdflatex"] 1784048554.3588 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1784048561.00585 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1784048553.84862 161300 34ced67558951b0973a5776e8477bd13 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -264,6 +264,7 @@
   "graphs/real_trading_algos/America.png" 1783596967.7658 329388 250d808fb3e3318bbec615f361e96172 ""
   "graphs/real_trading_algos/Asia.png" 1783598611.76228 344206 9dab6eb7994b1170f45ede6f43b12675 ""
   "graphs/real_trading_algos/Europe.png" 1783597726.93674 340633 260317fa9d00adbf907312afb8f1179b ""
+  "graphs/real_trading_algos/out_of_sample_america.png" 1784040235.32784 262209 adf296fc03ff7f3811e44e9a3b6a3ae9 ""
   "graphs/shap_analysis/Logistic_bear_shap.png" 1783432512.40217 68398 48760cf8ffe74c3f1771f4a7ae2b8059 ""
   "graphs/shap_analysis/Logistic_feature_ranking_bear.png" 1783432534.42843 35096 5a397d36780bc5acb10987b82f798904 ""
   "graphs/shap_analysis/OLS_bear_shap.png" 1783432468.92699 74440 9b089ca19bbec98f1417ce33d875fa55 ""
@@ -274,14 +275,24 @@
   "graphs/synthetic_data_tests/typeB_5D_plot_regime.png" 1783256293.19978 191238 58e1d755c80b2461a9c743e2c084b870 ""
   "graphs/synthetic_data_tests/typeC_5D_plot_regime.png" 1783256378.51422 160249 1fc709a154b2c5a8ec959d27ed4252ab ""
   "graphs/synthetic_data_tests/typeD_5D_plot_regime.png" 1783504525.98651 189339 c586c6d1f9045593af9430ab1a4ee67e ""
-  "main.aux" 1783610774.42523 36723 a491200d3a13114176ffd1464b7c0bf8 "pdflatex"
-  "main.bbl" 1783609465.11277 3414 e643aaf43b00de6990d3c89c3f8b0316 "bibtex main"
-  "main.out" 1783610774.42847 9691 e912b0cfae13d30b34bcafb8ebccf089 "pdflatex"
-  "main.tex" 1783610768.91201 132368 0c6bf2ac2d4943f1949357e91e3d84a9 ""
-  "main.toc" 1783610774.42897 4833 d0ebf6d08957415bc916d9dba01afc0c "pdflatex"
+  "graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png" 1783678003.69181 302638 11eb09169494b203db28957b5f82cdf1 ""
+  "graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png" 1783768561.56018 131585 b5a01f9fd90a9ae513d53e6002cdf4a2 ""
+  "graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png" 1783768572.71275 133534 8a5f192521959779b770620de931fc93 ""
+  "graphs/tuning_trading_algos/half_life_config/half_life_comparison.png" 1783678023.51169 312636 cbd95a8d100afa721d2f6bb7dd768495 ""
+  "graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png" 1783690393.99673 200738 4ec55d25f05dd6c5a777a02e95b6a845 ""
+  "graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png" 1783690510.1319 326432 9cb013d525e47b484e5dc0275a4ad3d0 ""
+  "main.aux" 1784048560.6886 44398 c5efcf920af2bb0b0d59369042a32e31 "pdflatex"
+  "main.bbl" 1784048399.5632 4280 289d97fca42d12641633285ad8a5e45a "bibtex main"
+  "main.lof" 1784048560.69222 8316 a59cec07ed3fa46bf8397a0eee9d783e "pdflatex"
+  "main.lot" 1784048560.69228 5888 1a5f04008cf4939a82620669521e6e89 "pdflatex"
+  "main.out" 1784048560.69186 10337 bfbdf6fe52faa0365f4cd7d551a58f6c "pdflatex"
+  "main.tex" 1784048553.84862 161300 34ced67558951b0973a5776e8477bd13 ""
+  "main.toc" 1784048560.69211 6064 f65c4815482358ca8c1fe40e653e5ae5 "pdflatex"
   (generated)
   "main.aux"
+  "main.lof"
   "main.log"
+  "main.lot"
   "main.out"
   "main.pdf"
   "main.toc"

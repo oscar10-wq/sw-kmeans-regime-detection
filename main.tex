@@ -65,7 +65,7 @@
 \centering
 \thispagestyle{empty}
 
-{\scshape\large ADIA Lab \textperiodcentered\ University College London\par}
+{\scshape\large University College London \textperiodcentered\ ADIA Lab\par}
 \vspace{1.5cm}
 
 \rule{\linewidth}{0.4pt}\vspace{0.6cm}
@@ -80,57 +80,224 @@ with UnifOrtho\par}
 \vspace{2cm}
 {\large\itshape A thesis submitted for the partial fulfillment of the requirements for the \\
 degree in Master of Science in Computational Finance\par}
-
 \vfill
 
 {\Large Oscar Peyron\par}
-\vspace{0.4cm}
-{\large ADIA Lab \textperiodcentered\ University College London\par}
 
-\vfill
+\vspace{0.8cm} % Adds balanced spacing below your name
 
-{\large February 2026\par}
+{\large\textbf{Supervisors:} \\
+Prof. Philip Treleaven (University College London)\\
+Dr. Blaz Zlicar (ADIA Lab)\par}
+
+\vspace{1.5cm} % Pushes the affiliation further down near the bottom
+
+{\large University College London \textperiodcentered\ ADIA Lab\par}
+{\large February 2026\par} % Optional: Adds the date cleanly at the very bottom
 \end{titlepage}
 
-
-
-
 \thispagestyle{empty}
-\newpage
-\tableofcontents
 \newpage
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 This thesis investigates the topic of regime detection in high dimensional time-series using an interpretable and efficient machine learning algorithm. 
-In particular, we provide an enhanced method to cluster the multi-dimensional returns distributions building upon the Wasserstein clustering algorithm \cite{HorvathEtAl2024} and its high-dimensional generalization called the Sliced Wasserstein clustering algorithm proposed by \cite{LuanHamp2025}. One of the key characteristics of those clustering algorithms  is their ability
-to infer which regime the market is currently in without pre-specified assumptions on the returns distribution.
-Specifically, they use the Wasserstein or Sliced-Wasserstein (in higher dimensions) distance as a metric to compare different returns distributions. Our focus will be on improving this Sliced Wasserstein clustering algorithm in high-dimensional settings.
-The latter method has been designed to project high-dimensional distributions into one-dimensional distributions and then compute the Wasserstein distance in one dimension, which is computationally efficient.
-However, in order to get a good approximation of the Sliced-Wasserstein distance, one needs to sample a large number of random projection vectors to approximate well the high-dimensional space.
-This problem is the central chore on which this thesis focuses. Instead of using a fixed set of well-chosen random projection vectors to compute the Sliced-Wasserstein distance as proposed by Luan et. al \cite{LuanHamp2025}, we show that using the UnifOrtho method designed by Rowland et. al \cite{RowlandEtAl2019} to sample orthogonal projections leads to a reduction in variance (in general) as well as more stable clustering results in high-dimensions.
-Another, key contribution of this research is to use the clustering results from the improved Sliced-Wasserstein distance, to derive implied probabilities of regime swtiches in the market using simple softmax functions and bayesian priors. 
-Finally, we design multiple trading strategies based on the above regime detection method and compare their performance.
+This research was conducted in collaboration with ADIA Lab and provides an enhanced method to cluster the multi-dimensional returns distributions building upon the Wasserstein clustering algorithm by Horvath et. al \cite{HorvathEtAl2024} and its high-dimensional generalization called the Sliced Wasserstein clustering algorithm proposed by Luan et. al \cite{LuanHamp2025}. One of the key characteristics of the latter methods is their ability
+to infer which regime the market is currently in without pre-specified assumptions on the returns distribution. 
+This is particularly useful for practionners as financial time-series are notoriously non-stationary and often trading strategies fail to adapt to the changing dynamics of the market.
+The thesis also addresses the problem of the low interpretability of regime-detection algorithms methods based on complex Hidden-Markovs models or deep learning methods.
+In fact, there is a growing need for methods that are not only effective but also transparent enough to be used and trusted.
+Moreover, a growing number of practitioners are interested in using high-dimensional time-series data to build trading strategies with multiple assets, especially with the emergence of portfolio-trading. 
+Hence, detection regimes in high-dimensional settings has become a key topic. 
+
+The motivation is therefore to investigate and improve regime detection algorithms in high-dimensions that have the ability to be interpretable and accurate.
+While there are many methods for regime detection, the research focuses on the Sliced-Wasserstein k-means algorithm proposed by Luan et. al \cite{LuanHamp2025} as it provides 
+an elegant and simple mathematical framework to cluster regimes. 
+Specifically, the latter algorithm use the Sliced-Wasserstein distance (a high dimensional extensional of the Wasserstein distance) as a metric to compare different returns distributions for clustering distribution with a simple k-means algorithm.
+The thesis aims to extend the work by Luan et. al \cite{LuanHamp2025} by improving the Sliced-Wasserstein distance approximation in high-dimensions using the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019}.
+In order to get a good approximation of the Sliced-Wasserstein distance, one needs to sample a large number of random projection vectors to approximate via Monte Carlo the high-dimensional space.
+Instead of using a fixed set of well-chosen random projection vectors to compute the Sliced-Wasserstein distance as in Luan et. al \cite{LuanHamp2025}, this research shows that using the UnifOrtho method yields better results. In particular, it samples orthogonal projections for the Monte Carlo approximation of the Sliced-Wasserstein distance, which leads to a reduction in variance  (in general) as well as more stable clustering results in high-dimensions.
+The study will therefore focus on three chapters aimed at showing not only the improvement of the UnifOrtho method for the Sliced-Wasserstein k-means clustering algorithms, but also how it can be used to trade and understand the market dynamics
+To achieve this the thesis will first focus on synthetic data to show accuracy improvement using the UnifOrtho approach. 
+On another hand, the focus will shift to real-world data sets application of the Sliced-wasserstein k-means algorithm via look-ahead and non-look ahead trading strategies. 
+Finally, we will focus on the empirical relationship between clustering results yielded by the Sliced-Wasserstein k-means clustering algorithm on real-world data and macroeconomic indicators to assess the interpretability of those results. 
+
+
+The thesis consists of the following three studies:
+\begin{itemize}
+  \item Synthetic Data Testing of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections. 
+  The first study is a supervised-learning setup experiment similar to the one in Luan et. al \cite{LuanHamp2025}. 
+  This includes producing synthetic data with multiple known regimes (from 2 regimes to 3 regimes) and comparing the clustering results with 
+  ground truth to assess accuracy. The synthetic data ranges from 2 to 100 dimensional time-series data. 
+  
+  \item Applications of the Sliced-Wasserstein algorithm on real-world data sets..
+  The second extends the study to real-world data sets and in particular on equity index data from three different regional markets (US, Europe and Asia). 
+  First, look-ahead trading strategies based on the produced labelling of the Sliced-Wasserstein k-means algorithms will be used to assess the accuracy of the clustering results. 
+  Then, the focus will shift to non-look ahead trading strategies to assess the performance of the clustering results in a more realistic setting. 
+  The key contribution of this research is to use the clustering results from the improved Sliced-Wasserstein distance, to derive implied probabilities of regime switches in the market.
+  This enables to generate predictive signals on regime switches which can be used to produce trading strategies.
+  \item Interpretability of clustering results with macroeconomic indicators.
+  Finally, the third study will focus on training supervised learning algorithms -- for classification and regression --  on clusterings results from the Sliced-Wasserstein k-means to 
+  produce a feature importance analysis using the SHAP framework.   
+\end{itemize}
+
+This thesis therefore provides the following contributions to science: 
+
+\begin{itemize}
+  \item Scalable regime detection algorithm. The main objective of this thesis is to provide a
+  regime detection algorithm that can be scale to very high-dimensionas without relying on pre-constructed projections vectors which have to be mannually constructed.
+  Instead the UnifOrtho can produce automatically a high number of orthogonal projection vectors for increasingly high-dimensionality.
+  
+  \item Computationally tractable regime detection algorithm. Laying out a mathematical foundations for the Sliced-Wasserstein distance and its enhancement that 
+require a time complexity that is polynomial to the dimension and input size. 
+
+  \item Generation of predictive signal using clustering results. The thesis shows how to construct implied probability of switch based on the clusterings results of the Sliced-Wasserstein algorithm. 
+
+  \item Interpretability of clustering results. This thesis shows how the statistical results of the Sliced-Wasserstein k-means clustering algorithm align with empirical observations of financial markets. 
+  Moreover, the mathematical framework behind the Sliced-Wasserstein k-means algorithm is highly transparent and intelligible while providing accurate results. 
+\end{itemize}
+
 
 \newpage
+\tableofcontents
+\newpage
 
+\listoffigures
+\newpage
+\listoftables
+\newpage
 
 \section{Introduction}
-\subsection{Background}
-Regime detection is a topic that studies the changes in the underlying dynamics of a financial time-series. 
-Because financial time-series are notoriously non-stationary many static quantitative models fail to capture dynamics when faced to the real-world. 
-This is why regime detection is such of great value for practitioners. 
+The objective of this section is to provide an overview of the thesis. This chapter discusses the motivation behind the research, the experiments, the objectives as well as the contribution to the academic literature.
+
+
+This thesis investigates the topic of regime detection in high-dimensional time-series using an interpretable and efficient machine learning algorithm.
+The research was conducted in collaboration with ADIA Lab under the adivse of Dr. Blaz Zlicar who provided key practical insights on the topic of regime detection in the financial industry. 
+ 
+
+\subsection{Motivations}
+Regime detection is the study of the changes in the underlying dynamics of a financial time-series. 
+This encopasses the study of shifts in mean, volatility, correlation structure and other statistical properties of the time-series.
+The challenge in detecting regimes is the capacity to distinguish macroscopic regimes (i.e bear/bull regimes or high/low volatility regimes) from microscopic ones such as intraday mean-reversion or trends.
+
+Because financial time-series are notoriously non-stationary many static quantitative models fail to capture dynamics when faced to the real-world. This is why regime detection is such of great value for practitioners. 
 On the buy side, funds and asset managers rely on diversification to hedge their clients against risk. However, this diversification relies on a stable correlation between assets, which is not the case during periods of crisis. 
-One often observes that during extreme bear regimes cross-asset correlations converge towards 1. 
+One often observes that during extreme bear regimes cross-asset correlations converge towards 1, which constitutes a major issue since the diversifiable risk is not diversified anymore.
 This is why regime detection is used as a risk management filter. For instance, switch periods from low/vol regimes 
 to high/vol regimes are flagged to change portfolio allocation parameters. 
-Sell side firms such as investment banks and brokers must handle large amounts of client orders and need to adapt their trading strategies. 
+On the other side of the street, sell side firms such as investment banks and brokers must handle large amounts of client orders and need to adapt their trading strategies. 
 This is for instance, the case for market making execution logic which alters its VWAP/TWAP algorithms to adapt to micro-regimes.
-For instance, at an intraday level, the market can change from a mean-reverting regime to a trending regime and vice versa. 
-Adapting to these macroscopic and microscopic regimes is crucial for practitioners to avoid losses and improve their performance.
+At an intraday level, the market can change from a mean-reverting regime to a trending regime and vice versa. Adapting to these macroscopic and microscopic regimes is crucial for practitioners to avoid losses and improve their performance.
 
-\subsection{Literature Review}
-Regime detection has become over the years a heavily studied topic in literature, as it is of great interest for practitioners. 
-As explained above knowing regimes helps actively investors adapt their trading strategies and risk management to the current market conditions. 
+With the emergence of electronic trading and the availability of low to high-frequency data, it has become more accessible to train machine learning models on financial time-series data. This has led to a growing interest in using machine learning models to detect regimes in financial markets.
+In the meantime, practitioners have showed growing interest over models that not only work but also that are intelligible. This makes interpretable machine learning models of great interest in the industry.
+Moreover, with the emergence of portfolio trading -- a trading strategy that trades a basket of up to 100 assets at the same time -- it has become crucial to have regime detection methods that can handle high-dimensional time-series data. 
+This additional component makes therefore interpretability and scalability crucial.
+
+The principal motivation of this thesis is to investigate and improve regime detection algorithms in high-dimensionas that are simultaneously interpretable and 
+accurate. The first step is to improve an existing framework of high-dimensional regime detection by tackling the problems of scalability to increasingly higher-dimensions as demanded by the real-world. 
+Another key motivation is to provide forecasting power to regime detection methods using statistical learning, which is crucial for practitioners to adapt their trading strategies to the changing dynamics of the market before it happens.
+
+Finally, there are limited number of methods that provide both interpretability and model-free approaches as the one proposed by this thesis. 
+Hidden-Markov Models (HMM) are one of the most widely used methods for regime detection, yet their impose a Gaussian-mixture assumptions on returns as well as  
+require an re-estimation of parameters at breaking points \cite{BaiPerron2003}. On the other hand, deep learning methods are
+well-known to be opaque \cite{HariomTatsat2025}. 
+
+%maube a bit more 
+\subsection{Research Objectives}
+The main objectives of this thesis is to investigate and improve the existing Sliced-Wasserstein k-means clustering algorithm for regime detection in high-dimension by Luan et. al (2025) \cite{LuanHamp2025}.
+The latter algorithm is a generalization of the Wasserstein k-means clustering algorithm proposed by Horvath et. al (2024) \cite{HorvathEtAl2024} to high-dimensional time-series data.
+Both of those algorithm are based on the Wasserstein distance and its extension to the Sliced-Wasserstein distance. 
+This high-dimensional distance requires a Monte Carlo approximation via orthogonal projections vectors to be computed. 
+Instead of using a set of pre-fixed projections vectors as in Luan et. al \cite{LuanHamp2025}, this thesis uses the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to sample orthogonal projections vectors for the Monte Carlo approximation of the Sliced-Wasserstein distance.
+This UnifOrtho approach for computing the Sliced-Wasserstein distance can be more easily scaled as the dimension increases and is more robust to the curse of dimensionality.
+This thesis also aims to understand the accuracy of the enhancement algorithm on synthetic data as well as on real-world data sets. 
+Another key objective is to provide predictive power on future regimes using the mathematical framework of the Sliced-Wasserstein k-means algorithm.
+This in term is to generate trading strategies based on the ability imply futures market downturns or upturns. 
+Finally, the objective is to further explore the intepretability of the improved method by comparing the clustering results with macroeconomic indicators. 
+The underlying hypothesis that one wants to observe is that the statistical results given by the Sliced-Wasserstein k-means clustering algorithm align with empirical observations of macroeconomic dynamics. 
+
+
+
+
+
+
+
+\subsection{Research Experiments}
+%todo 
+This dissertation work starts from exlporing the improved accuracy of the Sliced-Wasserstein k-means clustering algorithm using the UnifOrtho approach 
+on synthetic data in the first experiment before extending this study on real-world data sets in the second experiment and concludes on an interpretability test by combining previous results with macroeconomic indicators. 
+
+Before diving into the experiments, this thesis provides a theoretical methodology chapter, in order to expose the 
+mathematical backgrounds that explains the novel regime detection framework of the Wasserstein k-means clustering algorithm by Horvath et .al \cite{HorvathEtAl2024} and Luan et .al in high-dimensions \cite{LuanHamp2025}.
+It also gives insight on the UnifOrtho approach by Rowland et. al \cite{RowlandEtAl2019} and how it can be used to improve the Sliced-Wasserstein distance approximation in high-dimensions.
+More importantly, it provides the mathematical rational behind using the UnifOrtho approach before testing the hypothesis of enhanced accuracy empirically.
+The following empirical study is split into three experiments: 
+
+
+\begin{itemize}
+  \item Synthetic data experiment of the Sliced-Wasserstein algorithm. The first experiment 
+  is aimed at better understanding the total accuracy of the Sliced-Wasserstein k-means clustering variant with UnifOrtho on synthetic data. 
+  The aim is to compare the results with the same experiment done in Luan et.al \cite{LuanHamp2025} and show that the UnifOrtho approach yields better results for increasingly higher-dimensional data.
+  The generated synthetic data exhibits either two or three regimes. One differentiates regimes in the synthetic data, by changing the mean and/or the correalation structure of the multivariate data. 
+  One looks at synthetic data which combines gaussian regimes with non-gaussian regimes. 
+  Finally, on produces data with different dimensionality (i.e from 2 to 100). 
+
+  \item Applications of the Sliced-Wasserstein algorithm on real-world data sets.
+  One tested on synthetic data, the next step is to apply the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho on real-world data sets.
+  In paritcular, the model is applied to three regional equity index data sets (US, Europe and Asia) to potential gaps in performance between geographic locations.
+  First, a look-ahead strategy is applied using the clustering results. This allows to get a quantifiable performance of the Sliced-Wasserstein method on the above-mentionned data sets. 
+  The focus then shifts to non-look ahead trading strategies to assess the performance of the clustering results in a more realistic setting with predictive signals generated from implied probabilities of regime switches
+  This allows also to tune the hyperparameters of the developped trading strategies and assess the performance of the tuning on test-data sets (2020-2025 period).
+
+  \item Interpretability of clustering results with a set of 10 macroeconomic indicators such as the VIX, Gold Spot Brent Crude Oil, and US Treasury yileds. 
+  The final experiment will consist on fitting supervised learning algorithms -- namely OLS Linear Regression, Logistic Regression and Random Forest -- to the clustering results of the Sliced-Wasserstein k-means clustering algorithm with a dataset of macroeconomic indicators on the study period from 2006 to 2020.
+  The objective is to identify using the SHAP feature importance framework which macroeconomic indicators are highly sensitive with respect to the model during bear clusters.  
+\end{itemize}
+
+
+\subsection{Scientific Contributions}
+This dissertation provides a number of contributed to the scientific literature in the following areas:
+
+\begin{itemize}
+  \item Scalable regime detection algorithm. This thesis provides 
+  a regime-detection algorithm that can be scaled to very high-dimensions without hand-constructed projections. 
+  The objective is eventually to use the Sliced-Wasserstein k-means on high-dimensional data that requires hundreds of projections vectors for good accuracy. 
+  In particular,this sheds light on financial applications of the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to improve the Monte Carlo approximation of the Sliced-Wasserstein distance in high-dimensions.
+  \item Computationally tractable framework
+  Additionnally, the aim of this research is to replace the manual hand-crafted projections vectors used in Luan et. al \cite{LuanHamp2025} with polynomial-time complexity algorithm such as the UnifOrtho method which runs in $\mathcal{O}(d^3)$ time complexity with $d$ the dimension. 
+  
+  \item Predictive signal generation from clustering. 
+  The thesis shows how to construct trading signals from the clustering algorithms by deriving implied probabilities of regime switches. 
+  This a key contribution to the research by Luan et al. \cite{LuanHamp2025}, which already hinted towards such use of the Sliced-Wasserstein framework as possible future work.
+  Additionally, the thesis provides multipled trading strategies that exploit this predictive signal to generate returns on real-world data sets.
+  \item Interpretability of clustering results.
+  Finally, the thesis show how the statistical results given by the Sliced-Wasserstein k-means clustering algorithm empirically match with macroeconomic indicators.
+  This provides not only a model that is mathematical intepretable but also a model that follows in its results empirical macroeconomic rational. 
+\end{itemize}
+
+
+\subsection{Thesis Structure}
+\begin{itemize}
+  \item Background and Literature Review. 
+  This section focuses on laying out the key literature and research on regime detection. 
+  It also provides an overall context around the Sliced-Wasserstein k-means clustering algorithm within the existing literature. 
+  
+
+  \item Methodology and Theoretical Background.
+  This part of the thesis provides the theoretical framework for understanding the Wasserstein k-means algorithm and its high-dimensional generalization to the Sliced-Wasserstein k-means algorithm.
+  In particular, it explains why the UnifOrtho method approach for the Sliced-Wasserstein algorithm yields theoretical improvements with respect to existing methods in the literature.
+  It further describes in detail the mathematical framework behind the implied probability of regime switches which will be used in the trading strategies later. 
+
+  \item Synthetic Data Testing of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections.
+  \item Applications of the Sliced-Wasserstein algorithm on real-world data sets.
+  \item Interpretability of clustering results with macroeconomic indicators.
+  \item Conclusion and Future Work.
+\end{itemize}
+%todo 
+
+
+\section{Background and Literature Review}
+Regime detection has therefore become over the years a heavily studied topic in literature, as it is of great interest for practitioners. 
 One of the first notable papers by Hamilton \cite{Hamilton1989} introduced a parametric approach to regime detection using hidden Markov models (HMM). 
 This method is until now, one of the most widely used methods for regime detection in financial markets.
 Rydén et al. \cite{Rydén1998} showed that the HMMs approach captures heavy-tails and unconditional non-normality in the returns distriubtion, in addition to being a highly intuitive method for regime detection.
@@ -140,27 +307,25 @@ Moreover, breaking points in the markets forces the model to adapts its paramete
 Traditional regime detection approach try to identify these global beaking-points for adapting parameters such as in Bai et al.\cite{BaiPerron2003} and with general-to-specific modeling approaches in Hendry et.al \cite{Hendry2014}.
 The Wasserstein -k-means approach as proposed by Horvath et al. \cite{HorvathEtAl2024} is instead classifying regime by analysing the behaviour of the \textit{distribution} of the time-series of returns through the study period.
 This enables to be model-free for the returns distribution and therefore skip parameters adaptation issues.
+The Wasserstein k-means algorithm is the conclusion of research in optimal transport by Villani et.al \cite{Villani2009} and Peyré et.al \cite{Peyré&Cuturi2019}. The Wasserstein distance on which Rowland et.al \cite{RowlandEtAl2020} relies for its algorithm has been shown to be a powerful metric for comparing distributions.
+Especially in the Machine Learning literature, researchers have come to understand the advantage the Wasserstein distance and Wasserstein barycenters. In particular, their showed how those metrics satisfy convenient base properties which are crucial for clustering regimes (in Agueh et al. (2011) \cite{Agueh&Carlier2011} and Cuturi et al. (2014) \cite{Cuturi&Doucet2014}). In particular, given a set of empirical distributions, the Wasserstein barycenter is unique and exists which is 
+a crucial property for defining cluster centroids in the Wasserstein k-means algorithm \cite{Agueh&Carlier2011}.
 The Sliced Wasserstein k-means clustering algorithm as proposed by Luan et al. \cite{LuanHamp2025} generalizes Horvath's approach to high-dimensional time-series data and infers regimes changes using returns distribution in $\mathcal{P}_p(\mathbb{R}^d)$, the space of probability measures on $\mathbb{R}^d$ with finite $p$-th moment.
-
-\subsection{Motivations for this research}
-As practitioners are more and more interested in not only having models that work but also understanding them, interpretable models have become of great interest in the industry.
-One of the main contributions of the Sliced-Wasserstein k-means clustering algorithm as given by Luan et al. \cite{LuanHamp2025} and Horvath et al. \cite{HorvathEtAl2024} is to not only give a new method for 
-regime detection, but also provides a key interpretability dimension to clustering regimes. This is because, the latter method fundamentally applies the well-known k-means clustering algorithm to high-dimensional distributions, making it highly interpretable.
-Moreover, with the emergence of portfolio trading -- a trading strategy that trades a basket of up to 100 assets at the same time -- it has become crucial to have regime detection methods that can handle high-dimensional time-series data. 
-This additional component makes therefore not only interpretability crucial but also scalability. Thus, the applicability of the Sliced-Wasserstein k-means clustering algorithm in higher dimensions has become a key research topic in the field of regime detection.
+Not only, this method adapts to high-dimensional setting, but also provides a robust and intelligible mathematical framework for regime detection.
 
 
 
-\section{Theoretical Background}
-This chapter will focus on the theoretical framework to understand the Wasserstein distance and its extension to the Sliced Wasserstein distance.
+
+\section{Methodology and Theoretical Background}
+This chapter will focus on the methodology and theoretical framework to understand the Wasserstein distance as well as its extension to the Sliced Wasserstein distance.
 It will also provide the mathematics behind the implied probability derived from the Wasserstein distance to produce predictive signals for trading strategies. 
 Finally, we will provide some background on the statistical tests we used to compare the performance of the different trading strategies (i.e Ledoit-Wolf test on Sharpe ratios). 
 
 \subsection{Theoretical Framework for Wasserstein Distance and Wasserstein Barycenters}
-
-To bether understand the Wasserstein distance and its extension to the Sliced Wasserstein distance, we 
+To better understand the Wasserstein distance and its extension to the Sliced Wasserstein distance, we 
 will introduce a number of key concepts. In this thesis, we consider $\mathcal{X} = \mathbb{R}^d$ with $d$ the dimension of the returns vector. 
 
+One of the key concepts introduced by Horvath et al. \cite{HorvathEtAl2024} is the notion of data streams.
 \begin{paragraph}{Definition: Data Streams}
 A set $\mathcal{S}$ of streams of data over $\mathcal{X}$ is defined as: $$S(\mathcal{X}) = \left\{(X_1, X_2, \dots, X_N) | X_i \in \mathcal{X}, N \in \mathbb{N} \right\}.$$ 
 For instance in this research we consider the following: 
@@ -171,7 +336,11 @@ where $S_i$ might be the the price vector of the different assets at time $i$.
 \cite{HorvathEtAl2024}
 \end{paragraph}
 
-
+As price time-series data are known to be non-stationary, we will apply a transformation $r^{S}$ to the stream $S$ with $r^{S} \in \mathcal{S}(\mathcal{X}')$ defined as :
+\begin{equation}
+r^{S}_{i} = log(S_{i}) - log(S_{i-1}) \text{ for } i = 2, 3, \dots, N
+\end{equation}
+In our study $\mathcal{X} = \mathcal{X}' = \mathbb{R}^d$ and $r^{S}$ is the stream of returns of the price stream $S$.
 
 \begin{paragraph}{Definition: Lifting Transformation}
 A lifting transformation $l$ is a map that maps the set of streams $\mathcal{S}(\mathcal{X})$ into the set of streams of streams: 
@@ -432,7 +601,7 @@ The underlying question that is asked is whether the market is drifiting away fr
 Mathematically, we translate this by considering a lookback window of size $\omega$. One then computes the linear trend slope of the Wasserstein distance to each centroid $k$. 
 Let $t \in \{1,2, \dots, \omega \}$ and using  OLS, $\beta_{k}$ we get:
 \begin{equation}
-  \beta_k = \frac{\text{Covariance}(t, \, \mathcal{W}_2(X_{M-w+t}, \, C_k))}{\text{Variance}(t)}
+  \beta_k = \frac{\text{Covariance}(t, \, \mathcal{W}_2(X_{M-w+t}, \, C_k))}{\text{Variance}(t)} \label{eq:gradient_signal}
 \end{equation}
 
 
@@ -443,7 +612,7 @@ Let $t \in \{1,2, \dots, \omega \}$ and using  OLS, $\beta_{k}$ we get:
 
 Again, we apply a softmax function to get a "stay" probability based on the magnitude and sign of $\beta_k$. We also introduce a new temperature parameter $\tau_{grad}$.
 \begin{equation}
-P_{grad}(k) = \frac{\exp\left(-\frac{\beta_k}{\tau_{grad}}\right)}{\sum_{j=1}^{K} \exp\left(-\frac{\beta_j}{\tau_{grad}}\right)}
+P_{grad}(k) = \frac{\exp\left(-\frac{\beta_k}{\tau_{grad}}\right)}{\sum_{j=1}^{K} \exp\left(-\frac{\beta_j}{\tau_{grad}}\right)} \label{eq:softmax_tau_grad}
 \end{equation}
 
 As the formula explains, the more negative the higher the $exp(-\beta_k)$ expression and the more likely we are to stay in regime k.
@@ -606,19 +775,26 @@ with
 \end{equation}
 
 In the case of our study will be using the Quadratic-Spectral kernel as proposed in \cite{Andrews1991}. 
+The Quadratic-Spectral kernel proposed by Andrews (1991) \cite{Andrews1991} is defined as follows for an input variable $x$ (usually the lag $j$ divided by the bandwidth $S_T$):
+\begin{equation}
+k_{QS}(x) = \frac{25}{12\pi^2 x^2} \left(\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\right)
+\end{equation}
+The bandwidth parameter $S_T$ is the same as in \ref{eq:robust_est}. It is proven to be asymptotically optimal for
+minimizing mean squared error among class of positive-definite kernels. 
 
 
 
 
 
+\section{Synthetic Data Testing of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections}
 
-\section{Experiment 1 - Synthetic Data Testing}
+\subsection{Introduction}
 The focus of this chapter will be on testing the algorithm on syntethic data to understand the behaviour of the algorithm and its performance in different settings.
 The algorithm will be tested on 3 dimensional data followed by 4, 5 dimensional.  Performance between original and UniOrtho method will be compared and tests will span from data with multiple correlation factors 
 and with diffrent target number of clusters. The synthetic data used in this experiment is the equivalent of 20 years of data with daily frequency. 
 Therefore, it comprises $20*252 = 5040$ data points.
 
-\subsubsection{Performance Metrics}
+\subsubsection{Background}
 
 For this experiment, different performance metrics will be used to assess the quality of the regime clusters obtained by the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections on the synthetic data.: 
 \begin{itemize}
@@ -643,7 +819,7 @@ This metric represents how well-separated the different clusters are from each o
 Later for real datasets (i.e in an unsupervised setting) this metric will be used to evaluate the quality of the clustering as there will be no ground truth labels available for computing the Total Accuracy (TA).
 It is therefore important to consider how well the MCCD-metrics correlates with the Total Accuracy (TA) in the synthetic setting to understand whether it can be used as a proxy for evaluating clustering performance in real-world scenarios.
 
-\subsubsection{Experimental Setup and Results}
+\subsubsection{Data Set}
 Having considered the performance metric, we will generate synthetic data similarly to previous papers \cite{HorvathEtAl2024} and \cite{LuanHamp2025} using Geometric Brownian Motion (GBM) paths $S_t/S_{t-1} = \exp(r^S_t)$ with $S_t = (S_t^1, \dots, S_t^d)$ and $r^S_t = (r^{S^{(1)}}_{t}, \dots, r^{S^{(d)}}_{t})$ 
 where : 
 \begin{equation}
@@ -684,6 +860,7 @@ This is a summary similary to the one provided in \cite{LuanHamp2025} for the di
     \end{tabular}
 \end{table}
 
+\subsection{Results and Discussion}
 As in Luan et al. \cite{LuanHamp2025} we have tested our Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections on the above mentioned synthetic data as well as with different tunings
 of the parameters of $h_1$, $h_2$ and $L$ (resp. the window size, the step size and the number of projections). 
 For purposes of brevity, we present in our thesis, only results for the case of $d=5$. However, interested readers can find results for $d=2,3,4, 100$ in the appendix. 
@@ -853,10 +1030,14 @@ Comparing type C and D, regime detections we can conclude that the Sliced-Wasser
 
 
 
-\section{Experiment 2 - Application of sliced-SW k-means clustering with UnifOrtho projections on real world data sets}
+\section{Applications of the Sliced-Wasserstein algorithm on real-world data sets.}
+
+\subsection{Introduction}
 As synthethic data and particularly Geometric Brownian Motion do not accurately reflect real-world financial markets, this thesis also focuses on the application of the novel algorithm on real world data sets in financial markets and in particular on Equity Indices. 
 Specifically, the focus will be on comparing and looking at the performance of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections across different regional clusters of Equity Indices.
-Those regional clusters include the following:
+
+\subsection{Data Set}
+We will consider the following regional clusters of Equity Indices for our analysis.
 \begin{itemize}
   \item \textbf{North America} S\&P 500, NASDAQ, Dow Jones (US Equity Cluster) (daily data)
   \item \textbf{EMEA} CAC 40, DAX40, FTSE 100 (European Equity Cluster) (daily data)
@@ -867,6 +1048,7 @@ This experiment will be split into three parts. First, we will look at an object
 This will then alllow us to create real-world trading strategies with multiple variations for signal generation. The performance will then be compared to a long-only benchmark and a short-only benchmark.
 Finally, we will look at the performance of the different trading strategies under different hyperparameters to understand the impact of specific settings on the trading performance. 
 
+\subsection{Background}
 The parameters used for the developped trading strategy and regime detection for the first and second sub-experiment are given in the following table: 
 \begin{table}[H]
   \centering
@@ -921,7 +1103,6 @@ The parameters used for the developped trading strategy and regime detection for
     strategy code rather than a passed argument.}
   \label{tab:hyperparams}
 \end{table}
-
 The above hyperparametrers are set as fixed for the look-ahead trading strategy, and all the other trading strategy implemented in this thesis. 
 
 In parallel to the traditional sharpe ratio, we will also be using the hit ratio defined below as a performance metric. 
@@ -932,7 +1113,7 @@ In parallel to the traditional sharpe ratio, we will also be using the hit ratio
 We use the hit ratio to evaluate the effectiveness of the trading strategies. A higher hit ratio indicates a higher proportion of profitable trades, which is desirable for a successful trading strategy.
 Another metric that will be considered is the win/loss ratio, which is defined as the ratio of the average profit of winning trades to the average loss of losing trades.
 \begin{equation}
-    \text{Win/Loss Ratio} = \frac{\text{Average profit of winning trades}}{\text{Average loss of losing trades}}
+    \text{Win/Loss Ratio} = \frac{\text{Average profit of winning trades}}{\left|\text{Average loss of losing trades}\right|}
 \end{equation}
 
 The win/loss ratio provides insight into the risk-reward profile of the trading strategy. 
@@ -940,7 +1121,9 @@ When this ratio exceeds 1, it indicates that the average profit from winning tra
 Finally, we need to introduce the metric filter in our study. This metric filter is used on real-world data sets to correctly assign labels 0 to bear regimes and 1s to bullish regimes.
 The issue arises from the fact the the Sliced-Wasserstein k-means clustering algorithm is only capable of separating regimes into different clustering labels, without providing insights on the nature of the distinct clusters.
 This is why in the thesis, we introduce a \texttt{choose\_label} function that sorts the labels based on either CVaR, Skewness or the MeanVar ratio of the returns in each regime.
-\subsection{Performance Analysis of sliced Wasserstein Regime Detection using UnifOrtho with Look-Ahead}
+
+\subsection{Results and Discussion}
+\subsubsection{Performance Analysis of sliced Wasserstein Regime Detection using UnifOrtho with Look-Ahead}
 In this subsection we want to look at the performance of the regime detection algorithm using a trading strategy with look-ahead bias to understand whether 
 the regime detection is able to detect the regimes on a day to day basis, without considering predicting signals. 
 
@@ -1039,7 +1222,7 @@ and misclassifies them as bullish regimes, which leads to a very poor performanc
 
 
 
-\subsection{Performance analysis of regime detection using trading strategies}
+\subsubsection{Performance analysis of regime detection using trading strategies}
 Having quantitatively and qualitatively established that the Sliced-Wasserstein k-means clustering algorithm performs well on real-world data sets, we now want to look at the performance of the Sliced-Wasserstein k-means algorithm for generating predictive signals for trading strategies.
 In this experience multiple trading strategies listed below are therefore considered.   
 \begin{itemize}
@@ -1247,75 +1430,176 @@ Ensemble (equal weights)  & 0.0209 & $-0.0138$ & $-0.80$ & 0.4209 & $[-0.0473,\ 
 
 
 
-\subsection{Tuning the hyperparameters for the trading strategies}
-Tested multiple values for the hyperparameters of the trading strategies, such as the number of projection vectors L, the entry and hold thresholds, the half-life parameter for the exponentially weighted majority voting scheme, the weights for the ensemble methods and the gradient weight for the implied probability strategy with gradient.
+
+\subsubsection{Tuning the hyperparameters for the trading strategies}
+In this section we want to expliore the influence of the hyperparameters as shown in table \ref{tab:hyperparams} on the performance of the trading strategies.
+(Long/Short UnifOrtho, Implied probability, Ensemble methods) and the regime detection algorithm (Sliced-Wasserstein k-means clustering with UnifOrtho projections).
 
 
-\subsubsection{Tuning the half-life parameter for the exponentially weighted majority voting scheme}
-Tested multiple values for the half-life parameter $\tau$ in the exponentially weighted majority voting scheme for 
-\begin{itemize}
-    \item the standard long/short unifortho strategy and
-    \item the implied probability strategy with hysteresis, continuous and conviction variations.
-    \item the ensemble method with equally weighted signals.
-\end{itemize}
-The values tested are the following
-\begin{equation}
-    \tau \in \{1.0, 3.0, 5.0, 10.0,20.0\}
-\end{equation}
-The tau value is selected based on its hit ratio and win/loss ratio during the backtesting period (2006-2020).
-Results: 
-\begin{itemize}
-    \item Long/Short standard : $\tau = 5.0$
-    \item  Implied Strategies : $\tau = 5.0$ 
-    \item Ensemble method : $\tau = 5.0$
-\end{itemize}
 
 
-\subsubsection{Tuning the weights for ensemble methods}
+\paragraph{Tuning the gradient weight for implied probability methods}
+In this research, multiple values for the gradient weight $\alpha$ were testedon the equally weighted ensemble method to observe how the overall performance of equally weighted implied probability 
+strategies (Hysteresis, Continuous, Conviction) is affected by the gradient weight $\alpha$ as expressed in equation \ref{eq:proba_switch_formula}.
+The values tested are the following on the American equity data set from 1990 to 2020 with an initial capital of 100.  
+The other hyperparameter except $\alpha$ are all set according to table \ref{tab:hyperparams}.
 
-Tested multiple combination of weights for the ensemble methods, which combines the binary regime long/short stratey and the implied probability strategy with different variations (hysteresis, continuous, conviction).
-The weights are ordered as following :
-\newline [$w_{binary}$, $w_{implied\_probability(hysteresis)}$ $w_{implied\_probability(continuous)}$, $w_{implied\_probability(conviction)}$]. 
-We have tested the following weights: 
-\begin{itemize}
-    \item \text{[0.25, 0.25, 0.25, 0.25]},
-    \item \text{[0.30, 0.10, 0.30, 0.30]},
-    \item \text{[0.20, 0.30, 0.20, 0.30]},
-    \item  \text{[0.30, 0.20, 0.30, 0.20]},
-    \item  \text{[0.10, 0.40, 0.10, 0.40]}
-\end{itemize}
-
-\subsubsection{Tuning the gradient weight for implied probability methods}
-Tested multiple values for the gradient weight $\alpha$ in the implied probability strategy with gradient.
-The values tested are the following 
 \begin{equation}
     \alpha \in \{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0\}
 \end{equation}
+We have plotted the performance of the ensemble method as the combination of hit ratio and win/loss ratio against the gradient weight $\alpha$ in figure \ref{fig:gradient_weight_tuning}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png} 
+    \caption{Performance of the equally weighted ensemble method as a function of the gradient weight $\alpha$ on the American equity data set from 1990 to 2020 with an initial capital of 100. The performance is measured as the combination of hit ratio and win/loss ratio.}
+    \label{fig:gradient_weight_tuning} % Used to reference this graph in the text
+\end{figure}
+We observe in the above figure that the best performance is achieve for $\alpha = 0.6$   with a peak in hit ratio and win/loss ratio for this parametrization.
+This can be interpreted as the fact that the momentum has more positive influence on the trading signals in the implied probability strategy then the knowledge of the current regime.
 
-Optimal value for $\alpha$ is determined based on the highest Sharpe ratio achieved during the backtesting period.
-For the American equity data we have determined that the optimal value is $\alpha = 0.7$. As most of the variants of implied porbability strategies (continus and hysteresis), have a peak performance at $\alpha = 0.7$. 
+\paragraph{Tuning the temperature parameter $\tau$ and $\tau_{grad}$ for the implied probability strategy}.
+Peformed grid search for $\tau$ for the switch probability in \ref{eq:softmax_likelihood} in combination with $\tau_{grad}$ from equation \label{eq:softmax_tau_grad}
+The optimal values for $\tau$ and $\tau_{grad}$ are determined based on the highest hit ratio and win-loss ratio achieved during the backtesting period (1990-2020).
 
-$\alpha = 0.0$ corresponds to a pure bayesian approach. It captures current cluster membership, regime persistence and more generally where the market is. 
-$\alpha = 1.0$ corresponds to a pure gradient approach. It captures the direction of the market (getting closer or further from a certain regime) and therefore captures the momentum of the market.
+When looking at the heatmaps we denote $\tau$ on the x-axis and $\tau_{grad}$ on the y-axis. "Nan" values denote $\tau$ and $\tau_{grad}$ combinations that are computed as the mean of the centroid distances and the mean of the gradient signals as follows: 
 
-Hence an optimal value of $\alpha = 0.7$ suggests that  regime momentum is slightly more important than the current regime membership and regime persistence for predicting the next day return of the market.
-We could also thinkg that $\mathbb{P}_{Bayers}$ and $\mathbb{P}_{Grad}$ are not redundant and capture different information about the market. 
+\begin{equation}
+  \tau_{\text{nan}} = \frac{1}{N(N-1)} \sum_{k<k'} \left\|c_k - c_{k'}\right\|_{2}, \quad \tau_{\text{grad,nan}} = \frac{1}{2N} \sum_{k=1}^{K} (\beta_k- \bar{\beta_k})^2
+\end{equation}
+
+with $c_{k}$ being the centroid of the k-th cluster and $\beta_k$ being the gradient signals and $\bar{\beta_k}$ the average gradient signal for the k-th cluster as computed in equation \ref{eq:gradient_signal} with $k\in \left\{1, \dots, K \right\}$.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png}
+  \caption{Performance in terms of hit ratio of the implied probability strategy as a function of the temperature parameters $\tau$ and $\tau_{grad}$ on the American equity data set from 1990 to 2020 with an initial capital of 100. }
+\end{figure}
 
 
-\subsubsection{Tuning the temperature parameter $\tau$ and $\tau_{grad}$ for the implied probability strategy}
-Peformed grid search for $\tau$ taken as adaptative to the switch probability as well as for $\tau_{grad}$ taken as adaptative to the gradient values.
-The optimal values for $\tau$ and $\tau_{grad}$ are determined based on the highest hit ratio achieved during the backtesting period (2006-2020). 
-For the American equity data, we have determined that the optimal value for the couple $(\tau, \tau_{grad})$ must be around $(0.5, 0.1)$ overall based on all the trading strategies. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png}
+  \caption{Performance in terms of win loss ratio of the implied probability strategy as a function of the temperature parameters $\tau$ and $\tau_{grad}$ on the American equity data set from 1990 to 2020 with an initial capital of 100. }
+\end{figure}
 
-\section{Experiment 3: Interpretability Analysis of Sliced Wasserstein Regime Detection Algorithm}
-While it is of great interest to practioners to generate signal from regime detection algorithms, is it almost equally important in the industry to
+In the above heat maps we cannot make any clear conclusion on the impact of the temperature parameters $\tau$ and $\tau_{grad}$ on the performance of the implied probability strategies.
+In fact there seems to be no significant trend in the win-loss ratio and hit ratio as one changes those parameters. 
+
+
+\paragraph{Tuning the half-life parameter for the exponentially weighted majority voting scheme}
+In this subsection we we want to explore the influence of the half-life parameter $\lambda$ on the trading strategies' using hit-ratio and win/loss ratio as performance indicators.
+We want to look at the evolution of the performance for all the developped strategies : 
+\begin{itemize}
+  \item the Standard long/short unifortho strategy and
+  \item the implied probability strategy with hysteresis, continuous and conviction variations.
+  \item the ensemble method with equally weighted signals.
+\end{itemize}
+
+In addition the teste values for the half-life parameter $\lambda$ are the following:
+\begin{equation}
+  \lambda \in \{1.0, 3.0, 5.0, 10.0,20.0\}
+\end{equation}
+Again we used the parameters in table \ref{tab:hyperparams} for the other hyperparameters and we used the American equity data set from 1990 to 2020 with an initial capital of 100.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/half_life_config/half_life_comparison.png} 
+    \caption{Performance of the equally weighted ensemble method as a function of the half-life parameter $\lambda$ on the American equity data set from 1990 to 2020 with an initial capital of 100. The performance is measured as the combination of hit ratio and win/loss ratio.}
+    \label{fig:half_life_tuning} % Used to reference this graph in the text
+\end{figure}
+
+We observe that no clear half-life parameter $\lambda$ stands out in our tests that would be optimal for all strategies. 
+The variability of the hit ratio and win/loss ratio is very high for the different parameters and no clear trend can be observed.
+
+\paragraph{Tuning the trading threshold for the hysteresis strategy}.
+
+We tested as well our hysteresis strategy based on the implied probability signals, by entering or exiting positions depending on the switch probability. 
+We performed a grid search on the hold and entry threshold to tune the performance of the hysteresis strategy.
+The tested values for the hold and entry threshold are the following:
+\begin{itemize}
+    \item Hold threshold: $h \in \{0.2, 0.3, 0.35, 0.4\}$
+    \item Entry threshold: $e \in \{0.25, 0.3, 0.35, 0.4,0.45, 0.5\}$
+\end{itemize}
+Those chosen parameters are based on previous testing and the fact that the switch probability is a probability and therefore bounded between 0 and 1. 
+Again we used the parameters in table \ref{tab:hyperparams} for the other hyperparameters and we used the American equity data set from 1990 to 2020 with an initial capital of 100.
+The testing values above also are based on the switch probability range observed given the parameters in table \ref{tab:hyperparams}. 
+Given those parameters 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png} 
+    \caption{Performance of the hysteresis strategy as a function of the hold and entry threshold on the American equity data set from 1990 to 2020 with an initial capital of 100. The performance is measured as the combination of hit ratio and win/loss ratio.}
+    \label{fig:hysteresis_tuning} % Used to reference this graph in the text
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png} 
+    \caption{Performance of the hysteresis strategy as a function of the hold and entry threshold on the American equity data set from 1990 to 2020 with an initial capital of 100. The performance is measured as the combination of hit ratio and win/loss ratio.}
+    \label{fig:hysteresis_tuning_win_loss} % Used to reference this graph in the text
+\end{figure}
+
+We observe that the tuning of entry and hold thresholds that maximizes the hit ratio and win/loss ratio given the hyperparameters in table \ref{tab:hyperparams} is 
+the combination of $\left(entry, hold\right)  \in \left\{(0.45, 0.20), (0.4, 0.35)\right\}$ with high hit ratio around 0.52 and win/loss ratios around 0.96. 
+
+
+
+\subsubsection{Simulating equally weighted ensemble method on test data (post-2020)}
+After having looked at the influence of the hyperparameters on the performance of the different trading strategies, we test a tuned version of the equally weighted ensemble method which we call "Tuned ensemble strategy" on the test data set from 1st of January 2020 to 31st of December 2024 on the inverse-vol weighted portfolio of American Indices with an initial capital of 100 against a long-only benchmark.
+We test the equally weighted ensemble method with slightly changed parameters (i.e $\alpha = 0.6$ on $hold\_threshold = 0.35$ and $entry\_threshold = 0.4$) as tuned in the previous sections compared to table \ref{tab:hyperparams}.  
+
+Moreover, we want to look at the performance of a the tuned equally weighted ensemble strategy in which one does not short when bear regime is predicted but instead goes to cash. 
+We will call this more conservative approach the "Overlay strategy".
+
+Finally, we will compare the performance all these strategies to an equally weighted portfolio of buy and hold strategy and the ensemble method strategy which we call the "Long/Ensemble Strategy".
+The results are shown in table \ref{tab:ensemble_method_alpha_06} below. 
+
+\begin{table}[H]
+  \centering
+  \caption{Out-of-sample performance of the equally weighted ensemble method with $\alpha = 0.6$ on the American equity data set from 1st of January 2020 to 31st of December 2024 with an initial capital of 100.}
+  \label{tab:ensemble_method_alpha_06}
+  \begin{tabular}{ccccc}
+    \toprule
+    \textbf{Strategy} &\textbf{Sharpe} & \textbf{Ann. Return} & \textbf{Hit Ratio} & \textbf{Win/Loss Ratio} \\
+    \midrule
+    Long Only & 0.6694 & 12.82 \% & {--} & {--} \\
+    Ensemble strategy &  0.6785 & 9.59 \% & 0.5365 & 0.9909 \\
+    Overlay strategy & 1.1738 & 12.48 \% & 0.5462 & 1.0313 \\
+    Long/Ensemble strategy & 1.0006 & 11.86 \% & 0.5361 & 1.0592 \\
+    % Add your data rows here
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphs/real_trading_algos/out_of_sample_america.png} 
+    \caption{Out-of-sample performance of the equally weighted ensemble method with $\alpha = 0.6$ on the American equity data set from 1st of January 2020 to 31st of December 2024 with an initial capital of 100.}
+    \label{fig:out_of_sample_america} % Used to reference this graph in the text
+\end{figure}
+
+We observe that the overlay strategy slightly underperforms the long-only benchmark on the overall 5-year run. 
+While, its sharpe ratio is higher than the long-only benchmark, its annualized return is below the long-only benchmark.
+Comparing it to the ensemble and long/ensemble strategies, we observe that, going flat during bear is highly benefial to the overall performance. 
+In fact, when looking at the ensemble strategy, we observe that it performs better by shorting during bear markets but its late switch back to long when the regime changes signficantly hurts the performance. 
+ 
+
+
+
+
+
+\section{Interpretability of clustering results with macroeconomic indicators}
+
+
+\subsection{Introduction}
+While it is of great interest to practitioners to generate signals from regime detection algorithms, it is almost equally important in the industry to
 understand the output of the Sliced-Wasserstein k-means clustering method. 
 In particular, having an interpretation of the outputs in terms of macroeconomic indicators can be of great interest to understand the applicability of such regime detection method. 
-We want to specifically understand whether the statstical and mathematical methods used to detect bear regimes coincide with real periods of economic downturns and market uncertainty. 
+We want to specifically understand whether the statistical and mathematical methods used to detect bear regimes coincide with real periods of economic downturns and market uncertainty. 
 
 
-\subsection{SHAP Analysis}
-To do so, we  analyse the feature importance of different macro-indicators during predicted bear regimes on the output of supervised learning modelsusing the SHAP analysis toolbox introduced by \cite{lundberg2017unified}.
+\subsection{Background}
+\subsubsection{Shap Analysis}
+To do so, we  analyse the feature importance of different macro-indicators during predicted bear regimes on the output of supervised learning models using the SHAP analysis toolbox introduced by Lundberg et al.(2017) \cite{lundberg2017unified}.
 %This shap analysis toolbox allows us to understand the contribution of each feature in supervised learning models on the output using the Shap value. 
 In order to understand the SHAP methodology, we introduce the following notations.
 Let us denote by $f$ the supervised learning model, and let $F = \{1,\dots,M\}$ be the set of features -- in our case the macroeconomic indicators -- and let $x = \left(x_1, \dots, x_M\right) \in \mathbb{R}^M $ be a specific input. 
@@ -1352,10 +1636,7 @@ Indeed, the Shapley value is the only feature attribution method which satisfies
 Those properties intuitively describe what a feature contribution should satisfy and therefore make the shap value a perfect candidate for our analysis. 
 
 
-\subsection{Experimental Setup and Results}
-
-
-
+\subsection{Data Set}
 In our experiment we use the regime detection algorithm on weekly equity data (S\&P 500, NASDAQ, Dow Jones) on the period from the 6th of Jan 2006 to 20th of December 2019. 
 The Sliced-Wasserstein regime detection algorithm is then applied with the parameters $h_1 = 7, h_2 = 3, L = 20, N_S = 100, \epsilon = 10^{-6}, K = 2$.
 To help us in the interpretation of the regimes we consider the following list of macroeconomic indicators on the study period.
@@ -1384,6 +1665,7 @@ From this probabilistic target, we can then fit the OLS linear regression model 
 In the two other supervised learning methods (Logistic Regression and Random Forest Classifier), we use the binary regime labels generated by the Sliced-Wasserstein k-means method directly as the target variable.
 We encode the bear regime as 1 and the bull regime as 0. 
 
+\subsection{Results and Discussion}
 We observe the following accuracy score for the three supervised learning methdos on the training data :
 \begin{itemize}
   \item OLS Linear Regression ROC(AUC) score: 0.980
@@ -1476,12 +1758,39 @@ is also consistent with the literature as higher interest rates are typically as
 
 
 
-\section{Conclusion}
+\section{Conclusion and Future Work}
+
+\subsection{Summary}
 As we have seen in this thesis, the Sliced-Wasserstein k-means clustering algorithm is a 
 well-suited method for detecting regimes in finacial markets whether on synthetic or real-world data sets.
 Adding, sampling projections vectors using UnifOrtho elevates total accuracy in high-dimensional settings ($d\geq 3$) and also for low-dimensional settings ($0<d\leq2$) compared to performance
 of the Standard Sliced-Wasserstein k-means clustering algorithm with pre-specified projections (i.e Luan et al. 2021 \cite{LuanHamp2025}).
-Even better, when applying the Sliced-Wasserstein k-means clustering algorithm on look-ahead trading strategies, we observe expecptional performance indicating that the bear and bull regimes are well distingushed by the method. 
+While, complexity of generating the UnifOrtho projections is higher  ($\mathcal{O}(d^3)$) than mantaining pre-specified projections vectors, it is still very practical for very high-dimensional data sets ($d\approx 100$) in which a high number of projection vector is needed to approximate the Sliced-Wasserstein distance.
+It also achieves better clustering performance in terms of total accuracy on synthetic datasets. 
+
+When applying the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho via look-ahead trading strategies on real-world data, we observe, as expected, very good performance indicating that the bear and bull regimes are well distingushed by the method. 
+While this result show promising results for observing contempereneous bearn abd bull regimes, it is not sufficient to generate trading strategies out of such look-ahead model. 
+In fact, producing forecasting signals using the Sliced-Wasserstein k-means algorithm and implied probability of regime switch computation do not yield a highly profitable real-world trading strategy.
+For equity indices, in all regions tested (American, European and Asian equity clusters), the long-only benchmark -- an inverse volatility weighted portfolio of indices -- consistentlyoutperforms the trading strategies based on the Sliced-Wasserstein k-means clustering algorithm. 
+While, the trading strategies are able to flag many incoming bear periods notably through switch probability, they struggle to capture the upward momentum of financial markets in bullish regimes as observe in post-2020 test data. 
+
+On the interpretability side, the SHAP analysis of the Sliced-Wasserstein k-means clustering algorithm reveals an alignment between the detected bear regimes and the evolution of macroeconomic indicators during those periods. 
+Key empirical observations of financial markets such as VIX and Gold Spot spikes conicides with bear labellings, especially in the lense of Linear Regression and Logistic Regression models.
+
+\subsection{Future Work}
+As we have seen previously, the UnifOrtho method approximating the Sliced-Wasserstein distance is a powerful tool to scale regime detection the Sliced-Wasserstein algorithm in high-dimensions, yet it is relatively costly due to the QR decomposition required to generate the projection vectors.
+One way to improve the performance of the Sliced-Wasserstein k-means algorithm is to use Hadamard-Rademacher matrices to approximately sample UnifOrtho projections in $\mathcal{O}(d^2\log d)$ time complexity.
+However, such complexity gain follows a trade-off in terms of clustering performance as the approximation of the Sliced-Wasserstein distance is less accurate than with pure UnifOrtho projections as constructed via the Haar distribution (Mezzadri et. al (2007) \cite{Mezzadri2007}).
+For low dimensions to medium dimensions the exact UnifOrtho method in $\mathcal{O}(d^3)$ is still preferrable. However, for very high-dimensional data sets ($d\approx 1000$) the Hadamard-Rademacher method is a good alternative to reduce the computational cost of the Sliced-Wasserstein k-means clustering algorithm.
+
+In experiment two we also observed that the trading strategies based on the Sliced-Wasserstein k-means clustering algorithm struggle to capture upward momentum in bullish regimes.
+A possible improvement could be to only take into account a regime-switch probability as a trading signal in combination with a regime-stay probability to avoid trading during upward trend periods.
+One could imagine a trading strategy that does not change sign in a bullish regime when the stay probability is above a pre-defined threshold. 
+
+
+
+
+
 
 
 
