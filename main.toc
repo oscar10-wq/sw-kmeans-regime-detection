@@ -1,61 +1,79 @@
-\contentsline {section}{Abstract}{1}{section*.1}%
-\contentsline {section}{\numberline {1}Introduction}{11}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Motivations}{11}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Research Objectives}{12}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Research Experiments}{13}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.4}Scientific Contributions}{14}{subsection.1.4}%
-\contentsline {subsection}{\numberline {1.5}Thesis Structure}{14}{subsection.1.5}%
-\contentsline {section}{\numberline {2}Background and Literature Review}{16}{section.2}%
-\contentsline {section}{\numberline {3}Methodology and Theoretical Background}{16}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Theoretical Framework for Wasserstein Distance and Wasserstein Barycenters}{17}{subsection.3.1}%
-\contentsline {paragraph}{Definition: Data Streams}{17}{section*.5}%
-\contentsline {paragraph}{Definition: Lifting Transformation}{17}{section*.6}%
-\contentsline {paragraph}{Definition: Discrete uniform distribution}{18}{section*.7}%
-\contentsline {paragraph}{Definition: Wasserstein distance $\mathcal {W}_p$}{18}{section*.8}%
-\contentsline {paragraph}{Definition: Wasserstein barycentre $\bar {\mu }$}{18}{section*.9}%
-\contentsline {paragraph}{Projected Empirical Measure}{18}{section*.10}%
-\contentsline {paragraph}{Definition: The sliced Wasserstein distance $\mathcal {\bar {W}}_p$}{19}{section*.11}%
-\contentsline {paragraph}{Definition: The sliced Wasserstein Barycenter}{19}{section*.12}%
-\contentsline {subsection}{\numberline {3.2}Theoretical Framework for Sliced Wasserstein (SW) with UnifOrtho Projections}{19}{subsection.3.2}%
-\contentsline {paragraph}{Definition: Orthogonal group $O(d)$}{20}{section*.13}%
-\contentsline {paragraph}{Definition: Haar measure on $O(d)$}{20}{section*.14}%
-\contentsline {paragraph}{Definition: $\text {UnifOrtho}(\mathbb {S}^{d-1}, N)$}{20}{section*.15}%
-\contentsline {paragraph}{Numerical Recipe for constructing matrices with Haar distribution on $O(d)$ from Mezzadri et. al\cite {Mezzadri2007}}{20}{section*.16}%
-\contentsline {subsection}{\numberline {3.3}Variance of UnifOrtho Estimator of the Sliced Wasserstein Distance}{22}{subsection.3.3}%
-\contentsline {paragraph}{Proposition}{22}{section*.17}%
-\contentsline {subsection}{\numberline {3.4}Theoretical Framework for Implied Probability Regime Detection Strategy}{23}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Theoretical Framework for the Ledoit-Wolf Sharpe ratio test}{25}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Synthetic Data Testing of the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections}{28}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Introduction}{28}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Background}{28}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Data Set}{29}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Results and Discussion}{30}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Applications of the Sliced-Wasserstein algorithm on real-world data sets.}{35}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Introduction}{35}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Data Set}{35}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Background}{35}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Results and Discussion}{37}{subsection.5.4}%
-\contentsline {subsubsection}{\numberline {5.4.1}Performance Analysis of sliced Wasserstein Regime Detection using UnifOrtho with Look-Ahead}{37}{subsubsection.5.4.1}%
-\contentsline {subsubsection}{\numberline {5.4.2}Performance analysis of regime detection using trading strategies}{41}{subsubsection.5.4.2}%
-\contentsline {subsubsection}{\numberline {5.4.3}Ledoit-Wolf test on sharpe ratios}{45}{subsubsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {5.4.4}Tuning the hyperparameters for the trading strategies}{46}{subsubsection.5.4.4}%
-\contentsline {paragraph}{Tuning the gradient weight for implied probability methods}{46}{section*.48}%
-\contentsline {paragraph}{Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{47}{section*.50}%
-\contentsline {paragraph}{Tuning the half-life parameter for the exponentially weighted majority voting scheme}{48}{section*.53}%
-\contentsline {paragraph}{Tuning the trading threshold for the hysteresis strategy}{49}{section*.55}%
-\contentsline {subsubsection}{\numberline {5.4.5}Simulating equally weighted ensemble method on test data (post-2020)}{51}{subsubsection.5.4.5}%
-\contentsline {section}{\numberline {6}Interpretability of clustering results with macroeconomic indicators}{53}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Introduction}{53}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Background}{53}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Shap Analysis}{53}{subsubsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.3}Data Set}{54}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Results and Discussion}{55}{subsection.6.4}%
-\contentsline {section}{\numberline {7}Conclusion and Future Work}{57}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Summary}{57}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Future Work}{58}{subsection.7.2}%
-\contentsline {section}{\numberline {A}Appendix}{59}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Sliced Wasserstein on Synthetic Data - Performance Tables}{59}{subsection.A.1}%
-\contentsline {subsubsection}{\numberline {A.1.1}Look-ahead regime strategy}{67}{subsubsection.A.1.1}%
-\contentsline {subsubsection}{\numberline {A.1.2}Standard SW k-means trading strategy}{68}{subsubsection.A.1.2}%
-\contentsline {subsubsection}{\numberline {A.1.3}Implied Probability SW k-means trading strategy}{69}{subsubsection.A.1.3}%
-\contentsline {section}{References}{71}{equation.51}%
+\contentsline {section}{Abstract}{1}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Introduction}{12}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivations}{12}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Research Objectives}{13}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Research Experiments}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Scientific Contributions}{15}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Thesis Structure}{16}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Background and Literature Review}{18}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Importance of Regime Detection in Financial Markets}{18}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Parametric Approaches: Hidden Markov Model}{18}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Structural Breaks Approach}{19}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Distributional model free Regime Detection}{19}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Monte Carlo Estimation and Orthogonal Sampling}{20}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Summary}{20}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Methodology and Theoretical Background}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{22}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Wasserstein Distance and Barycenters}{22}{section.3.2}%
+\contentsline {paragraph}{Definition: Data Streams}{23}{paragraph*.4}%
+\contentsline {paragraph}{Definition: Lifting Transformation}{23}{paragraph*.5}%
+\contentsline {paragraph}{Definition. Discrete uniform distribution.}{23}{paragraph*.6}%
+\contentsline {paragraph}{Definition. Wasserstein distance $\mathcal {W}_p$.}{24}{paragraph*.7}%
+\contentsline {paragraph}{Definition. Wasserstein barycentre $\bar {\mu }$.}{24}{paragraph*.8}%
+\contentsline {paragraph}{Projected Empirical Measure.}{24}{paragraph*.9}%
+\contentsline {paragraph}{Definition. The sliced Wasserstein distance $\mathcal {\bar {W}}_p$.}{24}{paragraph*.10}%
+\contentsline {paragraph}{Definition. The sliced Wasserstein Barycenter.}{25}{paragraph*.11}%
+\contentsline {section}{\numberline {3.3}Sliced Wasserstein distance and UnifOrtho Projections}{25}{section.3.3}%
+\contentsline {paragraph}{Definition. Orthogonal group $O(d)$.}{25}{paragraph*.12}%
+\contentsline {paragraph}{Definition. Haar measure on $O(d)$.}{25}{paragraph*.13}%
+\contentsline {paragraph}{Definition. $\text {UnifOrtho}(\mathbb {S}^{d-1}, N)$}{26}{paragraph*.14}%
+\contentsline {paragraph}{Numerical Recipe for constructing matrices with Haar distribution on $O(d)$ from Mezzadri (2007) \cite {Mezzadri2007}}{26}{paragraph*.15}%
+\contentsline {section}{\numberline {3.4}Variance of UnifOrtho Estimator}{28}{section.3.4}%
+\contentsline {paragraph}{Proposition}{28}{paragraph*.16}%
+\contentsline {section}{\numberline {3.5}Implied Probability of Regime Switches}{29}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Bayesian Inference for Regime Switches}{29}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2} Momentum for Regime Switches}{30}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Summary}{31}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Synthetic Data Testing}{32}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{32}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Background}{32}{section.4.2}%
+\contentsline {paragraph}{Definition. Total Accuracy.}{33}{paragraph*.17}%
+\contentsline {paragraph}{Definition. Mean Centroid-Centroid Distance (MCCD).}{33}{paragraph*.18}%
+\contentsline {section}{\numberline {4.3}Data Set}{34}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Results and Discussion}{35}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Type A and B data}{36}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Type C and D data}{37}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Analysis with fixed hyperparameter settings}{38}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Discussion on higher dimensions}{40}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}Summary}{40}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Sliced Wasserstein on real-world data sets.}{42}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{42}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Background}{42}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Hyperparameters}{43}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}Data Set}{45}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Results and Discussion}{46}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Sliced Wasserstein Regime Detection with Look-Ahead}{46}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Trading strategies using Sliced Wasserstein}{50}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Hyperparameter tuning}{54}{subsection.5.4.3}%
+\contentsline {paragraph}{Tuning the gradient weight for implied probability methods}{54}{paragraph*.42}%
+\contentsline {paragraph}{Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{55}{paragraph*.44}%
+\contentsline {paragraph}{Tuning the half-life parameter for the exponentially weighted majority voting scheme.}{56}{paragraph*.47}%
+\contentsline {paragraph}{Tuning the trading threshold for the hysteresis strategy.}{57}{paragraph*.49}%
+\contentsline {subsection}{\numberline {5.4.4}Simulation on test data (post-2020)}{60}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}Summary}{61}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Interpretability of clustering results}{63}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introduction}{63}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Background}{63}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Shap Analysis}{63}{subsection.6.2.1}%
+\contentsline {section}{\numberline {6.3}Data Set}{64}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Results and Discussion}{65}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Summary}{67}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{69}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary}{69}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Future Work}{70}{section.7.2}%
+\contentsline {section}{\numberline {.1}Appendix}{71}{section.Alph0.1}%
+\contentsline {subsection}{\numberline {.1.1}slicedWasserstein on Synthetic Data - Performance Tables}{71}{subsection.Alph0.1.1}%
+\contentsline {subsubsection}{Look-ahead regime strategy}{79}{subsubsection*.66}%
+\contentsline {subsubsection}{Standard SW k-means trading strategy}{80}{subsubsection*.67}%
+\contentsline {subsubsection}{Implied Probability SW k-means trading strategy}{81}{subsubsection*.68}%
+\contentsline {section}{References}{82}{AlgoLine.4.34}%

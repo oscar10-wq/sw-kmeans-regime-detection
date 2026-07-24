@@ -5,11 +5,6 @@ M.~Agueh and G.~Carlier.
 \newblock Barycenters in the wasserstein space.
 \newblock {\em SIAM Journal on Mathematical Analysis}, 43(2):904--924, 2011.
 
-\bibitem{Andrews1991}
-Donald W.~K. Andrews.
-\newblock Heteroskedasticity and autocorrelation consistent covariance matrix estimation.
-\newblock {\em Econometrica}, 59(3):817--858, 1991.
-
 \bibitem{AngTimmermann2012}
 A.~Ang and A.~Timmermann.
 \newblock Regime changes and financial markets.
@@ -29,6 +24,11 @@ Patric Bonnier, Patrick Kidger, Imanol~Perez Arribas, Cristopher Salvi, and Terr
 K.~Choromanski, M.~Rowland, W.~Chen, and A.~Weller.
 \newblock {\em Unifying Orthogonal Monte Carlo Methods}, volume~97 of {\em Proceedings of Machine Learning Research}.
 \newblock PMLR, 2019.
+
+\bibitem{GrangerDing1995}
+C.~W.~J. Granger and Z.~Ding.
+\newblock Stylized facts of financial time series and the return predictability.
+\newblock {\em Journal of Empirical Finance}, 2(4), 1995.
 
 \bibitem{Hamilton1989}
 James~D. Hamilton.
@@ -50,11 +50,6 @@ B.~Horvath, A.~Muguruza, and M.~Tomas.
 \newblock Wasserstein k-means for clustering distributions.
 \newblock {\em Journal of Machine Learning Research}, 2024.
 
-\bibitem{LedoitWolf2008}
-O.~Ledoit and M.~Wolf.
-\newblock Robust performance hypothesis testing with the sharpe ratio.
-\newblock {\em Journal of Empirical Finance}, 15(5):850--859, 2008.
-
 \bibitem{LuanHamp2025}
 Qinmeng Luan and James Hamp.
 \newblock Automated regime classification in multidimensional time series data using sliced wasserstein k-means clustering.
@@ -69,11 +64,6 @@ Scott~M Lundberg and Su-In Lee.
 Cuturi M. and A.~Doucet.
 \newblock Fast computation of wasserstein barycenters.
 \newblock {\em International Conference on Machine Learning (ICML)}, 2014.
-
-\bibitem{Memmel2003}
-Christoph Memmel.
-\newblock Performance hypothesis testing with the sharpe ratio.
-\newblock {\em Finance Letters}, 1(1):29--40, 2003.
 
 \bibitem{Mezzadri2007}
 Francesco Mezzadri.
@@ -94,7 +84,7 @@ Mark Rowland, Jiri Hron, Yunhao Tang, Krzysztof Choromanski, Tamas Sarlos, and A
 \bibitem{Rydén1998}
 T.~T.~Rydén, Teräsvirta and S.~Åsbrink.
 \newblock Stylized facts of daily return series and the hidden markov model.
-\newblock {\em Computational Statistics \& Data Analysis}, 28(3):217--236, 1998.
+\newblock {\em Journal of Applied Econometrics}, 13(3):217--244, 1998.
 
 \bibitem{Villani2009}
 Cédric Villani.
