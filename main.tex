@@ -106,28 +106,13 @@ Dr. Blaz Zlicar (ADIA Lab)\par}
 \newpage
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
-This thesis investigates the topic of regime detection in high dimensional time-series using an interpretable and efficient machine learning algorithm. 
-This research was conducted in collaboration with ADIA Lab and provides an enhanced method to cluster the multi-dimensional returns distributions building upon the Wasserstein k-means clustering algorithm by Horvath et. al \cite{HorvathEtAl2024} and its high-dimensional generalization called the sliced Wasserstein clustering algorithm proposed by Luan and Hamp (2025) \cite{LuanHamp2025}. 
-One of the key characteristics of the latter methods is their ability to infer which regime the market is currently in without pre-specified assumptions on the returns distribution. 
-The thesis also addresses the problem of the low interpretability of regime-detection algorithms based on complex Hidden-Markov models or deep learning methods.
-In fact, there is a growing need for methods that are not only effective but also transparent enough to be used and trusted.
-Moreover, a growing number of practitioners are interested in using high-dimensional time-series data to build trading strategies with multiple assets, especially with the emergence of portfolio-trading. 
-Hence, detecting regimes in high-dimensional settings has become a key topic. 
+This thesis uses a modified version of the k-means clustering algorithm to detect regimes in financial time-series data. Conducted in collaboration with ADIA Lab, this research provides an enhanced method to cluster multi-dimensional returns distributions, building upon the Wasserstein k-means clustering algorithm by Horvath et al. \cite{HorvathEtAl2024} and its high-dimensional generalization, the sliced Wasserstein clustering algorithm proposed by Luan and Hamp (2025) \cite{LuanHamp2025}. A key characteristic of these methods is their ability to infer which regime the market is currently in without pre-specified assumptions on the returns distribution. The thesis also addresses the interpretability of the algorithm, as there is a growing need for methods that are not only effective but also transparent enough to be trusted. Moreover, with the emergence of portfolio trading, a growing number of practitioners are interested in using high-dimensional time-series data to build multi-asset trading strategies. Detecting regimes in high-dimensional settings has therefore become a key topic, and the motivation of this research is to investigate regime detection algorithms in high dimensions that are both interpretable and accurate.
 
-The motivation is therefore to investigate regime detection algorithms in high-dimensions that are interpretable and accurate.
-While there are many methods for regime detection, the research focuses on the sliced Wasserstein k-means algorithm proposed by Luan and Hamp (2025) \cite{LuanHamp2025} as it provides 
-an elegant mathematical framework to cluster regimes. 
-Specifically, the latter algorithm use the sliced Wasserstein distance as a metric to compare and cluster different high-dimensional returns distributions using a simple k-means algorithm.
-The thesis aims to extend the work by Luan and Hamp (2025) \cite{LuanHamp2025} by improving the sliced Wasserstein distance approximation in high-dimensions using the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019}.
-In order to get a good approximation of the sliced Wasserstein distance, one needs to sample a large number of random projection vectors to approximate via Monte Carlo the high-dimensional space.
-Instead of using a fixed set of well-chosen random projection vectors to compute the sliced Wasserstein distance as in Luan and Hamp (2025) \cite{LuanHamp2025}, this research shows that using the UnifOrtho method yields better results. In particular, its orthogonal projection sampling leads to reduced variance in the Monte Carlo estimate as well as more stable clustering results in high-dimensions.
-This dissertation will therefore focus on fours chapters aimed at showing not only the improvement of the UnifOrtho method for the sliced Wasserstein clustering algorithm. 
-To achieve this the thesis will first focus on laying out the theoretical background for understanding the model.
-The sliced Wasserstein clustering algorithm is then tested on synthetic data to demonstrate the accuracy improvement yielded using the UnifOrtho approach.
-Later, the focus will shift to real-world data sets application of the sliced Wasserstein k-means algorithm via look-ahead and non-look ahead trading strategies.
-Finally, we will focus on the empirical relationship between clustering results of the the sliced Wasserstein k-means algorithm on a real-world data and macroeconomic indicators. 
+While there are many methods for regime detection, this research focuses on the sliced Wasserstein k-means algorithm of Luan and Hamp (2025) \cite{LuanHamp2025}, as it provides an elegant framework based on the sliced Wasserstein distance to cluster regimes. The thesis extends their work by improving the sliced Wasserstein distance approximation in high dimensions using the UnifOrtho method proposed by Rowland et al. \cite{RowlandEtAl2019}. Instead of using a fixed set of well-chosen random projection vectors, as in Luan and Hamp (2025), this research shows that the UnifOrtho method yields better results.
 
-The thesis consists of the following methodology chapter and three research experiments:
+The dissertation is organized into four chapters. It first lays out the theoretical background needed to understand the model. The sliced Wasserstein clustering algorithm is then tested on synthetic data to demonstrate the accuracy improvement yielded by the UnifOrtho approach. The focus subsequently shifts to real-world applications of the algorithm through look-ahead and non-look-ahead trading strategies. Finally, the research concludes by establishing the empirical relationship between the clustering results on real-world data and macroeconomic indicators.
+
+The thesis consists therefore of the following methodology chapter and three research experiments:
 \begin{itemize}
   \item \textbf{Methodology and Theoretical Background.}
   % write something here
@@ -149,7 +134,7 @@ The thesis consists of the following methodology chapter and three research expe
   produce a feature importance analysis using the SHAP framework.   
 \end{itemize}
 
-This thesis therefore provides the following contributions to science: 
+In this research we therefore provide the following contributions to science: 
 
 \begin{itemize}
   \item \textbf{Scalable regime detection algorithm.} The main objective of this thesis is to provide a
@@ -175,12 +160,28 @@ require a time complexity that is polynomial to the dimension and input size.
 \listoftables
 \newpage
 
+
+
+
+
+
+
+
+
+
 \chapter{Introduction}
-The objective of this section is to provide an overview of the thesis. This chapter discusses the motivation behind the research, the experiments, the objectives as well as the contribution to the academic literature.
 
-
+\begin{quote}
 This thesis investigates the topic of regime detection in high-dimensional time-series using an interpretable and efficient machine learning algorithm.
 The research was conducted in collaboration with ADIA Lab under the technical advice of Dr. Blaz Zlicar who provided key practical insights on the topic of regime detection in the financial industry. 
+The objective of this chapter is to provide an overview of the thesis. This chapter discusses first the motivation behind the research and the research objectives. It then describes the experiments as well as the contribution to the academic literature. 
+Finally, it concludes with a description of the thesis structure. 
+\end{quote}
+
+
+% This thesis investigates the topic of regime detection in high-dimensional time-series using an interpretable and efficient machine learning algorithm.
+% The research was conducted in collaboration with ADIA Lab under the technical advice of Dr. Blaz Zlicar who provided key practical insights on the topic of regime detection in the financial industry. 
+
  
 
 \section{Motivations}
@@ -213,17 +214,17 @@ well-known to be opaque \cite{HariomTatsat2025} and understanding their decision
 
 %maube a bit more 
 \section{Research Objectives}
-The main objectives of this thesis is to investigate and improve the existing Sliced-Wasserstein k-means clustering algorithm for regime detection in high-dimension by Luan et. al (2025) \cite{LuanHamp2025}.
+The main objectives of this thesis is to investigate and improve the existing sliced Wasserstein k-means clustering algorithm for regime detection in high-dimension by Luan et. al (2025) \cite{LuanHamp2025}.
 The latter algorithm is a generalization of the Wasserstein k-means clustering algorithm proposed by Horvath et. al (2024) \cite{HorvathEtAl2024} to high-dimensional time-series data.
-Both of those algorithm are based on the Wasserstein distance and its extension to the Sliced-Wasserstein distance. 
+Both of those algorithm are based on the Wasserstein distance and its extension to the sliced Wasserstein distance. 
 This high-dimensional distance requires a Monte Carlo approximation via orthogonal projections vectors to be computed. 
-Instead of using a set of pre-fixed projections vectors as in Luan et. al \cite{LuanHamp2025}, this thesis uses the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to sample orthogonal projections vectors for the Monte Carlo approximation of the Sliced-Wasserstein distance.
-This UnifOrtho approach for computing the Sliced-Wasserstein distance can be more easily scaled as the dimension increases and is more robust to the curse of dimensionality.
+Instead of using a set of pre-fixed projections vectors as in Luan et. al \cite{LuanHamp2025}, this thesis uses the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to sample orthogonal projections vectors for the Monte Carlo approximation of the sliced Wasserstein distance.
+This UnifOrtho approach for computing the sliced Wasserstein distance can be more easily scaled as the dimension increases and is more robust to the curse of dimensionality.
 This thesis also aims to quantify the enhancement of the UnifOrtho approach on synthetic data as well as on real-world data sets. 
-Another key objective is to provide predictive power on future regimes using the mathematical framework of the Sliced-Wasserstein k-means algorithm.
+Another key objective is to provide predictive power on future regimes using the mathematical framework of the sliced Wasserstein k-means algorithm.
 The aim is to generate trading strategies based on the ability to detect future market downturns or upturns.
 Finally, this research  further explores the interpretability of the improved method by comparing the clustering results with macroeconomic indicators.
-The underlying hypothesis that this thesis seek to demonstrate is that the statistical results given by the Sliced-Wasserstein k-means clustering algorithm align with empirical observations of macroeconomic dynamics. 
+The underlying hypothesis that this thesis seek to demonstrate is that the statistical results given by the sliced Wasserstein k-means clustering algorithm align with empirical observations of macroeconomic dynamics. 
 
 
 
@@ -233,33 +234,33 @@ The underlying hypothesis that this thesis seek to demonstrate is that the stati
 
 \section{Research Experiments}
 %todo 
-This dissertation starts from exploring the improved accuracy of the Sliced-Wasserstein k-means clustering algorithm using the UnifOrtho approach 
+This dissertation starts from exploring the improved accuracy of the sliced Wasserstein k-means clustering algorithm using the UnifOrtho approach 
 on synthetic data in the first experiment. The second experiment extends this study on real-world data sets. The last experiment concludes with an interpretability test by combining previous results with macroeconomic indicators.
 
 Before diving into the experiments, this thesis provides a theoretical methodology chapter, in order to expose the 
 mathematical backgrounds that explains the novel regime detection framework of the Wasserstein k-means clustering algorithm by Horvath et .al \cite{HorvathEtAl2024} and Luan et .al in high-dimensions \cite{LuanHamp2025}.
-It also gives insight on the UnifOrtho approach by Rowland et. al \cite{RowlandEtAl2019} and how it can be used to improve the Sliced-Wasserstein distance approximation in high-dimensions.
+It also gives insight on the UnifOrtho approach by Rowland et. al \cite{RowlandEtAl2019} and how it can be used to improve the sliced Wasserstein distance approximation in high-dimensions.
 More importantly, it provides the mathematical rationale behind using the UnifOrtho approach before testing it empirically.
 The following empirical study is split into three experiments: 
 
 
 \begin{itemize}
   \item \textbf{Synthetic Data Testing.} The first experiment
-  is aimed at better understanding the total accuracy of the Sliced-Wasserstein k-means clustering variant with UnifOrtho on synthetic data. 
+  is aimed at better understanding the total accuracy of the sliced Wasserstein k-means clustering variant with UnifOrtho on synthetic data. 
   The aim is to compare the results with the same experiment done in Luan et.al \cite{LuanHamp2025} and show that the UnifOrtho approach yields better results for increasingly higher dimensional data.
   One differentiates regimes in the synthetic data, by changing the mean and/or the correlation structure of the multivariate data.
   This research also looks at synthetic data which combines gaussian regimes with non-gaussian regimes. 
   Finally, testing is done on data with different dimensionality (i.e from 2 to 100).
 
-  \item \textbf{Sliced-Wasserstein on real world data sets.}
-  After testing on synthetic data, the next step is to apply the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho on real-world data sets.
+  \item \textbf{Sliced Wasserstein on real world data sets.}
+  After testing on synthetic data, the next step is to apply the sliced Wasserstein k-means clustering algorithm with UnifOrtho on real-world data sets.
   In particular, the model is applied to three regional equity index data sets (US, Europe and Asia) to identify potential gaps in performance between geographic locations.
-  First, a look-ahead strategy is applied using the clustering results. This allows to get a quantifiable performance of the Sliced-Wasserstein method on the above-mentioned data sets.
+  First, a look-ahead strategy is applied using the clustering results. This allows to get a quantifiable performance of the sliced Wasserstein method on the above-mentioned data sets.
   The focus then shifts to non-look ahead trading strategies to assess the performance of the clustering results in a more realistic setting with predictive signals generated from implied probabilities of regime switches.
   This also extends to tuning the hyperparameters of the developed trading strategies and assessing the performance of the tuning on test-data sets (2020-2025 period).
 
   \item \textbf{Interpretability of clustering results.}
-  The final experiment will consist on fitting supervised learning algorithms -- namely OLS Linear Regression, Logistic Regression and Random Forest -- to the clustering results of the Sliced-Wasserstein k-means clustering algorithm with a set of 10 macroeconomic indicators on the study period from 2006 to 2020.
+  The final experiment will consist on fitting supervised learning algorithms -- namely OLS Linear Regression, Logistic Regression and Random Forest -- to the clustering results of the sliced Wasserstein k-means clustering algorithm with a set of 10 macroeconomic indicators on the study period from 2006 to 2020.
   The objective is to identify using the SHAP feature importance framework which macroeconomic indicators are highly sensitive with respect to the model during bear clusters.  
 \end{itemize}
 
@@ -270,17 +271,17 @@ This dissertation provides a number of contributed to the scientific literature 
 \begin{itemize}
   \item \textbf{Scalable regime detection algorithm.} This thesis provides 
   a regime-detection algorithm that can be scaled to very high-dimensions without hand-constructed projections. 
-  The objective is eventually to use the Sliced-Wasserstein k-means on high-dimensional data that requires hundreds of projections vectors for good accuracy. 
-  In particular,this sheds light on financial applications of the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to improve the Monte Carlo approximation of the Sliced-Wasserstein distance in high-dimensions.
+  The objective is eventually to use the sliced Wasserstein k-means on high-dimensional data that requires hundreds of projections vectors for good accuracy. 
+  In particular,this sheds light on financial applications of the UnifOrtho method proposed by Rowland et. al \cite{RowlandEtAl2019} to improve the Monte Carlo approximation of the sliced Wasserstein distance in high-dimensions.
   \item \textbf{Computationally tractable framework.}
   Additionally, the aim of this research is to replace the manual hand-crafted projections vectors used in Luan et. al \cite{LuanHamp2025} with polynomial-time complexity algorithms such as the UnifOrtho method which runs in $\mathcal{O}(d^3)$ time complexity with $d$ representing the dimension.
   
   \item \textbf{Predictive signal generation from clustering.} 
   The thesis shows how to construct trading signals from the clustering algorithms by deriving implied probabilities of regime switches. 
-  This a key contribution to the research by Luan et al. \cite{LuanHamp2025}, which already hinted towards such use of the Sliced-Wasserstein framework as possible future work.
+  This a key contribution to the research by Luan et al. \cite{LuanHamp2025}, which already hinted towards such use of the sliced Wasserstein framework as possible future work.
   Additionally, the thesis provides multiple trading strategies that exploit this predictive signal to generate returns on real-world data sets.
   \item \textbf{Interpretability of clustering results.}
-  Finally, the thesis show how the statistical results given by the Sliced-Wasserstein k-means clustering algorithm empirically match with macroeconomic indicators.
+  Finally, the thesis show how the statistical results given by the sliced Wasserstein k-means clustering algorithm empirically match with macroeconomic indicators.
   This provides not only a model that is mathematically interpretable but also a model that follows empirical macroeconomic rationale.
 \end{itemize}
 
@@ -289,31 +290,31 @@ This dissertation provides a number of contributed to the scientific literature 
 \begin{itemize}
   \item \textbf{Background and Literature Review.}
   This section focuses on laying out the key literature and research on regime detection. 
-  It also provides an overall context around the Sliced-Wasserstein k-means clustering algorithm within the existing literature. 
+  It also provides an overall context around the sliced Wasserstein k-means clustering algorithm within the existing literature. 
   
 
   \item \textbf{Methodology and Theoretical Background.}
-  This part of the thesis provides the theoretical framework for understanding the Wasserstein k-means algorithm and its high-dimensional generalization to the Sliced-Wasserstein k-means algorithm.
-  In particular, it explains why the UnifOrtho method approach for the Sliced-Wasserstein algorithm yields theoretical improvements with respect to existing methods in the literature.
+  This part of the thesis provides the theoretical framework for understanding the Wasserstein k-means algorithm and its high-dimensional generalization to the sliced Wasserstein k-means algorithm.
+  In particular, it explains why the UnifOrtho method approach for the sliced Wasserstein algorithm yields theoretical improvements with respect to existing methods in the literature.
   It further describes in detail the mathematical framework behind the implied probability of regime switches which will be used in the trading strategies later. 
 
-  \item \textbf{Synthetic Data Testing.}
-  This section provides a synthetic data testing of the Sliced-Wasserstein model with key accuracy comparisons for different tunings.
+  \item \textbf{Experiment 1: Synthetic Data Testing.}
+  This section provides a synthetic data testing of the sliced Wasserstein model with key accuracy comparisons for different tunings.
   This synthetic experiment also includes an accuracy comparison with existing results in the literature (i.e Luan et al. (2025) \cite{LuanHamp2025}).
 
-  \item \textbf{Sliced-Wasserstein algorithm on real-world data sets.}
-  This section demonstrates the practical applicability of the Sliced-Wasserstein model by applying it to real-world financial data sets. 
+  \item \textbf{Experiment 2: Sliced Wasserstein algorithm on real-world data sets.}
+  This section demonstrates the practical applicability of the sliced Wasserstein model by applying it to real-world financial data sets. 
   This experiment is done through three steps. First, a look-ahead trading strategy is applied to assess the accuracy of the clustering results in a synthetic data type setting.
-  Then, the focus shifts to create multiple tradeable signals from the Sliced-Wasserstein k-means algorithm and test it again on real-world training data sets.
+  Then, the focus shifts to create multiple tradeable signals from the sliced Wasserstein k-means algorithm and test it again on real-world training data sets.
   Finally, the section provides a discussion on the hyperparameter tuning of the trading strategies and its performance on a test data set.
   
-  \item \textbf{Interpretability of clustering results with macroeconomic indicators.}
-  This section gives an insight on the relationship between the statistical clustering results of the Sliced-Wasserstein k-means algorithm and macroeconomic indicators.
-  The research gives a feature importance analysis on supervised learning algorithms trained on the clustering results of the Sliced-Wasserstein k-means algorithm with a set of 10 macroeconomic indicators.
+  \item \textbf{Experiment 3: Interpretability of clustering results with macroeconomic indicators.}
+  This section gives an insight on the relationship between the statistical clustering results of the sliced Wasserstein k-means algorithm and macroeconomic indicators.
+  The research gives a feature importance analysis on supervised learning algorithms trained on the clustering results of the sliced Wasserstein k-means algorithm with a set of 10 macroeconomic indicators.
   In particular, the focus is to look at bear regime predictions of the supervised models and assess -- using the SHAP analysis toolbox -- which features are either most important for the model.
   
   \item \textbf{Conclusion and Future Work.}
-  In this final section, we summarize the key findings of the thesis as well as the limitations revolving around the Sliced-Wasserstein k-means algorithms. 
+  In this final section, we summarize the key findings of the thesis as well as the limitations revolving around the sliced Wasserstein k-means algorithms. 
    This will lead to a discussion of potential improvements and future research. 
 
 \end{itemize}
@@ -321,9 +322,14 @@ This dissertation provides a number of contributed to the scientific literature 
 
 
 \chapter{Background and Literature Review}
-
+\begin{quote}
 This chapter provides a literature review of the topic of regime detection in financial markets. 
 In particular it gives an overview of the existing methods for regime detection and how the model proposed in this thesis solves limitations in the current research.
+The chapter starts by introducing the importance of regime detection in the industry as well as modelling approaches developped in the literature. 
+It then transitions to presenting distributional model free regime detection on which this thesis builds upon. 
+Finally, we provide a discussion of the state of Monte Carlo sampling of orthogonal projections in the literature and how it is used in this research. 
+\end{quote}
+
 
 \section{Importance of Regime Detection in Financial Markets}
 Regime detection has become over the years a heavily studied topic in literature, as it is of great interest for practitioners. 
@@ -363,13 +369,13 @@ However, as expressed in Horvath et al. \cite{HorvathEtAl2024}, those tools do n
 For instance, the KL divergence is not very well suited for working over empirical measures while the Kolmogorov Smirnov Statistic "lacks the sensitivity required to distinguish between elements of clusters" \cite{HorvathEtAl2024}.
 This is why the Wasserstein distance is preferred for clustering returns distributions.
 
-The slicedWasserstein k-means clustering algorithm as proposed by Luan et al. \cite{LuanHamp2025} generalizes Horvath's approach to high-dimensional time-series data and infers regimes changes using returns distribution in $\mathcal{P}_p(\mathbb{R}^d)$, the space of probability measures on $\mathbb{R}^d$ with finite $p$-th moment.
+The sliced Wasserstein k-means clustering algorithm as proposed by Luan et al. \cite{LuanHamp2025} generalizes Horvath's approach to high-dimensional time-series data and infers regimes changes using returns distribution in $\mathcal{P}_p(\mathbb{R}^d)$, the space of probability measures on $\mathbb{R}^d$ with finite $p$-th moment.
 Not only, this method adapts to high-dimensional setting, but also provides a robust and intelligible mathematical framework for regime detection.
-However, the Sliced-Wasserstein distance -- on which the above algorithm is based -- is an integral over the unit sphere $\mathbb{S}^{d-1}$ and therefore requires a Monte Carlo approximation to be computed in practice. 
+However, the sliced Wasserstein distance -- on which the above algorithm is based -- is an integral over the unit sphere $\mathbb{S}^{d-1}$ and therefore requires a Monte Carlo approximation to be computed in practice. 
 
 \section{Monte Carlo Estimation and Orthogonal Sampling}
-While in Luan et. al \cite{LuanHamp2025} the authors use a fixed set of well-chosen random projection vectors to compute the Sliced-Wasserstein distance, authors claim that using such manually constructed projections vectors is not scalable to increasingly higher dimensional data.
-Rowland et al. \cite{RowlandEtAl2019} proposed a method to estimate the Sliced-Wasserstein distance using orthogonal projections vectors sampled from the UnifOrtho numerical method by  Mezzadri et. al (2007) \cite{Mezzadri2007}. This method is highly scalable to high-dimensional data and empirically provides variance reduction properties for the Monte Carlo approximation.
+While in Luan et. al \cite{LuanHamp2025} the authors use a fixed set of well-chosen random projection vectors to compute the sliced Wasserstein distance, authors claim that using such manually constructed projections vectors is not scalable to increasingly higher dimensional data.
+Rowland et al. \cite{RowlandEtAl2019} proposed a method to estimate the sliced Wasserstein distance using orthogonal projections vectors sampled from the UnifOrtho numerical method by  Mezzadri et. al (2007) \cite{Mezzadri2007}. This method is highly scalable to high-dimensional data and empirically provides variance reduction properties for the Monte Carlo approximation.
 Petrovic et al. (2025) \cite{PetrovicEtAl2022} further gives the mathematical explanation behind the observed variance reduction and better sampling of the UnifOrtho method for large dimensions.
 
 
@@ -377,8 +383,8 @@ Petrovic et al. (2025) \cite{PetrovicEtAl2022} further gives the mathematical ex
 This chapter has provided key understanding of the existing literature on regime detection in financial markets.
 In particular, the chapter higlights how HMM models are used for regime detection but fail to capture the non-Gaussian nature of financial returns distributions.
 We also introduced breaking-point models as well their limitations for understanding the nature of regimes before introducing model free approaches. 
-In particular, we focused on the literature around Wasserstein k-means clustering algorithm and how the Sliced-Wasserstein k-means clustering algorithm provides a robust framework for regime detection in high dimensional time-series data.
-Finally, we focused on the literature around the UnifOrtho method and its variance reduction properties for Monte Carlo approximation of the Sliced-Wasserstein distance.
+In particular, we focused on the literature around Wasserstein k-means clustering algorithm and how the sliced Wasserstein k-means clustering algorithm provides a robust framework for regime detection in high dimensional time-series data.
+Finally, we focused on the literature around the UnifOrtho method and its variance reduction properties for Monte Carlo approximation of the sliced Wasserstein distance.
 
 
 
@@ -395,17 +401,25 @@ Finally, we focused on the literature around the UnifOrtho method and its varian
 \chapter{Methodology and Theoretical Background}
 
 
-\section{Introduction}
-This chapter builds the mathematical framework for this thesis. 
-It is organized in four parts. In the first subsection, we 
-introduce the notions of Wasserstein distance and Wasserstein barycenters from Horvath et al. \cite{HorvathEtAl2024}, which are the key concepts behind the Wasserstein k-means clustering algorithm.
-We then look at the Sliced-Wasserstein distance extension introduced in Luan and Hamp \cite{LuanHamp2025} and its Monte-Carlo estimator.
-This introduces the sampling of random projections vectors to approximate the Sliced-Wasserstein distance in high-dimensions.
-This allows to introduce the UnifOrtho method from Rowland et al. \cite{RowlandEtAl2019} and show how it can be used to improve the Monte-Carlo approximation of the sliced Wasserstein distance.
-We explore the theoretical properties and advantages yielded by the UnifOrtho method. In particular, the variance reduction properties of the UnifOrtho method. 
-This section also exposes the mathematical framework to derive predictive signals from the Sliced-Wasserstein k-means clustering results. 
-In particular, we derive implied probabilities of regime switches from clustered centroids. 
+\begin{quote}
+    This chapter builds the mathematical framework for this thesis. 
+    We introduce the notions of Wasserstein distance and barycenter, which are the key concepts behind the Wasserstein k-means clustering algorithm.
+    We then look at the sliced Wasserstein distance extension and its UnifOrtho improvement.
+    We additionally, provide the numerical recipe to produce vectors sampled from the Haar distribution on $O(d)$ which enables to create columns distributed according to $\text{UnifOrtho}(\mathbb{S}^{d-1})$. 
+    A key observation in this study, is the time complexity of the numerical recipe and one discusses possible improvements.
+    Another section focuses on the variance reduction of the UnifOrtho method for the Monte Carlo approximation of the sliced Wasserstein distance.
+    We explain how the spherical harmonics influence the reduction of the variance for the Monte Carlo estimation.
+    Finally, we present the mathematical framework to derive implied probabilities of regime switches from the sliced Wasserstein k-means clustering results.
+\end{quote}
 
+
+\section{Introduction}
+This thesis uses a modified version of the k-means clustering algorithm to cluster high-dimensional empirical distributions.
+In particular it uses the Wasserstein distance from Horvath et al. \cite{HorvathEtAl2024} and its extension to high-dimensional distributions called the sliced Wasserstein distance (Luan and Hamp (2025) \cite{LuanHamp2025})  to cluster those distributions.
+However, understanding the key functioning of the sliced Wasserstein metric is vital to truly appreciate the regime detection approach taken in this dissertation.
+We therefore want to understand how the sliced Wasserstein distance mathematically detects regimes and how it can be used to predict regimes.
+To do so, we will first introduce the Wasserstein metric before extending its improvement using the UnifOrtho method by Rowland et al. \cite{RowlandEtAl2019}.
+Finally, we will introduce the mathematical framework to derive implied probabilities of regime switches from the sliced Wasserstein k-means clustering results.
 
 
 \section{Wasserstein Distance and Barycenters}
@@ -568,7 +582,7 @@ Hence we have that $Q'  \sim \text{Haar}(O(d))$ and its columns $q'_i \in \text{
 Further explanation on understanding why the above recipe yields uniformly distributed orthogonal matrices in $O(d)$ can be found in \cite{Mezzadri2007}.
 In our work we will not be sampling $Z$ from a complex normal distribution but rather from a real normal distribution.
 
-Combining the above numerical schema \cite{RowlandEtAl2019,Mezzadri2007} as well as the general Sliced-Wasserstein k-means approach \cite{LuanHamp2025} we devise therefore the following pseudo-code. 
+Combining the above numerical schema \cite{RowlandEtAl2019,Mezzadri2007} as well as the general sliced Wasserstein k-means approach \cite{LuanHamp2025} we devise therefore the following pseudo-code. 
 Below $\textit{sgn}$ refers to the sign function which is the equivalent normalization of the diagonal elements of the matrix $R$ for real numbers. 
 
 \begin{algorithm}[H]
@@ -612,7 +626,7 @@ Initialize cluster assignments $C_1, \dots, C_K$\;
 
 \Return{$C_1, \dots, C_K$ and barycenters $\{\bar{\mu}_k(\theta^l)\}$}
 \end{algorithm}
-One downside of this the Sliced-Wasserstein method is its high computational time complexity.
+One downside of this the sliced Wasserstein method is its high computational time complexity.
 Indeed, the UnifOrtho projection generation step alone is $\mathcal{O}(d^3)$ due to the QR decomposition of $k$ matrices of size $d \times d$. 
 In addition, the projection and k-means iteration step has a complexity of $\mathcal{O}(M K L)$ for the assignment step and $\mathcal{O}(K L M_k \log M_k)$ for computing the 1d Wasserstein barycenters.
 Here $M_k$ refers to the number of distributions assigned to cluster $C_k$, $K$ to the numbers of clusters and $L$ to the number of projections.
@@ -669,7 +683,7 @@ We introduce a temperature parameter $\tau$ for controlling the sharpness of the
 \end{equation}
 with 
 $$ x_m = \frac{1}{N} \sum_{i=1}^{N} \delta_{l^m(\mathbf{x})_i}$$
-the empirical distribution of the current window in $\mathcal{P}_p(\mathbb{R}^d)$ with a lifting transformation. After having run the Sliced-Wasserstein k-means clustering algorithm, on the target window of the data, we have for $k = 1, \dots, K$: 
+the empirical distribution of the current window in $\mathcal{P}_p(\mathbb{R}^d)$ with a lifting transformation. After having run the sliced Wasserstein k-means clustering algorithm, on the target window of the data, we have for $k = 1, \dots, K$: 
 \begin{equation}
     c_k^* = \arg\min_{\nu \in \mathcal{P}_p(\mathbb{R}^d)} 
     \sum_{\mu_m \in C_k} \widetilde{W}_p^p(\nu, \mu_m), 
@@ -734,29 +748,35 @@ with $\alpha \in [0,1]$ a weight that can be tuned on a validation set.
 The tuning of $\alpha$ is interesting because it implicitly indicates whether the predictive signal for regime switches is more driven by momentum or by the distance to the centroids. 
 
 \section{Summary}
-In this chapter, we layed the ground foudations for understanding the Sliced-Wasserstein k-means algorithm from the Wasserstein distance to its barycenter. 
+In this chapter, we layed the ground foudations for understanding the sliced Wasserstein k-means algorithm from the Wasserstein distance to its barycenter. 
 We also introduced the UnifOrtho projection method and numerical recipe for generating orthogonal projection vectors from the Haar measure on the orthogonal group $O(d)$. This allowed us to 
 show how the UnifOrtho sampling method intuitively reduces variance by studying the spherical harmonics of the variance of the Monte Carlo estimator. 
-Finally, we introduced a method for deriving predictive signals for regime switches based on the Sliced-Wasserstein distance to the centroids.
+Finally, we introduced a method for deriving predictive signals for regime switches based on the sliced Wasserstein distance to the centroids.
 Additionally, we introduce a first-order Markov Chain model for the transition probabilities between regimes.
 
 
-\chapter{Synthetic Data Testing}
+\chapter{Experiment 1: Synthetic Data Testing}
+
+\begin{quote}
+This chapter focuses on testing the sliced Wasserstein method on synthetic data to understand the behaviour of the algorithm and its performance in different settings.
+In particular, we explore the performance of the sliced Wasserstein k-means clustering algorithm with a variety of tuning parameters. 
+The study shows empirical evidence of the consistent high performance of the sliced Wasserstein k-means algorithm across different settings for most market settings. 
+The above analysis has already been conducted in the reference paper Luan and Hamp (2025) \cite{LuanHamp2025} and the study shows that the UnifOrtho projections improves the overall performance.
+Additionally, we explore in detail the performance of single runs of the sliced Wasserstein k-means clustering algorithm on the synthetic data with fixed tunings.
+We investigate the balanced accuracy metrics beyond clustering accuracy of the model and show that the sliced Wasserstein k-means model performs well in most settings.
+\end{quote}
 
 \section{Introduction}
-The focus of this chapter will be to test the sliced Wasserstein method on synthetic data to understand the behaviour of the algorithm and its performance in different settings.
-In particular, we explore the performance of the Sliced-Wasserstein k-means clustering algorithm with a variety of tuning parameters such as the number of projections $L$, the number of clusters $K$, and the correlation factor $\rho$ between the different assets.
-We also try to identify how changing the granularity of the analysis of the data (i.e changing the window size $h_1$ and step size $h_2$) affects the performance of the algorithm.
-This analysis has already been conducted in the reference paper Luan and Hamp (2025) \cite{LuanHamp2025} and the focus of this chapter is also  to show how UnifOrtho projections improves the overall performance.
-Another key aspect of this chapter is to understand how accuracy in a supervised setting (i.e with synthetic data) correlates with the Mean Centroid-Centroid Distance (MCCD) metric which can be used in an unsupervised setting (i.e with real data). 
-This step is crucial as through this experiment, we want to understand whether the MCCD metric can be used as a proxy for accuracy in real-world scenarios where ground truth labels are not available.
-Additionally, we will explore and in detail the performance of the runs of the Sliced-Wasserstein k-means clustering algorithm on the synthetic data with fixed tunings.
-The goal is to look at balanced accuracy metrics beyond clustering accuracy and to understand how qualitatively the algorithm performs in different regimes. 
+This dissertation focuses on a novel approach to detect regimes and therefore has to be tested on different market scenarios. As a first benchmark, it is highly relevant to generate a wide variety of synthetic data to simulate those different market conditions.
+The chapter therefore focuses on comparing the sliced Wasserstein k-means algorithm using UnifOrtho with the results in the literature on synthetic data (Luan and Hamp (2025) \cite{LuanHamp2025}) to see if it provides better accuracy.
+We will first test the novel algorithm on different synthetic data settings with a range of tunings as in Luan and Hamp (2025) \cite{LuanHamp2025}. 
+We then plot single runs of the sliced Wasserstein algorithm with fixed tuning on the different synthetic data sets. The goal is to get 
+a good understanding of the behavior of our modelling approach in different artificial market scenarios.
 
 \section{Background}
-In Luan and Hamp (2025) \cite{LuanHamp2025}, the authors introduce the Sliced-Wasserstein k-means clustering algorithm to detect regimes in financial time series data and test the algorithm on synthetic data for
+In Luan and Hamp (2025) \cite{LuanHamp2025}, the authors introduce the sliced Wasserstein k-means clustering algorithm to detect regimes in financial time series data and test the algorithm on synthetic data for
 2-dimensional data and 3-dimensional data.
-The paper concludes that the Sliced-Wasserstein k-means clustering algorithm has an increasing accuracy as one elevates the number of projections $L$ and the window size $h_1$.
+The paper concludes that the sliced Wasserstein k-means clustering algorithm has an increasing accuracy as one elevates the number of projections $L$ and the window size $h_1$.
 Before we present the results, let us first detail the accuracy metrics used in the reference experiment in Luan and Hamp (2025) \cite{LuanHamp2025}.
 In this experiment, the authors use two metrics to evaluate the performance of the clustering algorithm in the synthetic data setting:
 \begin{itemize}
@@ -784,7 +804,7 @@ Later for real datasets (i.e in an unsupervised setting) this metric will be use
 It is therefore important to consider how well the MCCD metric correlates with the Total Accuracy (TA) in the synthetic setting to understand whether it can be used as a proxy for evaluating clustering performance in real-world scenarios.
 
 \section{Data Set}
-The Sliced-Wasserstein k-means algorithm will be tested on 2, 3, 4, 5 and 100 dimensional synthetic data. Performance of the UniOrtho method will be evaluated with data including multiple correlation factors
+The sliced Wasserstein k-means algorithm will be tested on 2, 3, 4, 5 and 100 dimensional synthetic data. Performance of the UniOrtho method will be evaluated with data including multiple correlation factors
 and with different target number of clusters. The synthetic data used in this experiment is the equivalent of 20 years of data with daily frequency. 
 Therefore, it comprises $20*252 = 5040$ data points.
 We will generate this synthetic data similarly to previous papers \cite{HorvathEtAl2024} and \cite{LuanHamp2025} using Geometric Brownian Motion (GBM) paths $S_t/S_{t-1} = \exp(r^S_t)$ with $S_t = (S_t^1, \dots, S_t^d)$ and $r^S_t = (r^{S^{(1)}}_{t}, \dots, r^{S^{(d)}}_{t})$ 
@@ -828,10 +848,10 @@ This is a summary for the different market settings on which we are going to tes
 \end{table}
 
 \section{Results and Discussion}
-As in Luan and Hamp (2025)\cite{LuanHamp2025} we have tested our Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections on the above mentioned synthetic data as well as with different tunings
+As in Luan and Hamp (2025)\cite{LuanHamp2025} we have tested our sliced Wasserstein k-means clustering algorithm with UnifOrtho projections on the above mentioned synthetic data as well as with different tunings
 of the parameters of $h_1$, $h_2$ and $L$ (resp. the window size, the step size and the number of projections). 
 For purposes of brevity, we present in this chapter, only results for the case of $d=5$. However, interested readers can find results for $d=2,3,4, 100$ in the appendix. 
-Each results in table is either the maximum total accuracy (TA), the median total accuracy and the total accuracy of the run with the maximum mean centroid-centroid distance (MCCD) over $N_S= 50$ runs of the Sliced-Wasserstein algorithm.
+Each results in table is either the maximum total accuracy (TA), the median total accuracy and the total accuracy of the run with the maximum mean centroid-centroid distance (MCCD) over $N_S= 50$ runs of the sliced Wasserstein algorithm.
 
 \subsection{Type A and B data}
 \vspace{-0.5cm} % Adds vertical space between the two tables
@@ -946,11 +966,11 @@ This is a strong indication that the UnifOrtho projections not only is more effi
 In table \ref{tab:synthtypeCD_5D}, we observe that for data type C and D, the UnifOrtho struggles significantly more than for data type A and B.
 While maximum total accuracy remains very high for data type C, the median total accuracy is mostly around 50 \% which indicates that the algorithm is not able to consistently classify the data points correctly.
 We observe in this context that the hyperparameter tuning of $h_1, h_2$ and $L$ has a also low impact on the performance of the algorithm, with higher values of $h_1$ giving in general only slightly better results. 
-While the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections performs relatively well on GBM data even for $K=3$, it struggles when faced with more complex patterns such as the moon-shape structure in type D. 
+While the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections performs relatively well on GBM data even for $K=3$, it struggles when faced with more complex patterns such as the moon-shape structure in type D. 
 We observe that the median total accuracy for type D data is consistently around 50\% across all tested hyperparameter settings, while providing relatively low Total Accuracy (TA) (86-88\%), indicating that the algorithm is highly unstable for this type of data.
 This unstable behavior is also shown as the maximum total accuracy is around 54\% with $h_1= 60$ and $L=100$ which is very low compared to the maximum total accuracy for type C data (99.63\%).
 
-A final interesting observation is that the MCCD metric is steadily very close to the maximum total accuracy metric for all types of synthetic data (i.e even for type D data) on which the Sliced-Wasserstein k-means algorithm is tested.
+A final interesting observation is that the MCCD metric is steadily very close to the maximum total accuracy metric for all types of synthetic data (i.e even for type D data) on which the sliced Wasserstein k-means algorithm is tested.
 Those results improve the findings by Luan and Hamp (2025) \cite{LuanHamp2025}, who finds that there are some discrepancies between the MCCD metric and the maximum total accuracy metric for small values settings in type D data.
 
 \subsection{Analysis with fixed hyperparameter settings}
@@ -976,7 +996,7 @@ Red periods represent bear regimes and green periods the bullish ones. The yello
 \end{figure}
 
 We observe that the proposed regime detection method is able to detect the regimes in synthetic data type A and B with very high accuracy 
-as well as high balanced accuracy. This is consistent with the results in Table \ref{tab:synthtypeAB_5D} and shows that the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections 
+as well as high balanced accuracy. This is consistent with the results in Table \ref{tab:synthtypeAB_5D} and shows that the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections 
 is able to detect regimes in synthetic data with high accuracy and stability across different hyperparameter settings.
 
 
@@ -992,7 +1012,7 @@ is able to detect regimes in synthetic data with high accuracy and stability acr
 \begin{figure}[H] % [htbp] specifies placement: here, top, bottom, page
     \centering
     \includegraphics[width=0.8\textwidth]{graphs/synthetic_data_tests/typeD_5D_plot_regime.png} % Adjust the width as needed
-    \caption{Regime detection plot for synthetic data type D with $d=5$, $h_1=30$, $h_2=6$, and $L=20$. The max total accuracy detected regimes by the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections with $N_S=50$.
+    \caption{Regime detection plot for synthetic data type D with $d=5$, $h_1=30$, $h_2=6$, and $L=20$. The max total accuracy detected regimes by the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections with $N_S=50$.
     Total Accuracy(TA) = {0.8745}, Balanced Accuracy(BA) = {0.6732}, Mean Centroid-Centroid Distance(MCCD) = {0.0020}.}
     \label{fig:typeD_5D_plot_regime} % Used to reference this graph in the text
 \end{figure}
@@ -1002,7 +1022,7 @@ The low balanced accuracy in the type D test also indicates that the sliced Wass
 Comparing type C and D, regime detections we can conclude that the sliced Wasserstein algorithm struggles with the moon shape structure and not necessarily with the number of regimes. Indeed, we observe that for the three regimes setting in type C generated by GBMs the regime detection is still very accurate. 
 
 \subsection{Discussion on higher dimensions}
-While the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho performs consistently well on synthetic data type A, B and C, we observe that the performance of the algorithm improves for higher dimensions ($d=100$) for type D data.
+While the sliced Wasserstein k-means clustering algorithm with UnifOrtho performs consistently well on synthetic data type A, B and C, we observe that the performance of the algorithm improves for higher dimensions ($d=100$) for type D data.
 Looking at the results in the appendix (table \ref{tab:synthtypeCD_100D}), we observe that for $d=100$ the maximum total accuracy for type D data is always above 87\%, which is not the case for lower dimensions. 
 
 
@@ -1014,20 +1034,30 @@ However, the algorithm struggles with more complex patterns such as with synthet
 Finally, we observe that the sliced Wasserstein k-means clustering with UnifOrtho performs globally better than the version given in Luan and Hamp (2025) \cite{LuanHamp2025} with pre-defined projections, particularly for higher dimensions and across different hyperparameter settings.
 
 
-\chapter{Sliced Wasserstein on real-world data sets.}
+\chapter{Experiment 2: Sliced Wasserstein on real-world data sets.}
+
+\begin{quote}
+
+This section focuses on the application of the sliced Wasserstein k-means clustering algorithm on real-world data sets. 
+We first evaluate quantitatively the regime detection quality of the novel model using a look-ahead trading strategy on three regional equity indices (USA, Europe, Asia). 
+We observe that the algorithm clusters well the different regimes by looking at the performance of the above strategy. 
+This dissertation also explores the topic of using the centroids of the sliced Wasserstein k-means algorithm to create predictive signals based on implied probability of regime switch. This novel approach is tested again on the equity index data above. 
+This chapter concludes that the predictive signals are not outperforming long-only benchmarks. Moreover, tuning the trading strategies does not 
+necessarily impact the performance positively. 
+\end{quote}
+
 
 \section{Introduction}
-As synthetic data and particularly Geometric Brownian Motion do not accurately reflect real world financial markets, this thesis also focuses on the application of the novel algorithm on real world data sets in financial markets.
-Specifically, the focus will be on comparing and looking at the performance of the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections across different regional clusters of Equity Indices (USA, Europe, Asia).
-The objectives of this section are multifold.
-First, we want to understand whether the clustering results separate economically meaningful regimes using a look-ahead strategy. 
-More interestingly, this research explores whether the clustering results of the sliced Wasserstein k-means clustering algorithm can be meaningfully converted into predictive signals. 
-The underlying goal is to understand whether those predictive signals are tradeable and can be used to generate alpha in a backtesting framework.
-Moreover, regime detection literature overwhelmingly stop at labels and rarely backtest because the mathematical framework does not allow it. %cite someone
-This is why is this method is highly interesting as it allows to backtest strategies based on the regime detection results.
+As synthetic data and particularly Geometric Brownian Motions (GBM) do not accurately reflect real world financial markets, this thesis also focuses on the application of the sliced Wasserstein k-means algorithm on equity index data sets across the USA, Europe and Asia.
+Moreover, regime detection literature overwhelmingly stop at labels and rarely backtest because the mathematical framework does not allow it. In the case of the sliced Wasserstein algorithm
+we have shown in section \ref{sec:implied_prob} that it is possible and we will therefore test it in a real-world environment. 
 Additionally, the cross-regional comparison we set up in this experiment allows this research to truly understand on what market data the algorithm adapts and performs the best. 
 The fundamental data set is often an overlooked aspect in studying models' efficiency which is addressed by this study.
-
+The focus of this chapter is therefore to compar and look at the performance of the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections across different regional clusters of Equity Indices (USA, Europe, Asia).
+To do so this section is structure as follows. 
+First, we will understand test wether the clustering results separate economically meaningful regimes using a look-ahead strategy. 
+The focus will then shift to deploy the regime swith probability strategy and the clustering algorithm within realistic trading strategies on market data. 
+Finally, we will examine how tuning the non-look ahead trading strategies affects their performance on test data.  
 
 \section{Background}
 This experiment consists of creating trading strategies that are based on the regime detection of the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections.
@@ -1201,7 +1231,7 @@ We test our look-ahead trading strategy on the 3 regional inverse-vol weighted i
 \begin{figure}[H] % [htbp] specifies placement: here, top, bottom, page
     \centering
     \includegraphics[width=0.8\textwidth]{graphs/look_ahead_perf/European_look_ahead.png} 
-    \caption{Look ahead trading strategy on the inverse vol weighted portfolio of European equity indices with initial capital of 100. The trading strategy is based on the regime detection using the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections. The trading strategy is a long/short strategy based on the current regime detection signal.}
+    \caption{Look ahead trading strategy on the inverse vol weighted portfolio of European equity indices with initial capital of 100. The trading strategy is based on the regime detection using the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections. The trading strategy is a long/short strategy based on the current regime detection signal.}
     \label{fig:EU_look_ahead} % Used to reference this graph in the text
 \end{figure}
 
@@ -1209,7 +1239,7 @@ We test our look-ahead trading strategy on the 3 regional inverse-vol weighted i
 \begin{figure}[H] % [htbp] specifies placement: here, top, bottom, page
     \centering
     \includegraphics[width=0.8\textwidth]{graphs/look_ahead_perf/Asian_look_ahead.png} 
-    \caption{Look ahead trading strategy on the inverse vol weighted portfolio of Asian equity indices with initial capital of 100. The trading strategy is based on the regime detection using the Sliced-Wasserstein k-means clustering algorithm with UnifOrtho projections. The trading strategy is a long/short strategy based on the current regime detection signal.}
+    \caption{Look ahead trading strategy on the inverse vol weighted portfolio of Asian equity indices with initial capital of 100. The trading strategy is based on the regime detection using the sliced Wasserstein k-means clustering algorithm with UnifOrtho projections. The trading strategy is a long/short strategy based on the current regime detection signal.}
     \label{fig:Asian_look_ahead} % Used to reference this graph in the text
 \end{figure}
 
@@ -1242,7 +1272,7 @@ We test our look-ahead trading strategy on the 3 regional inverse-vol weighted i
 \end{table}
 
 
-We observe that in the above three plots that the look-ahead trading algorithm generated from the labels of the Sliced-Wasserstein k-means clustering algorithm performs well on the different equity indices. 
+We observe that in the above three plots that the look-ahead trading algorithm generated from the labels of the sliced Wasserstein k-means clustering algorithm performs well on the different equity indices. 
 In particular, the win/loss ratio is above 1.4 for all three regions, which indicates that the average profit from winning trades is significantly higher than the average loss from losing trades.
 
 This give us a strong indication that under real empirical distributions the sliced Wasserstein k-means algorithm performs well. 
@@ -1404,7 +1434,7 @@ The main issue is also being able to efficiently trade this probability forecast
 
 \subsection{Hyperparameter tuning}
 In this section we want to expliore the influence of the hyperparameters as shown in table \ref{tab:hyperparams} on the performance of the trading strategies
-(SW k-means Long/Short, Implied probability, Ensemble methods) and the regime detection algorithm (Sliced-Wasserstein k-means clustering with UnifOrtho projections).
+(SW k-means Long/Short, Implied probability, Ensemble methods) and the regime detection algorithm (sliced Wasserstein k-means clustering with UnifOrtho projections).
 
 \paragraph{Tuning the gradient weight for implied probability methods}
 In this research, multiple values for the gradient weight $\alpha$ were tested on the equally weighted ensemble method to observe how the overall performance of equally weighted implied probability 
@@ -1566,13 +1596,26 @@ We observe nonetheless small trends notably for the gradient weight $\alpha$ in 
 Finally, the out-of-sample test on the American equity data set from 2020 to 2024 shows that the defensive strategy parametrized using the tunig of the hyperparameters in the training data set (1990-2020) performs better than shorting during bear.
 This shows again that the recovery period after bear markets are ill-handled by the predictive signals.
 
-\chapter{Interpretability of clustering results}
+\chapter{Experiment 3: Interpretability of clustering results}
+
+\begin{quote}
+This chapter studies how macroeconomic indicators are linked to the statistical results given by
+the sliced Wasserstein k-means clustering algorithm. We investigate the feature importance of supervised learning algorithms 
+which fits macroeconomic data from 2006 to 2020 to the clustering results of the sliced Wasserstein model on that period.
+We conclude that the economic downturns flagged by the above model indeed coincide with empirical macroeconomic observations. 
+This strenghten the interpretability characteristic of the sliced Wasserstein k-means clustering algorithm.
+\end{quote}
+
 
 \section{Introduction}
 While it is of significant interest to practitioners to generate signals from regime detection algorithms, it is almost equally important in the industry to
 understand the output of a model. 
 In particular, having an interpretation of the outputs of the sliced Wasserstein algorithm in terms of macroeconomic indicators can be of great interest for an enhanced understanding of the applicability of the latter regime detection method. 
 We want to specifically understand whether the statistical and mathematical methods used to detect bear regimes coincide with real periods of economic downturns and market uncertainty. 
+To do so, we first explain the SHAP analysis framework which will be used for conducting the experiment. 
+A SHAP analysis will then be applied to linear regression, logistic regression and random forest classifier models for understanding feature importance during 
+flagged bear regimes. 
+
 
 \section{Background}
 \subsection{Shap Analysis}
@@ -1652,7 +1695,7 @@ Macroeconomic Indicators & Weekly & 729 & 06/01/2006 - 20/12/2019 \\
 
 
 
-This list is used as feature inputs for the supervised learning methods below to fit onto the regime classification generated by the Sliced-Wasserstein k-means clustering algorithm. 
+This list is used as feature inputs for the supervised learning methods below to fit onto the regime classification generated by the sliced Wasserstein k-means clustering algorithm. 
 \begin{itemize}
     \item OLS Linear Regression (probabilistic target: Probability of being in bear regime)
     \item Logistic Regression (binary target : Bull/Bear)
@@ -1763,6 +1806,15 @@ This suggests that the sliced Wasserstein k-means clustering algorithm labelling
 
 \chapter{Conclusion and Future Work}
 
+\begin{quote}
+  This chapter gives a summary of the main findings of this thesis and discusses potential improvements. 
+  It gives an overview of the general accuracy improvement given by the UnifOrtho enhancement on synthetic data sets.
+  Moreover, it discusses the performance of the sliced Wasserstein k-means clustering algorithm on real-world data sets and the performance of the trading strategies based on the implied probability of regime switch.
+  The study gives credit to look-ahead trading strategies for their good performance but contrasts by saying that predictive signals are not entirely tradeable and need refinement. 
+  The chapter additionally shows that the SHAP analysis of the sliced Wasserstein method gives a good understanding of the detected bear regimes in terms of macroeconomic indicators.
+  Finally, the Hadamard-Rademacher method is introduced as a potential improvement to the method by Mezzadri (2007) \cite{Mezzadri2007} to reduce the time complexity of generating UnifOrtho projections.
+\end{quote}
+
 \section{Summary}
 As we have seen in this thesis, the sliced Wasserstein k-means clustering algorithm is a 
 well-suited method for detecting regimes in financial markets whether on synthetic or real-world data sets.
@@ -1796,7 +1848,7 @@ A possible improvement could be to combine regime-switch probability in combinat
 \appendix
 \section{Appendix} \label{sec:appendix}
 
-\subsection{slicedWasserstein on Synthetic Data - Performance Tables}
+\subsection{Sliced Wasserstein on Synthetic Data - Performance Tables}
 
 
 \begin{table}[H]
