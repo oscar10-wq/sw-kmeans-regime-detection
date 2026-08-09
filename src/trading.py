@@ -1321,3 +1321,12 @@ def compute_win_loss_ratio(portfolio_value, trade_signals, window_size,
     avg_win, avg_loss = wins.mean(), -losses.mean()
     return float(avg_win / (avg_win + avg_loss)) if normalized else float(avg_win / avg_loss)
 
+def compute_hit_ratio_long(portfolio_value):
+    returns = portfolio_value.pct_change()
+    return float((returns[returns>0].count()/returns.shape[0]))
+
+def compute_win_loss_ratio_long(portfolio_value):
+    returns = portfolio_value.pct_change()
+    wins, losses = returns[returns>0], returns[returns<0]
+    avg_win, avg_loss = wins.mean(), abs(losses.mean())
+    return float(avg_win/avg_loss)

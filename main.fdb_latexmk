@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1785682399.34263 "main.aux" "main.bbl" "main" 1785682564.68025 0
+["bibtex main"] 1786263409.31674 "main.aux" "main.bbl" "main" 1786263415.66665 0
   "./main.bib" 1784458603.97003 6523 7f85b9d99edf6ad7855a06630acb34cf ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1785682564.19083 45141 9c6e8164e6c3a7f7b4b8e857f0db7a4b "pdflatex"
+  "main.aux" 1786263415.38812 44809 ff0714b409457d5b921a3d24746f3f61 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1785682553.78831 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1785682564.68064 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1785682555.7982 173264 2e5b65c3b92c3d756da1f02e7267e162 ""
+["pdflatex"] 1786263409.41881 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1786263415.66694 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1786263404.00354 174035 199e184ab28be909705cb90f0e4fe968 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -259,12 +259,12 @@
   "graphs/look_ahead_perf/American_look_ahead.png" 1783417758.3675 44694 6a918873e3928293cc3f848c35ceab45 ""
   "graphs/look_ahead_perf/Asian_look_ahead.png" 1783497322.42435 49058 010dfe1161b3db1632f1f1ef6f2b28ea ""
   "graphs/look_ahead_perf/European_look_ahead.png" 1783262804.80757 47628 988a352d5b596db4c3755e8a66e716d6 ""
-  "graphs/real_data_tests/american_index_clustering.png" 1783499602.8713 145802 2e6abc1dc9462c8047b2bbd986c6a539 ""
+  "graphs/real_data_tests/american_index_clustering.png" 1786205139.32426 144088 d66a89e2d848891eb0494adf63fb993f ""
   "graphs/real_data_tests/asian_index_clustering.png" 1783499782.9613 172212 8c2daf6d342d19da23e897f81d410405 ""
   "graphs/real_data_tests/european_index_clustering.png" 1783499679.42472 176605 9313e59d7affd4f3ad4459d8250a7f32 ""
   "graphs/real_trading_algos/America.png" 1784633220.75595 322563 c9f1ddbf03f3d100a3c06e5c2afe94c1 ""
-  "graphs/real_trading_algos/Asia.png" 1784634933.38823 340132 e44be467c7222b17b1351afa6adfcfaa ""
-  "graphs/real_trading_algos/Europe.png" 1784634281.83028 341693 0181c92952292f27672b77a81bbcba8c ""
+  "graphs/real_trading_algos/Asia.png" 1786204140.26204 383144 7dc13ef2442643e73e31ee49fe0c221d ""
+  "graphs/real_trading_algos/Europe.png" 1786201964.16589 380598 c197653ebcf2cac602392c8a0ba9843e ""
   "graphs/real_trading_algos/out_of_sample_america.png" 1784714878.54418 264734 fb77091ef9a1f6744237f77f73ba5d29 ""
   "graphs/shap_analysis/Logistic_bear_shap.png" 1783432512.40217 68398 48760cf8ffe74c3f1771f4a7ae2b8059 ""
   "graphs/shap_analysis/Logistic_feature_ranking_bear.png" 1783432534.42843 35096 5a397d36780bc5acb10987b82f798904 ""
@@ -282,13 +282,13 @@
   "graphs/tuning_trading_algos/half_life_config/half_life_comparison.png" 1784714332.03245 322420 4faf87aa9b8ce1e89d02997b5438da95 ""
   "graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png" 1783690393.99673 200738 4ec55d25f05dd6c5a777a02e95b6a845 ""
   "graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png" 1783690510.1319 326432 9cb013d525e47b484e5dc0275a4ad3d0 ""
-  "main.aux" 1785682564.19083 45141 9c6e8164e6c3a7f7b4b8e857f0db7a4b "pdflatex"
-  "main.bbl" 1785682399.50103 3935 122bd0f27ca46de65c5799ac5474c260 "bibtex main"
-  "main.lof" 1785682564.19745 7814 af94f7a798fdf554b3edb18624ce72bb "pdflatex"
-  "main.lot" 1785682564.1975 5572 9d13996f00205d0635735d658a782b1e "pdflatex"
-  "main.out" 1785682564.19667 10415 3591b1c95c9e7c7334606b23854d7301 "pdflatex"
-  "main.tex" 1785682555.7982 173264 2e5b65c3b92c3d756da1f02e7267e162 ""
-  "main.toc" 1785682564.19739 7080 7209627edc788931aaa3b7076d683e3c "pdflatex"
+  "main.aux" 1786263415.38812 44809 ff0714b409457d5b921a3d24746f3f61 "pdflatex"
+  "main.bbl" 1786263409.41474 3935 122bd0f27ca46de65c5799ac5474c260 "bibtex main"
+  "main.lof" 1786263415.39185 7655 a5bd0f2d10e1401d5eddd528d4c16bba "pdflatex"
+  "main.lot" 1786263415.39191 5572 9d13996f00205d0635735d658a782b1e "pdflatex"
+  "main.out" 1786263415.39152 10415 3591b1c95c9e7c7334606b23854d7301 "pdflatex"
+  "main.tex" 1786263404.00354 174035 199e184ab28be909705cb90f0e4fe968 ""
+  "main.toc" 1786263415.39178 7080 460d027955c79f1f7c855aea735c1014 "pdflatex"
   (generated)
   "main.aux"
   "main.lof"

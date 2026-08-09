@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  2 AUG 2026 16:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  9 AUG 2026 10:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -947,10 +947,6 @@ Chapter 2.
 
 [18]
 
-LaTeX Warning: Citation `PetrovicEtAl2022' on page 19 undefined on input line 403.
-
-
-
 [19]
 
 [20]
@@ -1028,7 +1024,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 [36]
 
 [37]
-<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=850, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeA_5D_plot_regime.png, id=847, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeA_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeA_5D_plot_regime.png>
 Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  used on input line 1016.
@@ -1036,17 +1032,17 @@ Package pdftex.def Info: graphs/synthetic_data_tests/typeA_5D_plot_regime.png  u
 
 
 [38]
-<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=856, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeB_5D_plot_regime.png, id=853, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeB_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeB_5D_plot_regime.png>
 Package pdftex.def Info: graphs/synthetic_data_tests/typeB_5D_plot_regime.png  used on input line 1025.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=858, 1292.9103pt x 426.393pt>
+<graphs/synthetic_data_tests/typeC_5D_plot_regime.png, id=855, 1292.9103pt x 426.393pt>
 File: graphs/synthetic_data_tests/typeC_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeC_5D_plot_regime.png>
 Package pdftex.def Info: graphs/synthetic_data_tests/typeC_5D_plot_regime.png  used on input line 1038.
 (pdftex.def)             Requested size: 352.81552pt x 116.35081pt.
-<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=859, 1300.86pt x 433.62pt>
+<graphs/synthetic_data_tests/typeD_5D_plot_regime.png, id=856, 1300.86pt x 433.62pt>
 File: graphs/synthetic_data_tests/typeD_5D_plot_regime.png Graphic file (type png)
 <use graphs/synthetic_data_tests/typeD_5D_plot_regime.png>
 Package pdftex.def Info: graphs/synthetic_data_tests/typeD_5D_plot_regime.png  used on input line 1047.
@@ -1080,45 +1076,45 @@ Underfull \hbox (badness 10000) in paragraph at lines 1147--1148
 [44]
 
 [45]
-Overfull \hbox (12.06444pt too wide) in paragraph at lines 1200--1213
+Overfull \hbox (12.06444pt too wide) in paragraph at lines 1202--1215
  [][] 
  []
 
-<graphs/real_data_tests/american_index_clustering.png, id=910, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/american_index_clustering.png, id=907, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/american_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/american_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 1238.
+Package pdftex.def Info: graphs/real_data_tests/american_index_clustering.png  used on input line 1240.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/real_data_tests/european_index_clustering.png, id=911, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/european_index_clustering.png, id=908, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/european_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/european_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 1245.
+Package pdftex.def Info: graphs/real_data_tests/european_index_clustering.png  used on input line 1247.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
 
 
 [46]
-<graphs/real_data_tests/asian_index_clustering.png, id=916, 1300.86pt x 433.62pt>
+<graphs/real_data_tests/asian_index_clustering.png, id=913, 1300.86pt x 433.62pt>
 File: graphs/real_data_tests/asian_index_clustering.png Graphic file (type png)
 <use graphs/real_data_tests/asian_index_clustering.png>
-Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 1251.
+Package pdftex.def Info: graphs/real_data_tests/asian_index_clustering.png  used on input line 1253.
 (pdftex.def)             Requested size: 352.81552pt x 117.60167pt.
-<graphs/look_ahead_perf/American_look_ahead.png, id=922, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/American_look_ahead.png, id=919, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/American_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/American_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 1262.
+Package pdftex.def Info: graphs/look_ahead_perf/American_look_ahead.png  used on input line 1264.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
 [47 <./graphs/real_data_tests/american_index_clustering.png> <./graphs/real_data_tests/european_index_clustering.png> <./graphs/real_data_tests/asian_index_clustering.png>]
-<graphs/look_ahead_perf/European_look_ahead.png, id=932, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/European_look_ahead.png, id=929, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/European_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/European_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 1269.
+Package pdftex.def Info: graphs/look_ahead_perf/European_look_ahead.png  used on input line 1271.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
-<graphs/look_ahead_perf/Asian_look_ahead.png, id=933, 1011.78pt x 505.89pt>
+<graphs/look_ahead_perf/Asian_look_ahead.png, id=930, 1011.78pt x 505.89pt>
 File: graphs/look_ahead_perf/Asian_look_ahead.png Graphic file (type png)
 <use graphs/look_ahead_perf/Asian_look_ahead.png>
-Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 1277.
+Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on input line 1279.
 (pdftex.def)             Requested size: 352.81552pt x 176.408pt.
 
 
@@ -1127,83 +1123,83 @@ Package pdftex.def Info: graphs/look_ahead_perf/Asian_look_ahead.png  used on in
 [49 <./graphs/look_ahead_perf/Asian_look_ahead.png>]
 
 [50]
-<graphs/real_trading_algos/America.png, id=969, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/America.png, id=966, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/America.png Graphic file (type png)
 <use graphs/real_trading_algos/America.png>
-Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 1367.
+Package pdftex.def Info: graphs/real_trading_algos/America.png  used on input line 1369.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
 [51 <./graphs/real_trading_algos/America.png>]
-<graphs/real_trading_algos/Europe.png, id=975, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/Europe.png, id=972, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/Europe.png Graphic file (type png)
 <use graphs/real_trading_algos/Europe.png>
-Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 1399.
+Package pdftex.def Info: graphs/real_trading_algos/Europe.png  used on input line 1401.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
 [52 <./graphs/real_trading_algos/Europe.png>]
-<graphs/real_trading_algos/Asia.png, id=981, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/Asia.png, id=978, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/Asia.png Graphic file (type png)
 <use graphs/real_trading_algos/Asia.png>
-Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 1432.
+Package pdftex.def Info: graphs/real_trading_algos/Asia.png  used on input line 1434.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
 [53 <./graphs/real_trading_algos/Asia.png>]
-<graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png, id=991, 722.7pt x 578.16pt>
+
+[54]
+<graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png, id=994, 722.7pt x 578.16pt>
 File: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png Graphic file (type png)
 <use graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png  used on input line 1489.
+Package pdftex.def Info: graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png  used on input line 1499.
 (pdftex.def)             Requested size: 352.81552pt x 282.25105pt.
 
 
-[54]
-
 [55 <./graphs/tuning_trading_algos/alpha_gradient_config/ensemble_method_gradient_config.png>]
-<graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png, id=1010, 1279.179pt x 444.2196pt>
+<graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png, id=1007, 1279.179pt x 444.2196pt>
 File: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png Graphic file (type png)
 <use graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png  used on input line 1516.
+Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png  used on input line 1526.
 (pdftex.def)             Requested size: 352.81552pt x 122.52339pt.
-<graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png, id=1011, 1281.588pt x 444.2196pt>
+<graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png, id=1008, 1281.588pt x 444.2196pt>
 File: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png Graphic file (type png)
 <use graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png  used on input line 1524.
+Package pdftex.def Info: graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png  used on input line 1534.
 (pdftex.def)             Requested size: 352.81552pt x 122.29294pt.
 
 
 [56 <./graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png> <./graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png>]
-<graphs/tuning_trading_algos/half_life_config/half_life_comparison.png, id=1022, 1084.05pt x 867.24pt>
+<graphs/tuning_trading_algos/half_life_config/half_life_comparison.png, id=1018, 1084.05pt x 867.24pt>
 File: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png Graphic file (type png)
 <use graphs/tuning_trading_algos/half_life_config/half_life_comparison.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png  used on input line 1550.
+Package pdftex.def Info: graphs/tuning_trading_algos/half_life_config/half_life_comparison.png  used on input line 1560.
 (pdftex.def)             Requested size: 352.81552pt x 282.24666pt.
 
 
 [57 <./graphs/tuning_trading_algos/half_life_config/half_life_comparison.png>]
-<graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png, id=1033, 367.1316pt x 421.3341pt>
+<graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png, id=1030, 367.1316pt x 421.3341pt>
 File: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png Graphic file (type png)
 <use graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png  used on input line 1574.
+Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png  used on input line 1584.
 (pdftex.def)             Requested size: 352.81552pt x 404.90689pt.
 
 
 [58]
-<graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png, id=1039, 361.35pt x 420.8523pt>
+<graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png, id=1036, 361.35pt x 420.8523pt>
 File: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png Graphic file (type png)
 <use graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png>
-Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png  used on input line 1581.
+Package pdftex.def Info: graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png  used on input line 1591.
 (pdftex.def)             Requested size: 352.81552pt x 410.91693pt.
 
 
 [59 <./graphs/tuning_trading_algos/entry_hold_hyst_config/hit_ratio_heatmap.png>]
 
 [60 <./graphs/tuning_trading_algos/entry_hold_hyst_config/win_loss_heatmap.png>]
-<graphs/real_trading_algos/out_of_sample_america.png, id=1056, 1011.78pt x 722.7pt>
+<graphs/real_trading_algos/out_of_sample_america.png, id=1053, 1011.78pt x 722.7pt>
 File: graphs/real_trading_algos/out_of_sample_america.png Graphic file (type png)
 <use graphs/real_trading_algos/out_of_sample_america.png>
-Package pdftex.def Info: graphs/real_trading_algos/out_of_sample_america.png  used on input line 1622.
+Package pdftex.def Info: graphs/real_trading_algos/out_of_sample_america.png  used on input line 1633.
 (pdftex.def)             Requested size: 352.81552pt x 252.01144pt.
 
 
@@ -1220,45 +1216,45 @@ Chapter 6.
 ]
 
 [65]
-Overfull \hbox (33.81119pt too wide) in paragraph at lines 1727--1738
+Overfull \hbox (33.81119pt too wide) in paragraph at lines 1739--1750
  [][] 
  []
 
 
 
 [66]
-<graphs/shap_analysis/OLS_bear_shap.png, id=1095, 685.8423pt x 425.6703pt>
+<graphs/shap_analysis/OLS_bear_shap.png, id=1092, 685.8423pt x 425.6703pt>
 File: graphs/shap_analysis/OLS_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/OLS_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1772.
+Package pdftex.def Info: graphs/shap_analysis/OLS_bear_shap.png  used on input line 1784.
 (pdftex.def)             Requested size: 211.68661pt x 131.38484pt.
-<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=1096, 714.7503pt x 425.6703pt>
+<graphs/shap_analysis/OLS_feature_ranking_bear.png, id=1093, 714.7503pt x 425.6703pt>
 File: graphs/shap_analysis/OLS_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/OLS_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1780.
+Package pdftex.def Info: graphs/shap_analysis/OLS_feature_ranking_bear.png  used on input line 1792.
 (pdftex.def)             Requested size: 211.68661pt x 126.07178pt.
-<graphs/shap_analysis/Logistic_bear_shap.png, id=1097, 685.8423pt x 426.393pt>
+<graphs/shap_analysis/Logistic_bear_shap.png, id=1094, 685.8423pt x 426.393pt>
 File: graphs/shap_analysis/Logistic_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/Logistic_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1795.
+Package pdftex.def Info: graphs/shap_analysis/Logistic_bear_shap.png  used on input line 1807.
 (pdftex.def)             Requested size: 211.68661pt x 131.60791pt.
-<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=1098, 714.7503pt x 426.393pt>
+<graphs/shap_analysis/Logistic_feature_ranking_bear.png, id=1095, 714.7503pt x 426.393pt>
 File: graphs/shap_analysis/Logistic_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/Logistic_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1803.
+Package pdftex.def Info: graphs/shap_analysis/Logistic_feature_ranking_bear.png  used on input line 1815.
 (pdftex.def)             Requested size: 211.68661pt x 126.28581pt.
 
 
 [67 <./graphs/shap_analysis/OLS_bear_shap.png> <./graphs/shap_analysis/OLS_feature_ranking_bear.png>]
-<graphs/shap_analysis/RandomForest_bear_shap.png, id=1105, 722.7pt x 433.62pt>
+<graphs/shap_analysis/RandomForest_bear_shap.png, id=1102, 722.7pt x 433.62pt>
 File: graphs/shap_analysis/RandomForest_bear_shap.png Graphic file (type png)
 <use graphs/shap_analysis/RandomForest_bear_shap.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1818.
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_bear_shap.png  used on input line 1830.
 (pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
-<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=1106, 722.7pt x 433.62pt>
+<graphs/shap_analysis/RandomForest_feature_ranking_bear.png, id=1103, 722.7pt x 433.62pt>
 File: graphs/shap_analysis/RandomForest_feature_ranking_bear.png Graphic file (type png)
 <use graphs/shap_analysis/RandomForest_feature_ranking_bear.png>
-Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1826.
+Package pdftex.def Info: graphs/shap_analysis/RandomForest_feature_ranking_bear.png  used on input line 1838.
 (pdftex.def)             Requested size: 211.68661pt x 127.01033pt.
 
 
@@ -1305,26 +1301,22 @@ Chapter 7.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 3591B1C95C9E7C7334606B23854D7301;10415.
  ) 
 Here is how much of TeX's memory you used:
  33805 strings out of 473190
  673783 string characters out of 5715800
- 1065409 words of memory out of 5000000
+ 1065022 words of memory out of 5000000
  55579 multiletter control sequences out of 15000+600000
  732873 words of font info for 575 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,23n,87p,1081b,1168s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (85 pages, 4230849 bytes).
+Output written on main.pdf (85 pages, 4300712 bytes).
 PDF statistics:
- 1441 PDF objects out of 1728 (max. 8388607)
- 1251 compressed objects within 13 object streams
+ 1438 PDF objects out of 1440 (max. 8388607)
+ 1248 compressed objects within 13 object streams
  380 named destinations out of 1000 (max. 500000)
  168023 words of extra memory for PDF output out of 184870 (max. 10000000)
 
