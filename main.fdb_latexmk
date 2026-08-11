@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1786263409.31674 "main.aux" "main.bbl" "main" 1786263415.66665 0
+["bibtex main"] 1786447709.59887 "main.aux" "main.bbl" "main" 1786447850.90081 0
   "./main.bib" 1784458603.97003 6523 7f85b9d99edf6ad7855a06630acb34cf ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1786263415.38812 44809 ff0714b409457d5b921a3d24746f3f61 "pdflatex"
+  "main.aux" 1786447850.40777 45007 dfa261c4e042fccaa8e8a29538fc4db2 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1786263409.41881 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1786263415.66694 0
-  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1786263404.00354 174035 199e184ab28be909705cb90f0e4fe968 ""
+["pdflatex"] 1786447839.97416 "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" "main.pdf" "main" 1786447850.90123 0
+  "/Users/oscarpeyron/Downloads/003_ETUDE_POST_BAC/MASTER_UCL_COMP_FINANCE/T3/ADIA/main.tex" 1786447840.7317 175878 938e126ecfd40bceae1d9ed778949934 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -282,13 +282,13 @@
   "graphs/tuning_trading_algos/half_life_config/half_life_comparison.png" 1784714332.03245 322420 4faf87aa9b8ce1e89d02997b5438da95 ""
   "graphs/tuning_trading_algos/tau_config/tau_hit_ratio_matrix.png" 1783690393.99673 200738 4ec55d25f05dd6c5a777a02e95b6a845 ""
   "graphs/tuning_trading_algos/tau_config/tau_win_loss_matrix.png" 1783690510.1319 326432 9cb013d525e47b484e5dc0275a4ad3d0 ""
-  "main.aux" 1786263415.38812 44809 ff0714b409457d5b921a3d24746f3f61 "pdflatex"
-  "main.bbl" 1786263409.41474 3935 122bd0f27ca46de65c5799ac5474c260 "bibtex main"
-  "main.lof" 1786263415.39185 7655 a5bd0f2d10e1401d5eddd528d4c16bba "pdflatex"
-  "main.lot" 1786263415.39191 5572 9d13996f00205d0635735d658a782b1e "pdflatex"
-  "main.out" 1786263415.39152 10415 3591b1c95c9e7c7334606b23854d7301 "pdflatex"
-  "main.tex" 1786263404.00354 174035 199e184ab28be909705cb90f0e4fe968 ""
-  "main.toc" 1786263415.39178 7080 460d027955c79f1f7c855aea735c1014 "pdflatex"
+  "main.aux" 1786447850.40777 45007 dfa261c4e042fccaa8e8a29538fc4db2 "pdflatex"
+  "main.bbl" 1786447709.75762 3935 122bd0f27ca46de65c5799ac5474c260 "bibtex main"
+  "main.lof" 1786447850.41385 7658 eb2858c03d52b1e729b5225892ebb6ea "pdflatex"
+  "main.lot" 1786447850.41392 5572 a862f2972960d5085bae116330e658c0 "pdflatex"
+  "main.out" 1786447850.41342 10415 7c8c0aa2ed432095e19acc0afb0be216 "pdflatex"
+  "main.tex" 1786447840.7317 175878 938e126ecfd40bceae1d9ed778949934 ""
+  "main.toc" 1786447850.41378 7082 81a4d35594dd43a016d249ee62757eb7 "pdflatex"
   (generated)
   "main.aux"
   "main.lof"

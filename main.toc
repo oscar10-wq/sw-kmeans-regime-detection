@@ -50,21 +50,21 @@
 \contentsline {section}{\numberline {5.1}Introduction}{42}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Background}{43}{section.5.2}%
 \contentsline {subsection}{\numberline {5.2.1}Hyperparameters}{43}{subsection.5.2.1}%
-\contentsline {section}{\numberline {5.3}Data Set}{45}{section.5.3}%
+\contentsline {section}{\numberline {5.3}Data Set}{46}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Results and Discussion}{46}{section.5.4}%
 \contentsline {subsection}{\numberline {5.4.1}Sliced Wasserstein Regime Detection with Look-Ahead}{46}{subsection.5.4.1}%
 \contentsline {subsection}{\numberline {5.4.2}Trading strategies using Sliced Wasserstein}{50}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Hyperparameter tuning}{54}{subsection.5.4.3}%
-\contentsline {paragraph}{Tuning the gradient weight for implied probability methods}{54}{paragraph*.42}%
-\contentsline {paragraph}{Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{55}{paragraph*.44}%
+\contentsline {subsection}{\numberline {5.4.3}Hyperparameter tuning}{55}{subsection.5.4.3}%
+\contentsline {paragraph}{Tuning the gradient weight for implied probability methods}{55}{paragraph*.42}%
+\contentsline {paragraph}{Tuning the temperature parameter $\tau $ and $\tau _{grad}$ for the implied probability strategy}{56}{paragraph*.44}%
 \contentsline {paragraph}{Tuning the half-life parameter for the exponentially weighted majority voting scheme.}{57}{paragraph*.47}%
-\contentsline {paragraph}{Tuning the trading threshold for the hysteresis strategy.}{58}{paragraph*.49}%
+\contentsline {paragraph}{Tuning the trading threshold for the Hysteresis strategy.}{58}{paragraph*.49}%
 \contentsline {subsection}{\numberline {5.4.4}Simulation on test data (post-2020)}{61}{subsection.5.4.4}%
 \contentsline {section}{\numberline {5.5}Summary}{62}{section.5.5}%
 \contentsline {chapter}{\numberline {6}Experiment 3: Interpretability of clustering results}{64}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Introduction}{64}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Background}{65}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Shap Analysis}{65}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.1}SHAP Analysis}{65}{subsection.6.2.1}%
 \contentsline {section}{\numberline {6.3}Data Set}{66}{section.6.3}%
 \contentsline {section}{\numberline {6.4}Results and Discussion}{67}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Summary}{69}{section.6.5}%
@@ -74,6 +74,6 @@
 \contentsline {section}{\numberline {.1}Appendix}{72}{section.Alph0.1}%
 \contentsline {subsection}{\numberline {.1.1}Sliced Wasserstein on Synthetic Data - Performance Tables}{72}{subsection.Alph0.1.1}%
 \contentsline {subsubsection}{Look-ahead regime strategy}{80}{subsubsection*.66}%
-\contentsline {subsubsection}{Standard SW k-means trading strategy}{81}{subsubsection*.67}%
+\contentsline {subsubsection}{SW k-means Long/Short trading strategy}{81}{subsubsection*.67}%
 \contentsline {subsubsection}{Implied Probability SW k-means trading strategy}{82}{subsubsection*.68}%
 \contentsline {section}{References}{83}{AlgoLine.4.34}%
