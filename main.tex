@@ -1322,8 +1322,8 @@ This is particularly noticeable as US and European performance with a look-ahead
 The performance gap can also be seen as the average annual return for the strategies in US and Europe go beyond 50\% while the Asian strategy only reaches 23.95\% average annual return.
 Qualitatively, we also observe on figures \ref{fig:US_look_ahead} and \ref{fig:EU_look_ahead} that the sliced Wasserstein k-means clustering detects better bear regimes than the Asian counterparts, which translated 
 in the performance gap in the look-ahead trading strategy.
-Interestingly, on the look-ahead trading strategy for the Asian equity indices we observe catastrophic results when using the metric filter based on CVaR. It seems that the CVaR captures bear regimes badly
-and misclassifies them as bullish regimes, which leads to a very poor performance of the trading strategy.
+Interestingly, on the look-ahead trading strategy for the Asian equity indices we observe that the look-ahead is underperforming when using the metric filter based on CVaR. It seems that the CVaR captures bear regimes badly
+and misclassifies them as bullish regimes, which leads to a poor performance of the trading strategy.
 
 
 
@@ -1595,7 +1595,7 @@ We present the results in Figures ~\ref{fig:hysteresis_tuning} and ~\ref{fig:hys
 
 We observe that the tuning of entry and hold thresholds that are consistently the highest across the Hit ratio and Win/loss ratio given the hyperparameters in table \ref{tab:hyperparams} is 
 the combination of $\left(entry, hold\right)  \in \left\{(0.4, 0.20), (0.5, 0.3)\right\}$ with Hit ratio and Win/loss ratios couples that are respectively $(0.519, 0.960)$ and $(0.521, 0.966)$.
-Looking at other combinations gives acceptable Hit ratios and catastrophic Win/loss ratio which shows instability. 
+Looking at other combinations gives acceptable Hit ratios and underperforming Win/loss ratio which shows instability. 
 One has to point out that the Win/Loss ratios in the Hysteresis strategies are not particularly high as they remain consistently below $1.0$. This indicates that the strategies lose more than their gain on average.
 Again, we need to point out that the results plotted above are highly variable depending on the random initial centroids of the sliced Wasserstein algorithm. Hence, this study is not a proof of the importance of threshold tuning in regimes and would require a dedicated research on the statistical significance of the above plots.
 
