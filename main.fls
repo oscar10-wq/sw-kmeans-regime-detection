@@ -708,6 +708,9 @@ INPUT ./graphs/shap_analysis/RandomForest_feature_ranking_bear.png
 INPUT ./graphs/shap_analysis/RandomForest_feature_ranking_bear.png
 INPUT ./graphs/shap_analysis/RandomForest_feature_ranking_bear.png
 INPUT ./graphs/shap_analysis/RandomForest_feature_ranking_bear.png
+INPUT ./main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecit1095.tfm
@@ -739,9 +742,6 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmbi8t.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmbi8t.vf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmbi8r.tfm
-INPUT ./main.bbl
-INPUT ./main.bbl
-INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out

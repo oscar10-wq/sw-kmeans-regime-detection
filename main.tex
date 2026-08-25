@@ -85,7 +85,8 @@ with UnifOrtho\par}
 
 \vspace{2cm}
 {\large\itshape This dissertation is submitted as partial requirement for the MSc Computational Finance degree at UCL. It is
-substantially the result of my own work except where explicitly indicated in the text\par}
+substantially the result of my own work except where explicitly indicated in the text. The dissertation may be freely copied and distributed provided the source is explicitly
+acknowledged.\par}
 \vfill
 
 {\Large Oscar Peyron\par}
@@ -1908,12 +1909,16 @@ A possible improvement could be to combine regime-switch probability in combinat
 
 
 
+\newpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{main}
 
 \newpage
 \appendix
-\section{Appendix} \label{sec:appendix}
+\chapter*{Appendix} \label{sec:appendix}
 
-\subsection{Sliced Wasserstein on Synthetic Data - Performance Tables}
+\section{Sliced Wasserstein on Synthetic Data - Performance Tables}
 
 
 \begin{table}[H]
@@ -2323,7 +2328,7 @@ A possible improvement could be to combine regime-switch probability in combinat
 
 
 
-\subsubsection{Look-ahead regime strategy}
+\section{Look-ahead regime strategy}
 \begin{algorithm}[H]
 \small\singlespacing
 \SetAlgoNlRelativeSize{-1}
@@ -2374,7 +2379,7 @@ $\mathrm{PnL}_t \leftarrow V_t - C_0$\;
 
 
 
-\subsubsection{SW k-means Long/Short trading strategy}
+\section{SW k-means Long/Short trading strategy}
 \small\singlespacing
 \SetAlgoNlRelativeSize{-1}
 \setlength{\algomargin}{1.3em}
@@ -2428,7 +2433,7 @@ $n \leftarrow \lfloor T / w \rfloor$\;
 \end{algorithm}
  
 
-\subsubsection{Implied Probability SW k-means trading strategy}
+\section{Implied Probability SW k-means trading strategy}
 \begin{algorithm}[H]
 \small\singlespacing
 \SetAlgoNlRelativeSize{-1}
@@ -2481,9 +2486,5 @@ $V \leftarrow [C_0]$;\ \ $\Sigma \leftarrow [\,]$;\ \ $n \leftarrow \lfloor T/w 
 }
 \Return{$V,\;\Sigma$}
 \end{algorithm}
-\newpage
-\addcontentsline{toc}{section}{References}
-\bibliographystyle{plain}
-\bibliography{main}
 
 \end{document}
